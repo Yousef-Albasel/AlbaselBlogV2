@@ -10,7 +10,7 @@ subtitle = "I do computer graphics, AI and random programming stuff." # Set your
 
 [params.sidebar.avatar]
 enabled = true               # Set to false if you don't want to display the avatar
-src = "img/avatar.jpg"       # Path to your avatar image
+src = "img/avatar.png"       # Path to your avatar image
 local = true                 # Set to true if your image is in the assets folder
 
 [params.article]
