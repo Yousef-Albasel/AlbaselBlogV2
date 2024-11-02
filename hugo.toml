@@ -32,55 +32,6 @@ disqusShortname = "albaselblog"   # Replace with your actual Disqus shortname
 enabled = true
 provider = "disqus"                        # Set provider to Disqus for clarity
 
-
-
-[widgets.page]
-  [[widgets.page.widget]]
-    type = "toc"
-
 [params.footer]
 since = 2024                          # Set the year your site was created
 customText = "© 2024 Albasel Blog. All rights reserved." # Add your custom footer text
-
-[markup.goldmark.parser.attribute] #https://roneo.org/en/hugo-custom-css-classes-images-markdown-attributes/
-block = true
-title = true 
-
-[markup.goldmark.renderer]
-unsafe = true # Allow HTML in md files
-
-# Allow math to be rendered
-[markup]
-[markup.goldmark]
-[markup.goldmark.extensions]
-[markup.goldmark.extensions.passthrough]
-enable = true
-[markup.goldmark.extensions.passthrough.delimiters]
-block = [['\[', '\]'], ['$$', '$$']]
-inline = [['\(', '\)']]
-[params]
-math = true
-
-[widgets]
-[widgets.homepage]
-  [[widgets.homepage]]
-    type = "search"
-  
-  [[widgets.homepage]]
-    type = "archives"
-    [widgets.homepage.params]
-      limit = 5
-  
-  [[widgets.homepage]]
-    type = "categories"
-    [widgets.homepage.params]
-      limit = 10
-  
-  [[widgets.homepage]]
-    type = "tag-cloud"
-    [widgets.homepage.params]
-      limit = 10
-
-[widgets.page]
-  [[widgets.page]]
-    type = "toc"
