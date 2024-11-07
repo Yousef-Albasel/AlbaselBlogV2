@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="What is Monolithic Software, when to build it and common architecture styles">
+<title>Monolithic Software</title>
+
+<link rel='canonical' href='http://localhost:1313/post/monolithic-software/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="Monolithic Software">
+<meta property='og:description' content="What is Monolithic Software, when to build it and common architecture styles">
+<meta property='og:url' content='http://localhost:1313/post/monolithic-software/'>
+<meta property='og:site_name' content='Yousef Albael'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-11-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-11-03T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/post/monolithic-software/ms.png' />
+<meta name="twitter:title" content="Monolithic Software">
+<meta name="twitter:description" content="What is Monolithic Software, when to build it and common architecture styles"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/post/monolithic-software/ms.png' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu277825007059913073.png" width="300"
+                            height="326" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧜‍♂️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Yousef Albael</a></h1>
+            <h2 class="site-description">I do computer graphics, AI and random programming stuff.</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/post/monolithic-software/">
+                <img src="/post/monolithic-software/ms_hu9602102172172105397.png"
+                        srcset="/post/monolithic-software/ms_hu9602102172172105397.png 800w, /post/monolithic-software/ms_hu16631821963958605031.png 1600w"
+                        width="800" 
+                        height="453" 
+                        loading="lazy"
+                        alt="Featured image of post Monolithic Software" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/software-engineering/" style="background-color: #2a9d8f; color: #fff;">
+                Software Engineering
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/monolithic-software/">Monolithic Software</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            What is Monolithic Software, when to build it and common architecture styles
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 03, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h3 id="what-is-meant-by-monolithic-architecture">What is meant by monolithic architecture?
+</h3><p>Monolithic architecture refers to a traditional software development model where all functions of an application are integrated into a single, tightly coupled codebase. This approach enables the handling of multiple related tasks within one unified system, but it also leads to challenges, as modifications in one area can significantly impact the entire codebase. In contrast to modular alternatives like microservices, which break down applications into independent components that can be developed, deployed, and scaled individually, monolithic architecture can be restrictive and time-consuming to update.</p>
+<h3 id="lets-discover-different-aspects-of-monolithic-architecture">Let’s discover different aspects of monolithic architecture:
+</h3><ul>
+<li>
+<p><strong>Deployment</strong>: Developers install the entire application code base and dependencies in a single environment, so it’s easier in comparison to alternatives like microservices.</p>
+</li>
+<li>
+<p><strong>Development</strong>: Starting a monolithic application is simpler since it requires less upfront planning. You can begin and continue to add code modules as required. Over time, though, the application may get complicated and difficult to update or modify.</p>
+</li>
+<li>
+<p><strong>Scaling</strong>: As they scale, monolithic apps encounter a number of difficulties. The entire program must be scaled as needs change because the monolithic architecture houses all functionalities in a single code base.</p>
+</li>
+</ul>
+<h3 id="but-when-is-building-monolithic-software-preferable">But when is building monolithic software preferable?
+</h3><p>There are instances where using a monolithic architecture may be more beneficial than microservices. For example, Twilio&rsquo;s Segment transitioned from a microservices approach to a monolithic one due to the complexities that microservices introduced, such as increased operational overhead, challenges in debugging, and the need for greater coordination among teams.</p>
+<p>Similarly, Amazon Prime Video initially implemented distributed components for its audio and video quality monitoring but found it too costly to maintain at scale. They ultimately decided to consolidate these components into a single monolithic application. These cases illustrate that a simpler, monolithic architecture can facilitate faster development cycles and reduce overhead.</p>
+<h3 id="in-conclusion-monolithic-software-should-be-considered-when">In conclusion, monolithic software should be considered when:
+</h3><ul>
+<li><strong>Project Simplicity</strong>: The application is small and straightforward, requiring limited functionality.</li>
+<li><strong>Rapid Development Needs</strong>: There’s a need for quick delivery of a functional product without the complexities of managing multiple services.</li>
+<li><strong>Limited Team Size</strong>: The development team is small, making it easier to manage a single codebase rather than coordinating across multiple services.</li>
+<li><strong>Low Scalability Requirements</strong>: The application is not expected to grow significantly, making the overhead of a microservices architecture unnecessary.</li>
+<li><strong>Unified Deployment</strong>: Components are tightly integrated and need to be deployed together, simplifying the deployment process.</li>
+</ul>
+<h3 id="most-common-architecture-styles-for-monolithic-software">Most Common Architecture Styles for Monolithic Software:
+</h3><ul>
+<li>
+<p><strong>Layered Pattern</strong>: This divides the monolith into logical layers, typically including a presentation layer (UI), a business layer (business logic), and a data layer (database operations).</p>
+</li>
+<li>
+<p><strong>Model-View-Controller (MVC)</strong>: Common in web applications, MVC separates the application into three components: the model (data), the view (user interface), and the controller (handles input and updates).</p>
+</li>
+<li>
+<p><strong>Pipe and Filter</strong>: This pattern structures systems that process data streams, with each processing step encapsulated in a filter and connected by pipes for buffering or synchronization.</p>
+</li>
+<li>
+<p><strong>Client-Server</strong>: In this architecture, the system is split into a server (providing services) and a client (accessing those services), often running on the same machine and communicating through function calls.</p>
+</li>
+<li>
+<p><strong>Blackboard</strong>: This pattern addresses complex problems by allowing multiple specialized subsystems to contribute their knowledge to a central component (the blackboard), which contains structured information from the problem domain.</p>
+</li>
+</ul>
+<h3 id="advantages-of-monolithic-software">Advantages of Monolithic Software:
+</h3><p>Monolithic architecture offers several advantages, starting with its simplicity in development. It follows a standard approach, requiring no additional knowledge, as all source code is centralized in one location, making it easy to understand. Debugging is straightforward since all code is contained within a single unit, allowing for a clear trace of requests and issues. Testing is also simplified, as only one service needs to be tested without external dependencies. Deployment is efficient, involving just one unit, such as a jar file, and eliminating concerns about breaking changes when the UI is integrated with backend code.</p>
+<p>Moreover, the evolution of the application is seamless since there are no limitations from a business logic standpoint; necessary data for new features is already available. Cross-cutting concerns, such as security and logging, need to be addressed only once, streamlining the development process. Onboarding new team members becomes easier as the codebase is consolidated, enabling them to quickly debug and familiarize themselves with the application. Finally, during the early stages, the low cost of maintaining a single deployment unit minimizes infrastructure and development expenses, making it an attractive option for startups and small projects.</p>
+<h3 id="references">References:
+</h3><ul>
+<li><a class="link" href="https://aws.amazon.com/compare/the-difference-between-monolithic-and-microservices-architecture/"  target="_blank" rel="noopener"
+    >AWS: Monolithic vs Microservices</a></li>
+<li><a class="link" href="https://www.akamai.com/blog/cloud/monolith-versus-microservices-weigh-the-difference"  target="_blank" rel="noopener"
+    >Akamai: Monolith Versus Microservices</a></li>
+<li><a class="link" href="https://www.designgurus.io/blog/monolithic-service-oriented-microservice-architecture"  target="_blank" rel="noopener"
+    >Design Gurus: Monolithic vs Microservice Architecture</a></li>
+<li><a class="link" href="https://datamify.medium.com/monolithic-architecture-advantages-and-disadvantages-e71a603eec89"  target="_blank" rel="noopener"
+    >Datamify: Monolithic Architecture Advantages and Disadvantages</a></li>
+</ul>
+<hr>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Yousef Albael
+    </section>
+    
+    <section class="powerby">
+        
+            © 2024 Albasel Blog. All rights reserved. <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.509fbaad34e839450506abc56cd9e9acf53da456d3988b7cd276fbfb96fe6f6e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

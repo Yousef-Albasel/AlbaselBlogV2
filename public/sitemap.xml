@@ -3,7 +3,67 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2020-10-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-30T22:26:53+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/challenges-and-notes/challenge-one---buffers/</loc>
+    <lastmod>2024-01-30T22:26:53+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/challenges-and-notes/handwritten-notes-on-vaovbo/</loc>
+    <lastmod>2024-01-30T22:26:25+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/challenges-and-notes/</loc>
+    <lastmod>2024-01-30T22:25:57+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p4.1---shaders/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/opengl/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p5---index-buffers/</loc>
+    <lastmod>2024-01-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p3---vertex-layout/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p1.1---extra-information/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p6---errors-and-uniforms/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p4.2---shaders/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p4.3---shaders/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p7---textures-in-opengl/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p8---transitions-and-projection/</loc>
+    <lastmod>2024-01-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/</loc>
+    <lastmod>2024-01-21T03:15:34+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p2---vertex-buffers/</loc>
+    <lastmod>2024-01-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/computer-graphics---opengl/p1---getting-started/</loc>
+    <lastmod>2024-01-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/post/monolithic-software/</loc>
+    <lastmod>2023-11-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2023-11-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/software-engineering/</loc>
+    <lastmod>2023-11-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/page/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
@@ -11,74 +71,13 @@
     <loc>http://localhost:1313/page/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/css/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/html/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/markdown/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/markdown-syntax/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/syntax/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/themes/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/themes/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/privacy/</loc>
-    <lastmod>2019-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/rich-content/</loc>
-    <lastmod>2019-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/shortcodes/</loc>
-    <lastmod>2019-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/placeholder-text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/tag-with-whitespaces/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/test/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/test-with-whitespaces/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/math-typesetting/</loc>
-    <lastmod>2019-03-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/emoji/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/post/emoji-support/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/page/about/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/page/links/</loc>
   </url><url>
     <loc>http://localhost:1313/page/search/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>
