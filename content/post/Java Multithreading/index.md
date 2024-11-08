@@ -1,7 +1,7 @@
 +++
 author = "Yousef Albasel"
 title = "Java Multithreading"
-date = "2024-11-8"
+date = "2024-11-08"
 description = "Tutorial for Java Multithreading"
 categories = [
     "Software Engineering",

@@ -3,7 +3,55 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2024-01-30T22:26:53+02:00</lastmod>
+    <lastmod>2024-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/page/about/</loc>
+    <lastmod>2024-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/page/</loc>
+    <lastmod>2024-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/avl-tree---trees-data-structures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/binary-search-tree---trees-data-structures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/heaps-and-heap-sort/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/insertion-sort---sorting-algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/linked-lists---linear-data-structures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/merge-sort---sorting-algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/queue---linear-data-structures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/quick-sort---sorting-algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/selection-sort---sorting-algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/shell-sort---sorting-algorithms/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/cs214-datastructures/stack---linear-data-structures/</loc>
+    <lastmod>2024-02-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/computer-graphics---opengl/challenges-and-notes/challenge-one---buffers/</loc>
     <lastmod>2024-01-30T22:26:53+02:00</lastmod>
@@ -13,9 +61,6 @@
   </url><url>
     <loc>http://localhost:1313/computer-graphics---opengl/challenges-and-notes/</loc>
     <lastmod>2024-01-30T22:25:57+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/computer-graphics---opengl/p4.1---shaders/</loc>
     <lastmod>2024-01-28T00:00:00+00:00</lastmod>
@@ -68,13 +113,11 @@
     <loc>http://localhost:1313/page/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/page/</loc>
-    <lastmod>2020-10-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/page/about/</loc>
-    <lastmod>2020-10-09T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/post/java-multithreading/</loc>
   </url><url>
     <loc>http://localhost:1313/page/links/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/notes/</loc>
   </url><url>
     <loc>http://localhost:1313/page/search/</loc>
   </url><url>

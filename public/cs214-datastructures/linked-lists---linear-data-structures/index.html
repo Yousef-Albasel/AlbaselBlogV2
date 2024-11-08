@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="#include &#34;SingleLinkedList.h&#34; #include &lt;iostream&gt; using namespace std; template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: SingleLinkedList() { count = 0; first = NULL; last = NULL; } template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList() { clear(); } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element) { nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else{ newNode -&gt; info = element; newNode -&gt; link = first; first = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else { nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = NULL; last = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAt(Type element, int index){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (index &gt; count){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == 0){ insertAtHead(element); } else if (index == count){ insertAtTail(element); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = current; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtHead(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *temp; temp = first; first = first -&gt; link; delete temp; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtTail(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current -&gt; link != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = NULL; last = prev; delete current; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAt(int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == count - 1){ removeAtTail(); } else if (index == 0){ removeAtHead(); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = current -&gt; link; delete current; count --; } } template &lt;class Type&gt; Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{ if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (i != index){ current = current -&gt; link; i ++; } return current -&gt; info; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, int index){ nodeType&lt;Type&gt; *current = first; if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ int i = 0; while (current != NULL &amp;&amp; i &lt; index){ current = current -&gt; link; i ++; } current -&gt; info = newElement; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isExist(Type element) const{ nodeType &lt;Type&gt; *current = first; while (current != NULL){ if (current -&gt; info == element){ return true; } current = current -&gt; link; } return false; } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (current != NULL){ if (i == index &amp;&amp; current -&gt; info == element){ return true; } current = current -&gt; link; i ++; } return false; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){ if (firstItemIdx &gt; count - 1 || secondItemIdx &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *F_idx, *S_idx; F_idx = first, S_idx = first; int i = 0; int j = 0; while (F_idx != NULL){ if (i == firstItemIdx){ break; } F_idx = F_idx -&gt; link; i ++; } while (S_idx != NULL){ if (j == secondItemIdx){ break; } S_idx = S_idx -&gt; link; j ++; } Type temp = F_idx -&gt; info; F_idx -&gt; info = S_idx -&gt; info; S_idx -&gt; info = temp; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isEmpty(){ return (first == NULL); } template &lt;class Type&gt; int SingleLinkedList&lt;Type&gt; :: linkedListSize(){ return count; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: clear() { nodeType&lt;Type&gt; *temp; while(first != NULL){ temp = first; first = first -&gt; link; delete temp; } last = NULL; count = 0; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: print (){ if (isEmpty()){ cout &lt;&lt; &#34;Empty! Nothing to print.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *current = first; while (current != NULL){ cout &lt;&lt; current -&gt; info &lt;&lt; &#39; &#39;; current = current -&gt; link; } cout &lt;&lt; &#39;\\n&#39;; } } Doubly Linked List\r#include &#34;DoublyLinkedList.h&#34; template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::DoublyLinkedList() { count = 0; head = nullptr; tail = nullptr; } template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::~DoublyLinkedList() { clear(); } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isEmpty() const { return (head == nullptr); } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::clear() { Node&lt;ElementType&gt; *temp; while (head != nullptr) { temp = head; head = head-&gt;next; delete temp; } head = nullptr; tail = nullptr; count = 0; } template &lt;typename ElementType&gt; int DoublyLinkedList&lt;ElementType&gt;::linkedListSize() const { return count; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::print() const { Node&lt;ElementType&gt; *current = head; if (head == nullptr) { std::cout &lt;&lt; &#34;List is empty.&#34; &lt;&lt; std::endl; return; } while (current-&gt;next != nullptr) { std::cout &lt;&lt; current-&gt;info &lt;&lt; &#34; &#34;; current = current-&gt;next; } std::cout &lt;&lt; current-&gt;info; std::cout &lt;&lt; std::endl; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element) const { Node&lt;ElementType&gt; *current = head; bool isFound = false; while (!isFound &amp;&amp; current != nullptr) { if (current-&gt;info &gt;= element) { isFound = true; } else { current = current-&gt;next; } } if (isFound) isFound = (current-&gt;info == element); return isFound; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;next = head; head-&gt;back = newNode; head = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;back = tail; tail-&gt;next = newNode; tail = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;element, int index) { if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (index == 0) // index at head { insertAtHead(element); return; } else if (index == count) // index at tail { insertAtTail(element); return; } else { Node&lt;ElementType&gt; *current = head; // Loop until you find the index for (int i = 0; i &lt; index - 1; ++i) { current = current-&gt;next; } newNode-&gt;next = current-&gt;next; current-&gt;next-&gt;back = newNode; current-&gt;next = newNode; newNode-&gt;back = current; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtHead() { if (head == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = head; head = head-&gt;next; if (head != nullptr) { head-&gt;back = nullptr; } else { tail = nullptr; } delete temp; count--; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtTail() { if (tail == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = tail; tail = tail-&gt;back; if (tail != nullptr) { tail-&gt;next = nullptr; } else { head = nullptr; } delete temp; count--; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAt(int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { removeAtHead(); return; } else if (index == count - 1) // index at tail { removeAtTail(); return; } else { Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;back-&gt;next = temp-&gt;next; temp-&gt;next-&gt;back = temp-&gt;back; delete temp; } count--; }; template &lt;typename ElementType&gt; ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index) { if (isEmpty()) { throw std::runtime_error(&#34;Error: List is empty&#34;); } if (index &lt; 0 || index &gt; count) { throw std::runtime_error(&#34;Error: Invalid index, out of range&#34;); } if (index == 0) // index at head { return head-&gt;info; } else if (index == count) // index at tail { return tail-&gt;info; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } return temp-&gt;info; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newElement, int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { head-&gt;info = newElement; return; } else if (index == count) { tail-&gt;info = newElement; return; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;info = newElement; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(const ElementType &amp;element, int index) { return (retrieveAt(index) == element); }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemIdx) { if (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx) return; Node&lt;ElementType&gt; *fisrtNode = head; Node&lt;ElementType&gt; *secondNode = head; // Finding the correct Nodes for (int i = 0; i &lt; firstItemIdx; ++i) { fisrtNode = fisrtNode-&gt;next; } for (int i = 0; i &lt; secondItemIdx; ++i) { secondNode = secondNode-&gt;next; } // reverse head and tail if (fisrtNode == head) head = secondNode; else if (secondNode == head) head = fisrtNode; if (fisrtNode == tail) tail = secondNode; else if (secondNode == tail) tail = fisrtNode; // First make each node points at the next adjacent node of the other Node&lt;ElementType&gt; *temp; temp = fisrtNode-&gt;next; fisrtNode-&gt;next = secondNode-&gt;next; secondNode-&gt;next = temp; // check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap if (fisrtNode-&gt;next != nullptr) fisrtNode-&gt;next-&gt;back = fisrtNode; if (secondNode-&gt;next != nullptr) secondNode-&gt;next-&gt;back = secondNode; // vice versa temp = fisrtNode-&gt;back; fisrtNode-&gt;back = secondNode-&gt;back; secondNode-&gt;back = temp; if (fisrtNode-&gt;back != nullptr) fisrtNode-&gt;back-&gt;next = fisrtNode; if (secondNode-&gt;back != nullptr) secondNode-&gt;back-&gt;next = secondNode; }; ">
+<title>Linked List</title>
+
+<link rel='canonical' href='http://localhost:1313/cs214-datastructures/linked-lists---linear-data-structures/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="Linked List">
+<meta property='og:description' content="#include &#34;SingleLinkedList.h&#34; #include &lt;iostream&gt; using namespace std; template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: SingleLinkedList() { count = 0; first = NULL; last = NULL; } template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList() { clear(); } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element) { nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else{ newNode -&gt; info = element; newNode -&gt; link = first; first = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else { nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = NULL; last = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAt(Type element, int index){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (index &gt; count){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == 0){ insertAtHead(element); } else if (index == count){ insertAtTail(element); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = current; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtHead(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *temp; temp = first; first = first -&gt; link; delete temp; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtTail(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current -&gt; link != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = NULL; last = prev; delete current; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAt(int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == count - 1){ removeAtTail(); } else if (index == 0){ removeAtHead(); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = current -&gt; link; delete current; count --; } } template &lt;class Type&gt; Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{ if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (i != index){ current = current -&gt; link; i ++; } return current -&gt; info; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, int index){ nodeType&lt;Type&gt; *current = first; if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ int i = 0; while (current != NULL &amp;&amp; i &lt; index){ current = current -&gt; link; i ++; } current -&gt; info = newElement; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isExist(Type element) const{ nodeType &lt;Type&gt; *current = first; while (current != NULL){ if (current -&gt; info == element){ return true; } current = current -&gt; link; } return false; } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (current != NULL){ if (i == index &amp;&amp; current -&gt; info == element){ return true; } current = current -&gt; link; i ++; } return false; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){ if (firstItemIdx &gt; count - 1 || secondItemIdx &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *F_idx, *S_idx; F_idx = first, S_idx = first; int i = 0; int j = 0; while (F_idx != NULL){ if (i == firstItemIdx){ break; } F_idx = F_idx -&gt; link; i ++; } while (S_idx != NULL){ if (j == secondItemIdx){ break; } S_idx = S_idx -&gt; link; j ++; } Type temp = F_idx -&gt; info; F_idx -&gt; info = S_idx -&gt; info; S_idx -&gt; info = temp; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isEmpty(){ return (first == NULL); } template &lt;class Type&gt; int SingleLinkedList&lt;Type&gt; :: linkedListSize(){ return count; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: clear() { nodeType&lt;Type&gt; *temp; while(first != NULL){ temp = first; first = first -&gt; link; delete temp; } last = NULL; count = 0; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: print (){ if (isEmpty()){ cout &lt;&lt; &#34;Empty! Nothing to print.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *current = first; while (current != NULL){ cout &lt;&lt; current -&gt; info &lt;&lt; &#39; &#39;; current = current -&gt; link; } cout &lt;&lt; &#39;\\n&#39;; } } Doubly Linked List\r#include &#34;DoublyLinkedList.h&#34; template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::DoublyLinkedList() { count = 0; head = nullptr; tail = nullptr; } template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::~DoublyLinkedList() { clear(); } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isEmpty() const { return (head == nullptr); } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::clear() { Node&lt;ElementType&gt; *temp; while (head != nullptr) { temp = head; head = head-&gt;next; delete temp; } head = nullptr; tail = nullptr; count = 0; } template &lt;typename ElementType&gt; int DoublyLinkedList&lt;ElementType&gt;::linkedListSize() const { return count; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::print() const { Node&lt;ElementType&gt; *current = head; if (head == nullptr) { std::cout &lt;&lt; &#34;List is empty.&#34; &lt;&lt; std::endl; return; } while (current-&gt;next != nullptr) { std::cout &lt;&lt; current-&gt;info &lt;&lt; &#34; &#34;; current = current-&gt;next; } std::cout &lt;&lt; current-&gt;info; std::cout &lt;&lt; std::endl; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element) const { Node&lt;ElementType&gt; *current = head; bool isFound = false; while (!isFound &amp;&amp; current != nullptr) { if (current-&gt;info &gt;= element) { isFound = true; } else { current = current-&gt;next; } } if (isFound) isFound = (current-&gt;info == element); return isFound; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;next = head; head-&gt;back = newNode; head = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;back = tail; tail-&gt;next = newNode; tail = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;element, int index) { if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (index == 0) // index at head { insertAtHead(element); return; } else if (index == count) // index at tail { insertAtTail(element); return; } else { Node&lt;ElementType&gt; *current = head; // Loop until you find the index for (int i = 0; i &lt; index - 1; ++i) { current = current-&gt;next; } newNode-&gt;next = current-&gt;next; current-&gt;next-&gt;back = newNode; current-&gt;next = newNode; newNode-&gt;back = current; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtHead() { if (head == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = head; head = head-&gt;next; if (head != nullptr) { head-&gt;back = nullptr; } else { tail = nullptr; } delete temp; count--; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtTail() { if (tail == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = tail; tail = tail-&gt;back; if (tail != nullptr) { tail-&gt;next = nullptr; } else { head = nullptr; } delete temp; count--; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAt(int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { removeAtHead(); return; } else if (index == count - 1) // index at tail { removeAtTail(); return; } else { Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;back-&gt;next = temp-&gt;next; temp-&gt;next-&gt;back = temp-&gt;back; delete temp; } count--; }; template &lt;typename ElementType&gt; ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index) { if (isEmpty()) { throw std::runtime_error(&#34;Error: List is empty&#34;); } if (index &lt; 0 || index &gt; count) { throw std::runtime_error(&#34;Error: Invalid index, out of range&#34;); } if (index == 0) // index at head { return head-&gt;info; } else if (index == count) // index at tail { return tail-&gt;info; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } return temp-&gt;info; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newElement, int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { head-&gt;info = newElement; return; } else if (index == count) { tail-&gt;info = newElement; return; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;info = newElement; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(const ElementType &amp;element, int index) { return (retrieveAt(index) == element); }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemIdx) { if (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx) return; Node&lt;ElementType&gt; *fisrtNode = head; Node&lt;ElementType&gt; *secondNode = head; // Finding the correct Nodes for (int i = 0; i &lt; firstItemIdx; ++i) { fisrtNode = fisrtNode-&gt;next; } for (int i = 0; i &lt; secondItemIdx; ++i) { secondNode = secondNode-&gt;next; } // reverse head and tail if (fisrtNode == head) head = secondNode; else if (secondNode == head) head = fisrtNode; if (fisrtNode == tail) tail = secondNode; else if (secondNode == tail) tail = fisrtNode; // First make each node points at the next adjacent node of the other Node&lt;ElementType&gt; *temp; temp = fisrtNode-&gt;next; fisrtNode-&gt;next = secondNode-&gt;next; secondNode-&gt;next = temp; // check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap if (fisrtNode-&gt;next != nullptr) fisrtNode-&gt;next-&gt;back = fisrtNode; if (secondNode-&gt;next != nullptr) secondNode-&gt;next-&gt;back = secondNode; // vice versa temp = fisrtNode-&gt;back; fisrtNode-&gt;back = secondNode-&gt;back; secondNode-&gt;back = temp; if (fisrtNode-&gt;back != nullptr) fisrtNode-&gt;back-&gt;next = fisrtNode; if (secondNode-&gt;back != nullptr) secondNode-&gt;back-&gt;next = secondNode; }; ">
+<meta property='og:url' content='http://localhost:1313/cs214-datastructures/linked-lists---linear-data-structures/'>
+<meta property='og:site_name' content='Yousef Albael'>
+<meta property='og:type' content='article'><meta property='article:section' content='Cs214-Datastructures' /><meta property='article:published_time' content='2024-02-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-20T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Linked List">
+<meta name="twitter:description" content="#include &#34;SingleLinkedList.h&#34; #include &lt;iostream&gt; using namespace std; template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: SingleLinkedList() { count = 0; first = NULL; last = NULL; } template &lt;class Type&gt; SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList() { clear(); } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element) { nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else{ newNode -&gt; info = element; newNode -&gt; link = first; first = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (isEmpty()){ newNode -&gt; info = element; newNode -&gt; link = NULL; first = newNode; last = newNode; count ++; } else { nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = NULL; last = newNode; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: insertAt(Type element, int index){ nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;; if (index &gt; count){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == 0){ insertAtHead(element); } else if (index == count){ insertAtTail(element); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = newNode; newNode -&gt; info = element; newNode -&gt; link = current; count ++; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtHead(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *temp; temp = first; first = first -&gt; link; delete temp; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAtTail(){ if (isEmpty()){ cout &lt;&lt; &#34;Error! List is empty.&#34; &lt;&lt; endl; } else{ nodeType &lt;Type&gt; *current; nodeType &lt;Type&gt; *prev; current = first; prev = NULL; while (current -&gt; link != NULL){ prev = current; current = current -&gt; link; } prev -&gt; link = NULL; last = prev; delete current; count --; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: removeAt(int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.&#34; &lt;&lt; endl; } else if (index == count - 1){ removeAtTail(); } else if (index == 0){ removeAtHead(); } else{ int i = 0; nodeType&lt;Type&gt; *current = first; nodeType&lt;Type&gt; *prev = NULL; while (i &lt; index){ prev = current; current = current -&gt; link; i++; } prev -&gt; link = current -&gt; link; delete current; count --; } } template &lt;class Type&gt; Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{ if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (i != index){ current = current -&gt; link; i ++; } return current -&gt; info; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, int index){ nodeType&lt;Type&gt; *current = first; if (index &gt; count - 1 || index &lt; 0){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ int i = 0; while (current != NULL &amp;&amp; i &lt; index){ current = current -&gt; link; i ++; } current -&gt; info = newElement; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isExist(Type element) const{ nodeType &lt;Type&gt; *current = first; while (current != NULL){ if (current -&gt; info == element){ return true; } current = current -&gt; link; } return false; } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){ if (index &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *current = first; int i = 0; while (current != NULL){ if (i == index &amp;&amp; current -&gt; info == element){ return true; } current = current -&gt; link; i ++; } return false; } } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){ if (firstItemIdx &gt; count - 1 || secondItemIdx &gt; count - 1){ cout &lt;&lt; &#34;Error! Invalid index.\\n&#34;; } else{ nodeType&lt;Type&gt; *F_idx, *S_idx; F_idx = first, S_idx = first; int i = 0; int j = 0; while (F_idx != NULL){ if (i == firstItemIdx){ break; } F_idx = F_idx -&gt; link; i ++; } while (S_idx != NULL){ if (j == secondItemIdx){ break; } S_idx = S_idx -&gt; link; j ++; } Type temp = F_idx -&gt; info; F_idx -&gt; info = S_idx -&gt; info; S_idx -&gt; info = temp; } } template &lt;class Type&gt; bool SingleLinkedList&lt;Type&gt; :: isEmpty(){ return (first == NULL); } template &lt;class Type&gt; int SingleLinkedList&lt;Type&gt; :: linkedListSize(){ return count; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: clear() { nodeType&lt;Type&gt; *temp; while(first != NULL){ temp = first; first = first -&gt; link; delete temp; } last = NULL; count = 0; } template &lt;class Type&gt; void SingleLinkedList&lt;Type&gt;:: print (){ if (isEmpty()){ cout &lt;&lt; &#34;Empty! Nothing to print.&#34; &lt;&lt; endl; } else{ nodeType&lt;Type&gt; *current = first; while (current != NULL){ cout &lt;&lt; current -&gt; info &lt;&lt; &#39; &#39;; current = current -&gt; link; } cout &lt;&lt; &#39;\\n&#39;; } } Doubly Linked List\r#include &#34;DoublyLinkedList.h&#34; template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::DoublyLinkedList() { count = 0; head = nullptr; tail = nullptr; } template &lt;typename ElementType&gt; DoublyLinkedList&lt;ElementType&gt;::~DoublyLinkedList() { clear(); } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isEmpty() const { return (head == nullptr); } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::clear() { Node&lt;ElementType&gt; *temp; while (head != nullptr) { temp = head; head = head-&gt;next; delete temp; } head = nullptr; tail = nullptr; count = 0; } template &lt;typename ElementType&gt; int DoublyLinkedList&lt;ElementType&gt;::linkedListSize() const { return count; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::print() const { Node&lt;ElementType&gt; *current = head; if (head == nullptr) { std::cout &lt;&lt; &#34;List is empty.&#34; &lt;&lt; std::endl; return; } while (current-&gt;next != nullptr) { std::cout &lt;&lt; current-&gt;info &lt;&lt; &#34; &#34;; current = current-&gt;next; } std::cout &lt;&lt; current-&gt;info; std::cout &lt;&lt; std::endl; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element) const { Node&lt;ElementType&gt; *current = head; bool isFound = false; while (!isFound &amp;&amp; current != nullptr) { if (current-&gt;info &gt;= element) { isFound = true; } else { current = current-&gt;next; } } if (isFound) isFound = (current-&gt;info == element); return isFound; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;next = head; head-&gt;back = newNode; head = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;element) { Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (head == nullptr &amp;&amp; tail == nullptr) { // if the list is empty head = newNode; tail = newNode; } else { // if the list is not empty newNode-&gt;back = tail; tail-&gt;next = newNode; tail = newNode; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;element, int index) { if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element); if (index == 0) // index at head { insertAtHead(element); return; } else if (index == count) // index at tail { insertAtTail(element); return; } else { Node&lt;ElementType&gt; *current = head; // Loop until you find the index for (int i = 0; i &lt; index - 1; ++i) { current = current-&gt;next; } newNode-&gt;next = current-&gt;next; current-&gt;next-&gt;back = newNode; current-&gt;next = newNode; newNode-&gt;back = current; } count++; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtHead() { if (head == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = head; head = head-&gt;next; if (head != nullptr) { head-&gt;back = nullptr; } else { tail = nullptr; } delete temp; count--; } template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAtTail() { if (tail == nullptr) { std::cout &lt;&lt; &#34;Error: can&#39;t remove item; list is empty.\\n&#34;; return; } Node&lt;ElementType&gt; *temp = tail; tail = tail-&gt;back; if (tail != nullptr) { tail-&gt;next = nullptr; } else { head = nullptr; } delete temp; count--; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::removeAt(int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { removeAtHead(); return; } else if (index == count - 1) // index at tail { removeAtTail(); return; } else { Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;back-&gt;next = temp-&gt;next; temp-&gt;next-&gt;back = temp-&gt;back; delete temp; } count--; }; template &lt;typename ElementType&gt; ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index) { if (isEmpty()) { throw std::runtime_error(&#34;Error: List is empty&#34;); } if (index &lt; 0 || index &gt; count) { throw std::runtime_error(&#34;Error: Invalid index, out of range&#34;); } if (index == 0) // index at head { return head-&gt;info; } else if (index == count) // index at tail { return tail-&gt;info; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } return temp-&gt;info; }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newElement, int index) { if (isEmpty()) { std::cout &lt;&lt; &#34;Error: List is empty\\n&#34;; return; } if (index &lt; 0 || index &gt; count) { std::cout &lt;&lt; &#34;Error: Index out of range\\n&#34;; return; } if (index == 0) { head-&gt;info = newElement; return; } else if (index == count) { tail-&gt;info = newElement; return; } Node&lt;ElementType&gt; *temp = head; for (int i = 0; i &lt; index; ++i) { temp = temp-&gt;next; } temp-&gt;info = newElement; } template &lt;typename ElementType&gt; bool DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(const ElementType &amp;element, int index) { return (retrieveAt(index) == element); }; template &lt;typename ElementType&gt; void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemIdx) { if (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx) return; Node&lt;ElementType&gt; *fisrtNode = head; Node&lt;ElementType&gt; *secondNode = head; // Finding the correct Nodes for (int i = 0; i &lt; firstItemIdx; ++i) { fisrtNode = fisrtNode-&gt;next; } for (int i = 0; i &lt; secondItemIdx; ++i) { secondNode = secondNode-&gt;next; } // reverse head and tail if (fisrtNode == head) head = secondNode; else if (secondNode == head) head = fisrtNode; if (fisrtNode == tail) tail = secondNode; else if (secondNode == tail) tail = fisrtNode; // First make each node points at the next adjacent node of the other Node&lt;ElementType&gt; *temp; temp = fisrtNode-&gt;next; fisrtNode-&gt;next = secondNode-&gt;next; secondNode-&gt;next = temp; // check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap if (fisrtNode-&gt;next != nullptr) fisrtNode-&gt;next-&gt;back = fisrtNode; if (secondNode-&gt;next != nullptr) secondNode-&gt;next-&gt;back = secondNode; // vice versa temp = fisrtNode-&gt;back; fisrtNode-&gt;back = secondNode-&gt;back; secondNode-&gt;back = temp; if (fisrtNode-&gt;back != nullptr) fisrtNode-&gt;back-&gt;next = fisrtNode; if (secondNode-&gt;back != nullptr) secondNode-&gt;back-&gt;next = secondNode; }; ">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu277825007059913073.png" width="300"
+                            height="326" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧜‍♂️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Yousef Albael</a></h1>
+            <h2 class="site-description">I do computer graphics, AI and random programming stuff.</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/algorithms/" style="background-color: #4e5d94; color: #fff;">
+                Algorithms
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cs214-datastructures/linked-lists---linear-data-structures/">Linked List</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 20, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    9 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;SingleLinkedList.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>using namespace std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">SingleLinkedList</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    first <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    last <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#f92672">~</span><span style="color:#a6e22e">SingleLinkedList</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">clear</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">insertAtHead</span>(Type element)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>()){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> element;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        first <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        last <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> element;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        first <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">insertAtTail</span>(Type element){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>()){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> element;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        first <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        last <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>prev;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> element;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        last <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">insertAt</span>(Type element, <span style="color:#66d9ef">int</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;</span> count){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">insertAtHead</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">insertAtTail</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>prev <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> element;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;::</span> <span style="color:#a6e22e">removeAtHead</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>()){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! List is empty.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        first <span style="color:#f92672">=</span> first <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;::</span> <span style="color:#a6e22e">removeAtTail</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>()){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! List is empty.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>prev;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        last <span style="color:#f92672">=</span> prev;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;::</span> <span style="color:#a6e22e">removeAt</span>(<span style="color:#66d9ef">int</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index  <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAtTail</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAtHead</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>prev <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prev <span style="color:#f92672">-&gt;</span> link <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        count <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Type SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">retrieveAt</span> (<span style="color:#66d9ef">int</span> index) <span style="color:#66d9ef">const</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">!=</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> current <span style="color:#f92672">-&gt;</span> info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">replaceAt</span>(Type newElement, <span style="color:#66d9ef">int</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">!=</span> NULL <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> newElement;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">isExist</span>(Type element) <span style="color:#66d9ef">const</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType <span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (current <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">==</span> element){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">isItemAtEqual</span>(Type element, <span style="color:#66d9ef">int</span> index){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> index <span style="color:#f92672">&amp;&amp;</span> current <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">==</span> element){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> firstItemIdx, <span style="color:#66d9ef">int</span> secondItemIdx){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (firstItemIdx <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> secondItemIdx <span style="color:#f92672">&gt;</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error! Invalid index.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>F_idx, <span style="color:#f92672">*</span>S_idx;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        F_idx <span style="color:#f92672">=</span> first, S_idx <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (F_idx <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> firstItemIdx){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            F_idx <span style="color:#f92672">=</span> F_idx <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (S_idx <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> secondItemIdx){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            S_idx <span style="color:#f92672">=</span> S_idx <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            j <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Type temp <span style="color:#f92672">=</span> F_idx <span style="color:#f92672">-&gt;</span> info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        F_idx <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> S_idx <span style="color:#f92672">-&gt;</span> info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        S_idx <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">=</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">isEmpty</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (first <span style="color:#f92672">==</span> NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">::</span> <span style="color:#a6e22e">linkedListSize</span>(){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> count;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;::</span> <span style="color:#a6e22e">clear</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(first <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        first <span style="color:#f92672">=</span> first <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    last <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span>class Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SingleLinkedList<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;::</span> <span style="color:#a6e22e">print</span> (){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>()){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Empty! Nothing to print.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        nodeType<span style="color:#f92672">&lt;</span>Type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> first;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (current <span style="color:#f92672">!=</span> NULL){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> current <span style="color:#f92672">-&gt;</span> info <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current <span style="color:#f92672">-&gt;</span> link;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h5 id="doubly-linked-list">Doubly Linked List
+</h5><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;DoublyLinkedList.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">DoublyLinkedList</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    head <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tail <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::~</span><span style="color:#a6e22e">DoublyLinkedList</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">clear</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">isEmpty</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (head <span style="color:#f92672">==</span> nullptr);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">clear</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (head <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    head <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tail <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">linkedListSize</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> count;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">print</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;List is empty.&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (current<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> current<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> current<span style="color:#f92672">-&gt;</span>info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">isExist</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>element) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> isFound <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>isFound <span style="color:#f92672">&amp;&amp;</span> current <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (current<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">&gt;=</span> element)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            isFound <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (isFound)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        isFound <span style="color:#f92672">=</span> (current<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">==</span> element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> isFound;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">insertAtHead</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>element)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> nullptr <span style="color:#f92672">&amp;&amp;</span> tail <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    { <span style="color:#75715e">// if the list is empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    { <span style="color:#75715e">// if the list is not empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        newNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">insertAtTail</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>element)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> nullptr <span style="color:#f92672">&amp;&amp;</span> tail <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    { <span style="color:#75715e">// if the list is empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    { <span style="color:#75715e">// if the list is not empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        newNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> tail;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">insertAt</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>element, <span style="color:#66d9ef">int</span> index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&gt;</span> count)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: Index out of range</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>newNode <span style="color:#f92672">=</span> new Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#75715e">// index at head
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">insertAtHead</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count) <span style="color:#75715e">// index at tail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">insertAtTail</span>(element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current <span style="color:#f92672">=</span> head; <span style="color:#75715e">// Loop until you find the index
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            current <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        current<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        newNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">removeAtHead</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: can&#39;t remove item; list is empty.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    head <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">removeAtTail</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">==</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: can&#39;t remove item; list is empty.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp <span style="color:#f92672">=</span> tail;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tail <span style="color:#f92672">=</span> tail<span style="color:#f92672">-&gt;</span>back;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (tail <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> nullptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">removeAt</span>(<span style="color:#66d9ef">int</span> index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: List is empty</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&gt;</span> count)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: Index out of range</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAtHead</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#75715e">// index at tail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAtTail</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            temp <span style="color:#f92672">=</span> temp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp<span style="color:#f92672">-&gt;</span>back<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> temp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> temp<span style="color:#f92672">-&gt;</span>back;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        delete temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    count<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ElementType DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">retrieveAt</span>(<span style="color:#66d9ef">int</span> index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        throw std<span style="color:#f92672">::</span><span style="color:#a6e22e">runtime_error</span>(<span style="color:#e6db74">&#34;Error: List is empty&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&gt;</span> count)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        throw std<span style="color:#f92672">::</span><span style="color:#a6e22e">runtime_error</span>(<span style="color:#e6db74">&#34;Error: Invalid index, out of range&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#75715e">// index at head
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> head<span style="color:#f92672">-&gt;</span>info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count) <span style="color:#75715e">// index at tail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> tail<span style="color:#f92672">-&gt;</span>info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp <span style="color:#f92672">=</span> temp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> temp<span style="color:#f92672">-&gt;</span>info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">replaceAt</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>newElement, <span style="color:#66d9ef">int</span> index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isEmpty</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: List is empty</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&gt;</span> count)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: Index out of range</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">=</span> newElement;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> count)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">=</span> newElement;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        temp <span style="color:#f92672">=</span> temp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    temp<span style="color:#f92672">-&gt;</span>info <span style="color:#f92672">=</span> newElement;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">isItemAtEqual</span>(<span style="color:#66d9ef">const</span> ElementType <span style="color:#f92672">&amp;</span>element, <span style="color:#66d9ef">int</span> index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">retrieveAt</span>(index) <span style="color:#f92672">==</span> element);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>template <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ElementType<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> DoublyLinkedList<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;::</span><span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> firstItemIdx, <span style="color:#66d9ef">int</span> secondItemIdx)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> nullptr <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> nullptr <span style="color:#f92672">||</span> firstItemIdx <span style="color:#f92672">==</span> secondItemIdx)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>fisrtNode <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>secondNode <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Finding the correct Nodes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> firstItemIdx; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        fisrtNode <span style="color:#f92672">=</span> fisrtNode<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> secondItemIdx; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        secondNode <span style="color:#f92672">=</span> secondNode<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// reverse head and tail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fisrtNode <span style="color:#f92672">==</span> head)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> secondNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (secondNode <span style="color:#f92672">==</span> head)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        head <span style="color:#f92672">=</span> fisrtNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fisrtNode <span style="color:#f92672">==</span> tail)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> secondNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (secondNode <span style="color:#f92672">==</span> tail)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tail <span style="color:#f92672">=</span> fisrtNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// First make each node points at the next adjacent node of the other
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>ElementType<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> fisrtNode<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    fisrtNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> secondNode<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    secondNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fisrtNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        fisrtNode<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> fisrtNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (secondNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        secondNode<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> secondNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// vice versa
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> fisrtNode<span style="color:#f92672">-&gt;</span>back;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    fisrtNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> secondNode<span style="color:#f92672">-&gt;</span>back;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    secondNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">=</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fisrtNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        fisrtNode<span style="color:#f92672">-&gt;</span>back<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> fisrtNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (secondNode<span style="color:#f92672">-&gt;</span>back <span style="color:#f92672">!=</span> nullptr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        secondNode<span style="color:#f92672">-&gt;</span>back<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> secondNode;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Yousef Albael
+    </section>
+    
+    <section class="powerby">
+        
+            © 2024 Albasel Blog. All rights reserved. <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.509fbaad34e839450506abc56cd9e9acf53da456d3988b7cd276fbfb96fe6f6e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

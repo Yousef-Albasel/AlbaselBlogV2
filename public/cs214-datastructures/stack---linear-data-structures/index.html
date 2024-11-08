@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Stack Implementation Using Array\r#include &lt;iostream&gt; using namespace std; #define MAX 1000 // Define the maximum size of the stack class Stack { int top; public: int arr[MAX]; // Maximum size of Stack Stack() { top = -1; } bool push(int x); int pop(); int peek(); bool isEmpty(); }; bool Stack::push(int x) { if (top &gt;= (MAX - 1)) { cout &lt;&lt; &#34;Stack Overflow&#34; &lt;&lt; endl; return false; } else { arr[++top] = x; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; return true; } } int Stack::pop() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int x = arr[top--]; return x; } } int Stack::peek() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { int x = arr[top]; return x; } } bool Stack::isEmpty() { return (top &lt; 0); } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Stack Implementation using Linked list\r#include &lt;iostream&gt; using namespace std; class StackNode { public: int data; StackNode* next; }; class Stack { StackNode* top; public: Stack() { top = nullptr; } void push(int x); int pop(); int peek(); bool isEmpty(); }; void Stack::push(int x) { StackNode* newNode = new StackNode(); newNode-&gt;data = x; newNode-&gt;next = top; top = newNode; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; } int Stack::pop() { if (top == nullptr) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int popped = top-&gt;data; StackNode* temp = top; top = top-&gt;next; delete temp; return popped; } } int Stack::peek() { if (top == nullptr) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { return top-&gt;data; } } bool Stack::isEmpty() { return top == nullptr; } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Solution to applications on stack : Bracket Balancing\rbool isMatchingPair(char character1, char character2) { if (character1 == &#39;(&#39; &amp;&amp; character2 == &#39;)&#39;) return true; else if (character1 == &#39;{&#39; &amp;&amp; character2 == &#39;}&#39;) return true; else if (character1 == &#39;[&#39; &amp;&amp; character2 == &#39;]&#39;) return true; else return false; } bool areBracketsBalanced(string expr) { stack&lt;char&gt; s; for (int i = 0; i &lt; expr.length(); i++) { if (expr[i] == &#39;(&#39; || expr[i] == &#39;{&#39; || expr[i] == &#39;[&#39;) { s.push(expr[i]); } if (expr[i] == &#39;)&#39; || expr[i] == &#39;}&#39; || expr[i] == &#39;]&#39;) { if (s.empty()) { return false; } else if (!isMatchingPair(s.top(), expr[i])) { return false; } else { s.pop(); } } } return s.empty(); } Solution to applications on stack: Postfix to Infix\rint precedence(char op) { if (op == &#39;+&#39; || op == &#39;-&#39;) return 1; if (op == &#39;*&#39; || op == &#39;/&#39;) return 2; return 0; } string InfixToPostfix(const string &amp;infix) { stack&lt;char&gt; s; string postfix; for (auto i : infix) { if (isdigit(i)) { postfix += i; } else if (i == &#39;(&#39;) { s.push(i); } else if (i == &#39;)&#39;) { while (!s.empty() &amp;&amp; s.top() != &#39;(&#39;) { postfix += s.top(); s.pop(); } s.pop(); } else { // Operator while (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) { postfix += s.top(); s.pop(); } s.push(i); } } // remaining operators inthe stack while (!s.empty()) { postfix += s.top(); s.pop(); } return postfix; } ">
+<title>Stack Structure</title>
+
+<link rel='canonical' href='http://localhost:1313/cs214-datastructures/stack---linear-data-structures/'>
+
+<link rel="stylesheet" href="/scss/style.min.b9c8156d464c343bdacaf14a871581fb94cbbdb9dd5cbce4ba017361187cc930.css"><meta property='og:title' content="Stack Structure">
+<meta property='og:description' content="Stack Implementation Using Array\r#include &lt;iostream&gt; using namespace std; #define MAX 1000 // Define the maximum size of the stack class Stack { int top; public: int arr[MAX]; // Maximum size of Stack Stack() { top = -1; } bool push(int x); int pop(); int peek(); bool isEmpty(); }; bool Stack::push(int x) { if (top &gt;= (MAX - 1)) { cout &lt;&lt; &#34;Stack Overflow&#34; &lt;&lt; endl; return false; } else { arr[++top] = x; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; return true; } } int Stack::pop() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int x = arr[top--]; return x; } } int Stack::peek() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { int x = arr[top]; return x; } } bool Stack::isEmpty() { return (top &lt; 0); } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Stack Implementation using Linked list\r#include &lt;iostream&gt; using namespace std; class StackNode { public: int data; StackNode* next; }; class Stack { StackNode* top; public: Stack() { top = nullptr; } void push(int x); int pop(); int peek(); bool isEmpty(); }; void Stack::push(int x) { StackNode* newNode = new StackNode(); newNode-&gt;data = x; newNode-&gt;next = top; top = newNode; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; } int Stack::pop() { if (top == nullptr) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int popped = top-&gt;data; StackNode* temp = top; top = top-&gt;next; delete temp; return popped; } } int Stack::peek() { if (top == nullptr) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { return top-&gt;data; } } bool Stack::isEmpty() { return top == nullptr; } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Solution to applications on stack : Bracket Balancing\rbool isMatchingPair(char character1, char character2) { if (character1 == &#39;(&#39; &amp;&amp; character2 == &#39;)&#39;) return true; else if (character1 == &#39;{&#39; &amp;&amp; character2 == &#39;}&#39;) return true; else if (character1 == &#39;[&#39; &amp;&amp; character2 == &#39;]&#39;) return true; else return false; } bool areBracketsBalanced(string expr) { stack&lt;char&gt; s; for (int i = 0; i &lt; expr.length(); i++) { if (expr[i] == &#39;(&#39; || expr[i] == &#39;{&#39; || expr[i] == &#39;[&#39;) { s.push(expr[i]); } if (expr[i] == &#39;)&#39; || expr[i] == &#39;}&#39; || expr[i] == &#39;]&#39;) { if (s.empty()) { return false; } else if (!isMatchingPair(s.top(), expr[i])) { return false; } else { s.pop(); } } } return s.empty(); } Solution to applications on stack: Postfix to Infix\rint precedence(char op) { if (op == &#39;+&#39; || op == &#39;-&#39;) return 1; if (op == &#39;*&#39; || op == &#39;/&#39;) return 2; return 0; } string InfixToPostfix(const string &amp;infix) { stack&lt;char&gt; s; string postfix; for (auto i : infix) { if (isdigit(i)) { postfix += i; } else if (i == &#39;(&#39;) { s.push(i); } else if (i == &#39;)&#39;) { while (!s.empty() &amp;&amp; s.top() != &#39;(&#39;) { postfix += s.top(); s.pop(); } s.pop(); } else { // Operator while (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) { postfix += s.top(); s.pop(); } s.push(i); } } // remaining operators inthe stack while (!s.empty()) { postfix += s.top(); s.pop(); } return postfix; } ">
+<meta property='og:url' content='http://localhost:1313/cs214-datastructures/stack---linear-data-structures/'>
+<meta property='og:site_name' content='Yousef Albael'>
+<meta property='og:type' content='article'><meta property='article:section' content='Cs214-Datastructures' /><meta property='article:published_time' content='2024-02-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-02-20T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Stack Structure">
+<meta name="twitter:description" content="Stack Implementation Using Array\r#include &lt;iostream&gt; using namespace std; #define MAX 1000 // Define the maximum size of the stack class Stack { int top; public: int arr[MAX]; // Maximum size of Stack Stack() { top = -1; } bool push(int x); int pop(); int peek(); bool isEmpty(); }; bool Stack::push(int x) { if (top &gt;= (MAX - 1)) { cout &lt;&lt; &#34;Stack Overflow&#34; &lt;&lt; endl; return false; } else { arr[++top] = x; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; return true; } } int Stack::pop() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int x = arr[top--]; return x; } } int Stack::peek() { if (top &lt; 0) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { int x = arr[top]; return x; } } bool Stack::isEmpty() { return (top &lt; 0); } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Stack Implementation using Linked list\r#include &lt;iostream&gt; using namespace std; class StackNode { public: int data; StackNode* next; }; class Stack { StackNode* top; public: Stack() { top = nullptr; } void push(int x); int pop(); int peek(); bool isEmpty(); }; void Stack::push(int x) { StackNode* newNode = new StackNode(); newNode-&gt;data = x; newNode-&gt;next = top; top = newNode; cout &lt;&lt; x &lt;&lt; &#34; pushed into stack&#34; &lt;&lt; endl; } int Stack::pop() { if (top == nullptr) { cout &lt;&lt; &#34;Stack Underflow&#34; &lt;&lt; endl; return 0; } else { int popped = top-&gt;data; StackNode* temp = top; top = top-&gt;next; delete temp; return popped; } } int Stack::peek() { if (top == nullptr) { cout &lt;&lt; &#34;Stack is Empty&#34; &lt;&lt; endl; return 0; } else { return top-&gt;data; } } bool Stack::isEmpty() { return top == nullptr; } int main() { Stack s; s.push(10); s.push(20); s.push(30); cout &lt;&lt; s.pop() &lt;&lt; &#34; popped from stack&#34; &lt;&lt; endl; cout &lt;&lt; &#34;Top element is &#34; &lt;&lt; s.peek() &lt;&lt; endl; cout &lt;&lt; &#34;Stack is empty: &#34; &lt;&lt; (s.isEmpty() ? &#34;True&#34; : &#34;False&#34;) &lt;&lt; endl; return 0; } Solution to applications on stack : Bracket Balancing\rbool isMatchingPair(char character1, char character2) { if (character1 == &#39;(&#39; &amp;&amp; character2 == &#39;)&#39;) return true; else if (character1 == &#39;{&#39; &amp;&amp; character2 == &#39;}&#39;) return true; else if (character1 == &#39;[&#39; &amp;&amp; character2 == &#39;]&#39;) return true; else return false; } bool areBracketsBalanced(string expr) { stack&lt;char&gt; s; for (int i = 0; i &lt; expr.length(); i++) { if (expr[i] == &#39;(&#39; || expr[i] == &#39;{&#39; || expr[i] == &#39;[&#39;) { s.push(expr[i]); } if (expr[i] == &#39;)&#39; || expr[i] == &#39;}&#39; || expr[i] == &#39;]&#39;) { if (s.empty()) { return false; } else if (!isMatchingPair(s.top(), expr[i])) { return false; } else { s.pop(); } } } return s.empty(); } Solution to applications on stack: Postfix to Infix\rint precedence(char op) { if (op == &#39;+&#39; || op == &#39;-&#39;) return 1; if (op == &#39;*&#39; || op == &#39;/&#39;) return 2; return 0; } string InfixToPostfix(const string &amp;infix) { stack&lt;char&gt; s; string postfix; for (auto i : infix) { if (isdigit(i)) { postfix += i; } else if (i == &#39;(&#39;) { s.push(i); } else if (i == &#39;)&#39;) { while (!s.empty() &amp;&amp; s.top() != &#39;(&#39;) { postfix += s.top(); s.pop(); } s.pop(); } else { // Operator while (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) { postfix += s.top(); s.pop(); } s.push(i); } } // remaining operators inthe stack while (!s.empty()) { postfix += s.top(); s.pop(); } return postfix; } ">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu277825007059913073.png" width="300"
+                            height="326" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🧜‍♂️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Yousef Albael</a></h1>
+            <h2 class="site-description">I do computer graphics, AI and random programming stuff.</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/algorithms/" style="background-color: #4e5d94; color: #fff;">
+                Algorithms
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cs214-datastructures/stack---linear-data-structures/">Stack Structure</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 20, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h4 id="stack-implementation-using-array">Stack Implementation Using Array
+</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>using namespace std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAX 1000 </span><span style="color:#75715e">// Define the maximum size of the stack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>class Stack {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> top;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>public:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> arr[MAX]; <span style="color:#75715e">// Maximum size of Stack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Stack</span>() { top <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">push</span>(<span style="color:#66d9ef">int</span> x);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">peek</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isEmpty</span>();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">push</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (top <span style="color:#f92672">&gt;=</span> (MAX <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack Overflow&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        arr[<span style="color:#f92672">++</span>top] <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; pushed into stack&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">pop</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (top <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack Underflow&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> arr[top<span style="color:#f92672">--</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">peek</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (top <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack is Empty&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> arr[top];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">isEmpty</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (top <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Stack s;
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">20</span>);
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> s.<span style="color:#a6e22e">pop</span>() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; popped from stack&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Top element is &#34;</span> <span style="color:#f92672">&lt;&lt;</span> s.<span style="color:#a6e22e">peek</span>() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack is empty: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (s.<span style="color:#a6e22e">isEmpty</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;True&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;False&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="stack-implementation-using-linked-list">Stack Implementation using Linked list
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>using namespace std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>class StackNode {
+</span></span><span style="display:flex;"><span>public:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data;
+</span></span><span style="display:flex;"><span>    StackNode<span style="color:#f92672">*</span> next;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>class Stack {
+</span></span><span style="display:flex;"><span>    StackNode<span style="color:#f92672">*</span> top;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>public:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Stack</span>() { top <span style="color:#f92672">=</span> nullptr; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span>(<span style="color:#66d9ef">int</span> x);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">peek</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isEmpty</span>();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">push</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    StackNode<span style="color:#f92672">*</span> newNode <span style="color:#f92672">=</span> new <span style="color:#a6e22e">StackNode</span>();
+</span></span><span style="display:flex;"><span>    newNode<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>    newNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> top;
+</span></span><span style="display:flex;"><span>    top <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; pushed into stack&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">pop</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (top <span style="color:#f92672">==</span> nullptr) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack Underflow&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> popped <span style="color:#f92672">=</span> top<span style="color:#f92672">-&gt;</span>data;
+</span></span><span style="display:flex;"><span>        StackNode<span style="color:#f92672">*</span> temp <span style="color:#f92672">=</span> top;
+</span></span><span style="display:flex;"><span>        top <span style="color:#f92672">=</span> top<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        delete temp;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> popped;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">peek</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (top <span style="color:#f92672">==</span> nullptr) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack is Empty&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> top<span style="color:#f92672">-&gt;</span>data;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> Stack<span style="color:#f92672">::</span><span style="color:#a6e22e">isEmpty</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> top <span style="color:#f92672">==</span> nullptr;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Stack s;
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">20</span>);
+</span></span><span style="display:flex;"><span>    s.<span style="color:#a6e22e">push</span>(<span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> s.<span style="color:#a6e22e">pop</span>() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; popped from stack&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Top element is &#34;</span> <span style="color:#f92672">&lt;&lt;</span> s.<span style="color:#a6e22e">peek</span>() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Stack is empty: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (s.<span style="color:#a6e22e">isEmpty</span>() <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;True&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;False&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="solution-to-applications-on-stack--bracket-balancing">Solution to applications on stack : Bracket Balancing
+</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isMatchingPair</span>(<span style="color:#66d9ef">char</span> character1, <span style="color:#66d9ef">char</span> character2) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (character1 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span> <span style="color:#f92672">&amp;&amp;</span> character2 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;)&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (character1 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;{&#39;</span> <span style="color:#f92672">&amp;&amp;</span> character2 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;}&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (character1 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;[&#39;</span> <span style="color:#f92672">&amp;&amp;</span> character2 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;]&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">areBracketsBalanced</span>(string expr) {
+</span></span><span style="display:flex;"><span>    stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> s;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> expr.<span style="color:#a6e22e">length</span>(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span> <span style="color:#f92672">||</span> expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;{&#39;</span> <span style="color:#f92672">||</span> expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;[&#39;</span>) {
+</span></span><span style="display:flex;"><span>            s.<span style="color:#a6e22e">push</span>(expr[i]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;)&#39;</span> <span style="color:#f92672">||</span> expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;}&#39;</span> <span style="color:#f92672">||</span> expr[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;]&#39;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (s.<span style="color:#a6e22e">empty</span>()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">isMatchingPair</span>(s.<span style="color:#a6e22e">top</span>(), expr[i])) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                s.<span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> s.<span style="color:#a6e22e">empty</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="solution-to-applications-on-stack-postfix-to-infix">Solution to applications on stack: Postfix to Infix
+</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">precedence</span>(<span style="color:#66d9ef">char</span> op) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;+&#39;</span> <span style="color:#f92672">||</span> op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;-&#39;</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;*&#39;</span> <span style="color:#f92672">||</span> op <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;/&#39;</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>string <span style="color:#a6e22e">InfixToPostfix</span>(<span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>infix) {
+</span></span><span style="display:flex;"><span>    stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> s;
+</span></span><span style="display:flex;"><span>    string postfix;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i : infix) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isdigit</span>(i)) {
+</span></span><span style="display:flex;"><span>            postfix <span style="color:#f92672">+=</span> i;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span>) {
+</span></span><span style="display:flex;"><span>            s.<span style="color:#a6e22e">push</span>(i);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;)&#39;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>s.<span style="color:#a6e22e">empty</span>() <span style="color:#f92672">&amp;&amp;</span> s.<span style="color:#a6e22e">top</span>() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;(&#39;</span>) {
+</span></span><span style="display:flex;"><span>                postfix <span style="color:#f92672">+=</span> s.<span style="color:#a6e22e">top</span>();
+</span></span><span style="display:flex;"><span>                s.<span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            s.<span style="color:#a6e22e">pop</span>(); 
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Operator 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>s.<span style="color:#a6e22e">empty</span>() <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">precedence</span>(s.<span style="color:#a6e22e">top</span>()) <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">precedence</span>(i)) {
+</span></span><span style="display:flex;"><span>                postfix <span style="color:#f92672">+=</span> s.<span style="color:#a6e22e">top</span>();
+</span></span><span style="display:flex;"><span>                s.<span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            s.<span style="color:#a6e22e">push</span>(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// remaining operators inthe stack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>s.<span style="color:#a6e22e">empty</span>()) {
+</span></span><span style="display:flex;"><span>        postfix <span style="color:#f92672">+=</span> s.<span style="color:#a6e22e">top</span>();
+</span></span><span style="display:flex;"><span>        s.<span style="color:#a6e22e">pop</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> postfix;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Yousef Albael
+    </section>
+    
+    <section class="powerby">
+        
+            © 2024 Albasel Blog. All rights reserved. <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.509fbaad34e839450506abc56cd9e9acf53da456d3988b7cd276fbfb96fe6f6e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
