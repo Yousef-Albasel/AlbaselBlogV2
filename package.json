@@ -1,0 +1,40 @@
+{
+  "name": "vertex",
+  "version": "1.0.0",
+  "description": "A high performance Static-Site Generator (SSG) made for computer graphics researchers and enthusiasts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "vertex serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yousef-Albasel/Vertex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yousef-Albasel/Vertex/issues"
+  },
+  "homepage": "https://github.com/Yousef-Albasel/Vertex#readme",
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "chokidar": "^3.6.0",
+    "commander": "^14.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "fs-extra": "^11.3.1",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "multer": "^2.0.2",
+    "nunjucks": "^3.2.4",
+    "open": "^10.2.0"
+  },
+  "bin": {
+    "vertex": "./src/cli.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
