@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a Computer Science student. I do computer graphics, AI and random programming stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>welcome</h1>
+                    <div class="post-meta">
+                        <time>2025-10-08</time>
+                        
+                        
+                    </div>
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h1>Welcome to Vertex Markdown Editor</h1>
+<p>This is your web-based markdown editor integrated with your Vertex Static Site Generator!</p>
+<h2>Getting Started</h2>
+<ol>
+<li><strong>Edit files</strong>: Click on files in the sidebar to edit them</li>
+<li><strong>Save files</strong>: Use Ctrl+S or click the Save button</li>
+<li><strong>Create files</strong>: Click “New File” or use Ctrl+N</li>
+<li><strong>Live preview</strong>: Toggle with Ctrl+P or the Preview button</li>
+</ol>
+<h2>Features</h2>
+<ul>
+<li>🚀 <strong>Fast &amp; Responsive</strong> - React-powered editor</li>
+<li>💾 <strong>Auto-save</strong> - Files saved to your Vertex project</li>
+<li>🌙 <strong>Dark Mode</strong> - Easy on the eyes</li>
+<li>⌨️ <strong>Keyboard Shortcuts</strong> - Boost your productivity</li>
+<li>👁️ <strong>Live Preview</strong> - See changes instantly</li>
+<li>📁 <strong>Multi-directory</strong> - Edit content/ and pages/ files</li>
+</ul>
+<h2>CLI Integration</h2>
+<p>You can also use the Vertex CLI:</p>
+<p>```bash</p>
+<h1>Open editor</h1>
+<p>vertex edit</p>
+<h1>Open specific file</h1>
+<p>vertex edit -f <a href="http://mypost.md">mypost.md</a></p>
+<h1>Create new content file</h1>
+<p>vertex create “My New Post”</p>
+<h1>Create new page</h1>
+<p>vertex create “About Me” -t page
+```</p>
+<p>Happy writing! ✨`</p>
+
+                </div>
+                
+                
+                
+                <footer class="post-footer">
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

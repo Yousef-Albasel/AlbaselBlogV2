@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P1.1 Extra Information about OpenGL - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a Computer Science student. I do computer graphics, AI and random programming stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 2 of 11</strong> in
+                    <a href="/opengl/">Computer Graphics - OpenGL</a>
+                </div>
+                <div class="series-progress">
+                    2/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>P1.1 Extra Information about OpenGL</h1>
+                    <div class="post-meta">
+                        <time>2024-01-01</time>
+                        <span class="post-category">OpenGL</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/opengl.jpg" alt="P1.1 Extra Information about OpenGL" class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h2>I still don’t know what (OpenGL, GLEW, GLFW) are…</h2>
+<p><strong>I’ve been searching, here is what i found.</strong></p>
+<p>so, OpenGL is not a library.
+It is a specification.
+Just a few (quite a few, actually) pages of text!
+You can see it here <a href="https://registry.khronos.org/OpenGL/specs/gl/glspec44.core.pdf">https://registry.khronos.org/OpenGL/specs/gl/glspec44.core.pdf</a> .</p>
+<p>Then we can conclude that you can’t “install” OpenGL. But, you might ask, <strong>where does the code exist?</strong></p>
+<p>Well, <strong>OpenGL</strong> standard is already implemented inside of the your <strong>OS GPU</strong> driver, by manufacturers, without any kind of agreements on the actual implementation, and, so, different drivers may achieve the same functionality in a different ways. and we use <strong>opengl32.lib</strong> to communicate with this driver.</p>
+<p>to start actually displaying something in the screen, you need to have access to 2 things.</p>
+<ul>
+<li><strong>the concrete OpenGL implementation functionality.</strong></li>
+<li><strong>Setup the windowing system &amp; OpenGL context.</strong></li>
+</ul>
+<p>Both of these things require some interaction with the operating system: In order to load OpenGL implementation function pointers, and, also, in order to create a window.</p>
+<p><strong>So, we use a library to do that for us, here comes GLEW</strong></p>
+<p>GLEW (stands for OpenGL Extension Wrangler Library) is a cross-platform C/C++ library that helps in querying and loading OpenGL extensions.</p>
+<p>OpenGL extensions are a means for OpenGL implementations to provide new or expanded functionality that the core of OpenGL does not provide</p>
+<p>and GLFW for Window Handling.</p>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/opengl/P1 - Getting Started.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">P1 Getting Started with OpenGL</span>
+                        </a>
+                    
+                    
+                    
+                        <a href="/opengl/P2 - Vertex Buffers.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">P2 Vertex Buffers</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/opengl/" class="back-link"><i class="fas fa-book"></i> Back to Computer Graphics - OpenGL</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

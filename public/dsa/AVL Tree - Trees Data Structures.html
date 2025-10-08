@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVL Tree structure - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a Computer Science student. I do computer graphics, AI and random programming stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 1 of 11</strong> in
+                    <a href="/dsa/">DSA</a>
+                </div>
+                <div class="series-progress">
+                    1/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>AVL Tree structure</h1>
+                    <div class="post-meta">
+                        <time>2024-02-20</time>
+                        <span class="post-category">Algorithms</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/algorithms.png" alt="AVL Tree structure" class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <pre><code class="language-c">#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;algorithm&gt;
+
+class AVLTreeNode {
+public:
+    int key;
+    AVLTreeNode* left;
+    AVLTreeNode* right;
+    int height;
+
+    AVLTreeNode(int key) : key(key), left(nullptr), right(nullptr), height(1) {}
+};
+
+class AVLTree {
+private:
+    AVLTreeNode* root;
+
+public:
+    AVLTree() : root(nullptr) {}
+
+    AVLTreeNode* insert(AVLTreeNode* node, const int&amp; key);
+    AVLTreeNode* remove(AVLTreeNode* node, const int&amp; key);
+    int getHeight(AVLTreeNode* node);
+    int getBalanceFactor(AVLTreeNode* node);
+    AVLTreeNode* rotateRight(AVLTreeNode* node);
+    AVLTreeNode* rotateLeft(AVLTreeNode* node);
+    void visit(AVLTreeNode* node);
+    void breadthFirstSearch();
+    void DFSInOrder(AVLTreeNode* node);
+    void DFSPreOrder(AVLTreeNode* node);
+    void DFSPostOrder(AVLTreeNode* node);
+    void depthFirstSearch();
+    AVLTreeNode* findNode(AVLTreeNode* node, const int&amp; key);
+    AVLTreeNode* findMinNode(AVLTreeNode* node);
+};
+
+int AVLTree::getHeight(AVLTreeNode* node) {
+    if (node == nullptr) return 0;
+    return node-&gt;height;
+}
+
+int AVLTree::getBalanceFactor(AVLTreeNode* node) {
+    if (node == nullptr) return 0;
+    return getHeight(node-&gt;left) - getHeight(node-&gt;right);
+}
+
+AVLTreeNode* AVLTree::rotateRight(AVLTreeNode* y) {
+    AVLTreeNode* x = y-&gt;left;
+    AVLTreeNode* T2 = x-&gt;right;
+
+    x-&gt;right = y;
+    y-&gt;left = T2;
+
+    y-&gt;height = 1 + std::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
+    x-&gt;height = 1 + std::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
+
+    return x;
+}
+
+AVLTreeNode* AVLTree::rotateLeft(AVLTreeNode* x) {
+    AVLTreeNode* y = x-&gt;right;
+    AVLTreeNode* T2 = y-&gt;left;
+
+    y-&gt;left = x;
+    x-&gt;right = T2;
+
+    x-&gt;height = 1 + std::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
+    y-&gt;height = 1 + std::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
+
+    return y;
+}
+
+AVLTreeNode* AVLTree::insert(AVLTreeNode* node, const int&amp; key) {
+    if (node == nullptr) return new AVLTreeNode(key);
+
+    if (key &lt; node-&gt;key) {
+        node-&gt;left = insert(node-&gt;left, key);
+    } else if (key &gt; node-&gt;key) {
+        node-&gt;right = insert(node-&gt;right, key);
+    } else {
+        return node; // Duplicate keys are not allowed
+    }
+
+    node-&gt;height = 1 + std::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
+
+    int balance = getBalanceFactor(node);
+
+    // Left Left Case
+    if (balance &gt; 1 &amp;&amp; key &lt; node-&gt;left-&gt;key)
+        return rotateRight(node);
+
+    // Right Right Case
+    if (balance &lt; -1 &amp;&amp; key &gt; node-&gt;right-&gt;key)
+        return rotateLeft(node);
+
+    // Left Right Case
+    if (balance &gt; 1 &amp;&amp; key &gt; node-&gt;left-&gt;key) {
+        node-&gt;left = rotateLeft(node-&gt;left);
+        return rotateRight(node);
+    }
+
+    // Right Left Case
+    if (balance &lt; -1 &amp;&amp; key &lt; node-&gt;right-&gt;key) {
+        node-&gt;right = rotateRight(node-&gt;right);
+        return rotateLeft(node);
+    }
+
+    return node;
+}
+
+AVLTreeNode* AVLTree::remove(AVLTreeNode* node, const int&amp; key) {
+    if (node == nullptr) return node;
+
+    if (key &lt; node-&gt;key) {
+        node-&gt;left = remove(node-&gt;left, key);
+    } else if (key &gt; node-&gt;key) {
+        node-&gt;right = remove(node-&gt;right, key);
+    } else {
+        if (node-&gt;left == nullptr || node-&gt;right == nullptr) {
+            AVLTreeNode* temp = node-&gt;left ? node-&gt;left : node-&gt;right;
+            if (temp == nullptr) {
+                temp = node;
+                node = nullptr;
+            } else {
+                *node = *temp; // Copy the contents of temp to node
+            }
+            delete temp;
+        } else {
+            AVLTreeNode* temp = findMinNode(node-&gt;right);
+            node-&gt;key = temp-&gt;key;
+            node-&gt;right = remove(node-&gt;right, temp-&gt;key);
+        }
+    }
+
+    if (node == nullptr) return node;
+
+    node-&gt;height = 1 + std::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
+
+    int balance = getBalanceFactor(node);
+
+    // Left Left Case
+    if (balance &gt; 1 &amp;&amp; getBalanceFactor(node-&gt;left) &gt;= 0)
+        return rotateRight(node);
+
+    // Left Right Case
+    if (balance &gt; 1 &amp;&amp; getBalanceFactor(node-&gt;left) &lt; 0) {
+        node-&gt;left = rotateLeft(node-&gt;left);
+        return rotateRight(node);
+    }
+
+    // Right Right Case
+    if (balance &lt; -1 &amp;&amp; getBalanceFactor(node-&gt;right) &lt;= 0)
+        return rotateLeft(node);
+
+    // Right Left Case
+    if (balance &lt; -1 &amp;&amp; getBalanceFactor(node-&gt;right) &gt; 0) {
+        node-&gt;right = rotateRight(node-&gt;right);
+        return rotateLeft(node);
+    }
+
+    return node;
+}
+
+AVLTreeNode* AVLTree::findMinNode(AVLTreeNode* node) {
+    if (node == nullptr) return nullptr;
+    while (node-&gt;left != nullptr) {
+        node = node-&gt;left;
+    }
+    return node;
+}
+
+// Other member functions remain the same
+
+int main() {
+    AVLTree avl;
+
+    // Test AVL tree operations
+    avl.insert(avl.root, 10);
+    avl.insert(avl.root, 20);
+    avl.insert(avl.root, 30);
+    avl.insert(avl.root, 40);
+    avl.insert(avl.root, 50);
+
+    std::cout &lt;&lt; &quot;Inorder traversal of AVL tree after insertions:\n&quot;;
+    avl.DFSInOrder(avl.root);
+    std::cout &lt;&lt; std::endl;
+
+    avl.remove(avl.root, 30);
+
+    std::cout &lt;&lt; &quot;Inorder traversal of AVL tree after removal of 
+
+</code></pre>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <div class="nav-placeholder"></div>
+                    
+                    
+                    
+                        <a href="/dsa/Binary Search Tree - Trees Data Structures.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">Binary Search Trees</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/dsa/" class="back-link"><i class="fas fa-book"></i> Back to DSA</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

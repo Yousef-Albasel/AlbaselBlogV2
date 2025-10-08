@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextJS Notes 1 - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a Computer Science student. I do computer graphics, AI and random programming stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 2 of 5</strong> in
+                    <a href="/next/">nextjs</a>
+                </div>
+                <div class="series-progress">
+                    2/5
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>NextJS Notes 1</h1>
+                    <div class="post-meta">
+                        <time>2025-09-01</time>
+                        <span class="post-category">Web Development</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h1>NextJS Notes 1</h1>
+<h3>Special Next.js pages and features:</h3>
+<p>Dynamic Routing In React:</p>
+<pre><code class="language-js">&lt;Router&gt;
+ &lt;Routes&gt;
+  &lt;Route path='/' element={&lt;Home /&gt;}/&gt;
+  &lt;Route path='posts' element={&lt;Posts /&gt;}&gt;
+    &lt;Route path='/new' element={&lt;NewPost/&gt;}/&gt;  {}
+    &lt;Route path=':postId' element={&lt;Post /&gt;} /&gt; {} /*Dynamic*/
+  &lt;/Route&gt;
+&lt;/Routes&gt;
+&lt;/Router&gt;
+</code></pre>
+<p>Dynamic Routing in Next.js:
+We create a new folder callid [postId], inside this we create a page.js</p>
+<pre><code class="language-js">/*page.js*/
+import React from 'react'
+const page = () = &gt;{
+return (
+&lt;div&gt;{postId}&lt;/div&gt;
+ )
+}
+</code></pre>
+<p>We can also create a layout.js file inside a route for example posts, the purpose of this is to allow the sharing of react components inside pages, so if we need a ‘Navigate to top’ button that is shared between posts pages as well as newposts pages. We also can create a loading.js so we can render some kind of a Loading spinner.</p>
+<h3>Error Handling</h3>
+<p>we need  to create an error.js file
+it might look something like this</p>
+<pre><code class="language-js">'use client'
+import {useEffect} from 'react';
+const Error = ({error,reset}) =&gt; {
+useEffect(()=&gt;{
+console.error(error);
+},[error]);
+return (
+  &lt;div&gt;
+    &lt;h2&gt; Something went wrong! &lt;/h2&gt;
+    &lt;button onClick={()=&gt;reset()}&gt;
+  &lt;/div&gt;  
+ )
+}
+</code></pre>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/next/Data Fetching in Nextjs.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">Data Fetching in Nextjs</span>
+                        </a>
+                    
+                    
+                    
+                        <a href="/next/Nasa Notes.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">Notes for Nasa</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/next/" class="back-link"><i class="fas fa-book"></i> Back to nextjs</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

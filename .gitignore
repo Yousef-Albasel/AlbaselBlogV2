@@ -1,9 +1,2 @@
-public/*.html
-public/
 node_modules
-content/*.md
-content/*
-package-lock.json
-static/images/*
-!static/images/.gitkeep
 pages/

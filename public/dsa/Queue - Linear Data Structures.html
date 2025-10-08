@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Data structure - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a Computer Science student. I do computer graphics, AI and random programming stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 7 of 11</strong> in
+                    <a href="/dsa/">DSA</a>
+                </div>
+                <div class="series-progress">
+                    7/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>Queue Data structure</h1>
+                    <div class="post-meta">
+                        <time>2024-02-20</time>
+                        <span class="post-category">Algorithms</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/algorithms.png" alt="Queue Data structure" class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <p>Implementation for queue using a linked list</p>
+<pre><code class="language-c">#include &lt;iostream&gt;
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+};
+
+class Queue {
+    Node* front;
+    Node* rear;
+
+public:
+    Queue() {
+        front = rear = nullptr;
+    }
+
+    void push(int x);
+    int pop();
+    bool isEmpty();
+    int peek();
+};
+
+void Queue::push(int x) {
+    Node* newNode = new Node();
+    newNode-&gt;data = x;
+    newNode-&gt;next = nullptr;
+
+    if (rear == nullptr) {
+        front = rear = newNode;
+        return;
+    }
+
+    rear-&gt;next = newNode;
+    rear = newNode;
+    cout &lt;&lt; x &lt;&lt; &quot; pushed to queue&quot; &lt;&lt; endl;
+}
+
+int Queue::pop() {
+    if (front == nullptr) {
+        cout &lt;&lt; &quot;Queue Underflow&quot; &lt;&lt; endl;
+        return -1;
+    }
+
+    Node* temp = front;
+    front = front-&gt;next;
+
+    if (front == nullptr) {
+        rear = nullptr;
+    }
+
+    int popped = temp-&gt;data;
+    delete temp;
+    return popped;
+}
+
+bool Queue::isEmpty() {
+    return front == nullptr;
+}
+
+int Queue::peek() {
+    if (front == nullptr) {
+        cout &lt;&lt; &quot;Queue is Empty&quot; &lt;&lt; endl;
+        return -1;
+    }
+    return front-&gt;data;
+}
+
+int main() {
+    Queue q;
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    cout &lt;&lt; q.pop() &lt;&lt; &quot; popped from queue&quot; &lt;&lt; endl;
+    cout &lt;&lt; &quot;Front element is &quot; &lt;&lt; q.peek() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Queue is empty: &quot; &lt;&lt; (q.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+
+    return 0;
+}
+
+</code></pre>
+<h3>Queue Implementation using Array</h3>
+<pre><code class="language-c">#include &lt;iostream&gt;
+using namespace std;
+
+#define MAX 1000 // Define the maximum size of the queue
+
+class Queue {
+    int front, rear, size;
+    int arr[MAX];
+
+public:
+    Queue() {
+        front = size = 0;
+        rear = MAX - 1;
+    }
+
+    bool push(int x);
+    int pop();
+    bool isEmpty();
+    int peek();
+};
+
+bool Queue::push(int x) {
+    if (size == MAX) {
+        cout &lt;&lt; &quot;Queue Overflow&quot; &lt;&lt; endl;
+        return false;
+    }
+
+    rear = (rear + 1) % MAX;
+    arr[rear] = x;
+    size = size + 1;
+    cout &lt;&lt; x &lt;&lt; &quot; pushed to queue&quot; &lt;&lt; endl;
+    return true;
+}
+
+int Queue::pop() {
+    if (isEmpty()) {
+        cout &lt;&lt; &quot;Queue Underflow&quot; &lt;&lt; endl;
+        return -1;
+    }
+
+    int item = arr[front];
+    front = (front + 1) % MAX;
+    size = size - 1;
+    return item;
+}
+
+bool Queue::isEmpty() {
+    return (size == 0);
+}
+
+int Queue::peek() {
+    if (isEmpty()) {
+        cout &lt;&lt; &quot;Queue is Empty&quot; &lt;&lt; endl;
+        return -1;
+    }
+    return arr[front];
+}
+
+int main() {
+    Queue q;
+    q.push(10);
+    q.push(20);
+    q.push(30);
+    cout &lt;&lt; q.pop() &lt;&lt; &quot; popped from queue&quot; &lt;&lt; endl;
+    cout &lt;&lt; &quot;Front element is &quot; &lt;&lt; q.peek() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Queue is empty: &quot; &lt;&lt; (q.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/dsa/Merge Sort - Sorting Algorithms.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">Merge Sort</span>
+                        </a>
+                    
+                    
+                    
+                        <a href="/dsa/Quick Sort - Sorting Algorithms.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">Quick Sort</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/dsa/" class="back-link"><i class="fas fa-book"></i> Back to DSA</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>
