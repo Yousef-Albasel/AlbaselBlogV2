@@ -1,0 +1,18 @@
+{
+  "name": "Albasel",
+  "description": "Iam a Computer Science student. I do computer graphics, AI and random programming stuff.",
+  "email": "albaselofficial@gmail.com",
+  "avatar": "/images/avatar.jpeg",
+  "baseURL": "http://localhost:3001",
+  "theme": "blog",
+  "links": {
+    "About Me": { "href": "/about.html", "icon": "fa-solid fa-user" },
+    "Resume": { "href": "https://docs.google.com/document/d/1yiQhY42-XatCJrzF4TUqme9XgmEp08T45rANNqbRA3U/edit?tab=t.0", "icon": "fa-solid fa-file-alt" },
+    "Categories": { "href": "/categories.html", "icon": "fa-solid fa-list" }
+  },
+  "social": [
+    { "url": "albaselofficial@gmail.com", "icon": "fa-solid fa-envelope" },
+    { "url": "https://github.com/yousef-albasel", "icon": "fa-brands fa-github" },
+    { "url": "#", "icon": "fa-brands fa-twitter" }
+  ]
+}
