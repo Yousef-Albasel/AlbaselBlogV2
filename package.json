@@ -4,8 +4,8 @@
   "description": "A high performance Static-Site Generator (SSG) made for computer graphics researchers and enthusiasts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "vertex serve"
+  "build": "npx vertex build",
+  "start": "npx vertex serve"
   },
   "repository": {
     "type": "git",
