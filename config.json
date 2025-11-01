@@ -4,7 +4,7 @@
   "email": "albaselofficial@gmail.com",
   "avatar": "/images/avatar.jpeg",
   "baseURL": "http://localhost:3001",
-  "theme": "blog",
+  "theme": "minimal",
   "links": {
     "About Me": { "href": "/about.html", "icon": "fa-solid fa-user" },
     "Resume": { "href": "https://docs.google.com/document/d/1yiQhY42-XatCJrzF4TUqme9XgmEp08T45rANNqbRA3U/edit?tab=t.0", "icon": "fa-solid fa-file-alt" },
