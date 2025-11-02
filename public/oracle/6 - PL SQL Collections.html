@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 6 of 8</strong> in
+                    <strong>Part 6 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    6/8
+                    6/7
                 </div>
             </div>
             
@@ -170,7 +170,7 @@
 <li>Introducing nested tables</li>
 <li>Introducing VARRAY</li>
 </ul>
-<pre><code class="language-plsql">DECLARE
+<pre class="hljs"><code>DECLARE
 v_sal NUMBER;
 
 begin
@@ -178,7 +178,7 @@ SELECT salary INTO v_sal FROM employees;
 END
 </code></pre>
 <p>This will not work  because v_sal is not an array</p>
-<pre><code class="language-plsql">DECLARE
+<pre class="hljs"><code>DECLARE
 type arr is table of number index by pls_integer;
 my_arr arr;
 BEGIN
@@ -188,7 +188,7 @@ BEGIN
 END
 </code></pre>
 <p>Arrays methods</p>
-<pre><code class="language-plsql">array.first
+<pre class="hljs"><code>array.first
 array.last
 array.count
 array.prior -- previous index

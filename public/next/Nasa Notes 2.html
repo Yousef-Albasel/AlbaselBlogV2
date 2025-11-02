@@ -156,7 +156,7 @@
                 <header class="post-header">
                     <h1>Nasa Notes 2</h1>
                     <div class="post-meta">
-                        <time>2025-10-08</time>
+                        <time>2025-11-02</time>
                         
                         <span class="series-tag"><i class="fas fa-book"></i> Series</span>
                     </div>
@@ -189,8 +189,8 @@ from <strong>raw Kepler light curve FITS/CSV → labels → preprocessing → fe
 </li>
 </ul>
 <p><strong>Example (after load):</strong></p>
-<pre><code class="language-python">time.shape -&gt; (30000,)
-flux.shape -&gt; (30000,)
+<pre class="hljs"><code>time.shape -&gt; (<span class="hljs-number">30000</span>,)
+flux.shape -&gt; (<span class="hljs-number">30000</span>,)
 </code></pre>
 <hr>
 <h2>Step 2. Get labels</h2>
@@ -265,12 +265,12 @@ flux.shape -&gt; (30000,)
 <li>Extract: <code>period</code>, <code>depth</code>, <code>duration</code>, <code>epoch</code>.</li>
 </ul>
 <p><strong>Output shape:</strong></p>
-<pre><code class="language-json">{
-  &quot;period&quot;: float,
-  &quot;depth&quot;: float,
-  &quot;duration&quot;: float,
-  &quot;epoch&quot;: float
-}
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;period&quot;</span><span class="hljs-punctuation">:</span> float<span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;depth&quot;</span><span class="hljs-punctuation">:</span> float<span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;duration&quot;</span><span class="hljs-punctuation">:</span> float<span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;epoch&quot;</span><span class="hljs-punctuation">:</span> float
+<span class="hljs-punctuation">}</span>
 </code></pre>
 <hr>
 <h2>Step 5. Feature extraction</h2>
@@ -367,13 +367,13 @@ flux.shape -&gt; (30000,)
 <li>Metrics: ROC AUC, PR curve, confusion matrix.</li>
 <li>Expected outputs:</li>
 </ul>
-<pre><code class="language-json">{
-  &quot;roc_auc&quot;: 0.93,
-  &quot;precision&quot;: 0.88,
-  &quot;recall&quot;: 0.84,
-  &quot;f1&quot;: 0.86,
-  &quot;confusion_matrix&quot;: [[TN, FP], [FN, TP]]
-}
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;roc_auc&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.93</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;precision&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.88</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;recall&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.84</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;f1&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.86</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;confusion_matrix&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">[</span>TN<span class="hljs-punctuation">,</span> FP<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-punctuation">[</span>FN<span class="hljs-punctuation">,</span> TP<span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
 <hr>
 <h2>Step 9. Save artifacts</h2>

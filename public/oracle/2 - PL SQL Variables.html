@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 2 of 8</strong> in
+                    <strong>Part 2 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    2/8
+                    2/7
                 </div>
             </div>
             
@@ -166,50 +166,50 @@
                 <div class="post-content">
                     <h1>2 - PL SQL Variables</h1>
 <p>We assign variables similar to how we define the table in SQL, by writing the name of the variable then the type we could also make a default value for it, then re-assign it inside the BEGIN block</p>
-<pre><code class="language-sql">DECLARE
-  v_first varchar2(20):= 'Ask Gad';
-BEGIN
-  dbms_output.put_line('The value of v_first is:'||v_first);
-END;
-/
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_first varchar2(<span class="hljs-number">20</span>):<span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Ask Gad&#x27;</span>;
+<span class="hljs-keyword">BEGIN</span>
+  dbms_output.put_line(<span class="hljs-string">&#x27;The value of v_first is:&#x27;</span><span class="hljs-operator">||</span>v_first);
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>Or we can assign different variables like</p>
-<pre><code class="language-sql">DECLARE
-  v_first varchar2(20):= 'Ask Gad';
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_first varchar2(<span class="hljs-number">20</span>):<span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Ask Gad&#x27;</span>;
   v_num number;
-  v_date date := sysdate+7;
-  v_valid BOOLEAN := TRUE;
-  v_COMM CONSTANT NUMBER := 200;
-BEGIN
-  dbms_output.put_line('The value of v_first is:'||v_first ||' And Date is '||v_date);
+  v_date <span class="hljs-type">date</span> :<span class="hljs-operator">=</span> sysdate<span class="hljs-operator">+</span><span class="hljs-number">7</span>;
+  v_valid <span class="hljs-type">BOOLEAN</span> :<span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span>;
+  v_COMM CONSTANT NUMBER :<span class="hljs-operator">=</span> <span class="hljs-number">200</span>;
+<span class="hljs-keyword">BEGIN</span>
+  dbms_output.put_line(<span class="hljs-string">&#x27;The value of v_first is:&#x27;</span><span class="hljs-operator">||</span>v_first <span class="hljs-operator">||</span><span class="hljs-string">&#x27; And Date is &#x27;</span><span class="hljs-operator">||</span>v_date);
   
-END;
-/
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>Or we can load data into variables from actual database</p>
-<pre><code class="language-sql">DECLARE
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
   v_salary number;
-BEGIN
-  SELECT salary 
-  INTO v_salary 
-  FROM employees 
-  WHERE employee_id = 100;
+<span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-keyword">SELECT</span> salary 
+  <span class="hljs-keyword">INTO</span> v_salary 
+  <span class="hljs-keyword">FROM</span> employees 
+  <span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;
   
-  v_comm := v_salary*.2;  
-END;
-/
+  v_comm :<span class="hljs-operator">=</span> v_salary<span class="hljs-operator">*</span><span class="hljs-number">.2</span>;  
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <h3>Bind Variables</h3>
 <p>v_salary is only accessed within the declare-begin-end block, a bind variable is different</p>
-<pre><code class="language-sql">VARIABLE v_salary number
-BEGIN
-  SELECT salary 
-  INTO v_salary 
-  FROM employees 
-  WHERE employee_id = 100;
+<pre class="hljs"><code>VARIABLE v_salary number
+<span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-keyword">SELECT</span> salary 
+  <span class="hljs-keyword">INTO</span> v_salary 
+  <span class="hljs-keyword">FROM</span> employees 
+  <span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;
   
-  v_comm := v_salary*.2;  
-END;
+  v_comm :<span class="hljs-operator">=</span> v_salary<span class="hljs-operator">*</span><span class="hljs-number">.2</span>;  
+<span class="hljs-keyword">END</span>;
 print v_salary;
 </code></pre>
 

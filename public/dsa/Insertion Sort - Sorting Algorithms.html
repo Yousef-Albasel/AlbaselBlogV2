@@ -173,14 +173,14 @@
 one less than the number of comparisons or, when the
 new value is the smallest so far, the same as the number
 of comparisons</p>
-<pre><code class="language-c">void insertionSort(vector&lt;int&gt; &amp;v, int n)
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">insertionSort</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt; &amp;v, <span class="hljs-type">int</span> n)</span>
 {
-  for (int i = 1, j; i &lt; n; i++)
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>, j; i &lt; n; i++)
   {
-    int temp = v[i];
-    for (j = i; j &gt; 0 &amp;&amp; temp &lt; v[j - 1]; j--)
+    <span class="hljs-type">int</span> temp = v[i];
+    <span class="hljs-keyword">for</span> (j = i; j &gt; <span class="hljs-number">0</span> &amp;&amp; temp &lt; v[j - <span class="hljs-number">1</span>]; j--)
     {
-      v[j] = v[j - 1];
+      v[j] = v[j - <span class="hljs-number">1</span>];
     }
     v[j] = temp;
   }

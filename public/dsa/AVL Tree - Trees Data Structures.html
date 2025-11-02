@@ -166,199 +166,199 @@
                 </header>
                 
                 <div class="post-content">
-                    <pre><code class="language-c">#include &lt;iostream&gt;
-#include &lt;queue&gt;
-#include &lt;algorithm&gt;
+                    <pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
 
-class AVLTreeNode {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AVLTreeNode</span> {</span>
 public:
-    int key;
+    <span class="hljs-type">int</span> key;
     AVLTreeNode* left;
     AVLTreeNode* right;
-    int height;
+    <span class="hljs-type">int</span> height;
 
-    AVLTreeNode(int key) : key(key), left(nullptr), right(nullptr), height(1) {}
+    AVLTreeNode(<span class="hljs-type">int</span> key) : key(key), left(nullptr), right(nullptr), height(<span class="hljs-number">1</span>) {}
 };
 
-class AVLTree {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AVLTree</span> {</span>
 private:
     AVLTreeNode* root;
 
 public:
     AVLTree() : root(nullptr) {}
 
-    AVLTreeNode* insert(AVLTreeNode* node, const int&amp; key);
-    AVLTreeNode* remove(AVLTreeNode* node, const int&amp; key);
-    int getHeight(AVLTreeNode* node);
-    int getBalanceFactor(AVLTreeNode* node);
-    AVLTreeNode* rotateRight(AVLTreeNode* node);
-    AVLTreeNode* rotateLeft(AVLTreeNode* node);
-    void visit(AVLTreeNode* node);
-    void breadthFirstSearch();
-    void DFSInOrder(AVLTreeNode* node);
-    void DFSPreOrder(AVLTreeNode* node);
-    void DFSPostOrder(AVLTreeNode* node);
-    void depthFirstSearch();
-    AVLTreeNode* findNode(AVLTreeNode* node, const int&amp; key);
-    AVLTreeNode* findMinNode(AVLTreeNode* node);
+    AVLTreeNode* <span class="hljs-title function_">insert</span><span class="hljs-params">(AVLTreeNode* node, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; key)</span>;
+    AVLTreeNode* <span class="hljs-title function_">remove</span><span class="hljs-params">(AVLTreeNode* node, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; key)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">getHeight</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">getBalanceFactor</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    AVLTreeNode* <span class="hljs-title function_">rotateRight</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    AVLTreeNode* <span class="hljs-title function_">rotateLeft</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">visit</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">breadthFirstSearch</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">DFSInOrder</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">DFSPreOrder</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">DFSPostOrder</span><span class="hljs-params">(AVLTreeNode* node)</span>;
+    <span class="hljs-type">void</span> <span class="hljs-title function_">depthFirstSearch</span><span class="hljs-params">()</span>;
+    AVLTreeNode* <span class="hljs-title function_">findNode</span><span class="hljs-params">(AVLTreeNode* node, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; key)</span>;
+    AVLTreeNode* <span class="hljs-title function_">findMinNode</span><span class="hljs-params">(AVLTreeNode* node)</span>;
 };
 
-int AVLTree::getHeight(AVLTreeNode* node) {
-    if (node == nullptr) return 0;
-    return node-&gt;height;
+<span class="hljs-type">int</span> <span class="hljs-title function_">AVLTree::getHeight</span><span class="hljs-params">(AVLTreeNode* node)</span> {
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> node-&gt;height;
 }
 
-int AVLTree::getBalanceFactor(AVLTreeNode* node) {
-    if (node == nullptr) return 0;
-    return getHeight(node-&gt;left) - getHeight(node-&gt;right);
+<span class="hljs-type">int</span> <span class="hljs-title function_">AVLTree::getBalanceFactor</span><span class="hljs-params">(AVLTreeNode* node)</span> {
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> getHeight(node-&gt;left) - getHeight(node-&gt;right);
 }
 
-AVLTreeNode* AVLTree::rotateRight(AVLTreeNode* y) {
+AVLTreeNode* <span class="hljs-title function_">AVLTree::rotateRight</span><span class="hljs-params">(AVLTreeNode* y)</span> {
     AVLTreeNode* x = y-&gt;left;
     AVLTreeNode* T2 = x-&gt;right;
 
     x-&gt;right = y;
     y-&gt;left = T2;
 
-    y-&gt;height = 1 + std::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
-    x-&gt;height = 1 + std::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
+    y-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
+    x-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
 
-    return x;
+    <span class="hljs-keyword">return</span> x;
 }
 
-AVLTreeNode* AVLTree::rotateLeft(AVLTreeNode* x) {
+AVLTreeNode* <span class="hljs-title function_">AVLTree::rotateLeft</span><span class="hljs-params">(AVLTreeNode* x)</span> {
     AVLTreeNode* y = x-&gt;right;
     AVLTreeNode* T2 = y-&gt;left;
 
     y-&gt;left = x;
     x-&gt;right = T2;
 
-    x-&gt;height = 1 + std::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
-    y-&gt;height = 1 + std::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
+    x-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(x-&gt;left), getHeight(x-&gt;right));
+    y-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(y-&gt;left), getHeight(y-&gt;right));
 
-    return y;
+    <span class="hljs-keyword">return</span> y;
 }
 
-AVLTreeNode* AVLTree::insert(AVLTreeNode* node, const int&amp; key) {
-    if (node == nullptr) return new AVLTreeNode(key);
+AVLTreeNode* <span class="hljs-title function_">AVLTree::insert</span><span class="hljs-params">(AVLTreeNode* node, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; key)</span> {
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> new AVLTreeNode(key);
 
-    if (key &lt; node-&gt;key) {
+    <span class="hljs-keyword">if</span> (key &lt; node-&gt;key) {
         node-&gt;left = insert(node-&gt;left, key);
-    } else if (key &gt; node-&gt;key) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &gt; node-&gt;key) {
         node-&gt;right = insert(node-&gt;right, key);
-    } else {
-        return node; // Duplicate keys are not allowed
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> node; <span class="hljs-comment">// Duplicate keys are not allowed</span>
     }
 
-    node-&gt;height = 1 + std::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
+    node-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
 
-    int balance = getBalanceFactor(node);
+    <span class="hljs-type">int</span> balance = getBalanceFactor(node);
 
-    // Left Left Case
-    if (balance &gt; 1 &amp;&amp; key &lt; node-&gt;left-&gt;key)
-        return rotateRight(node);
+    <span class="hljs-comment">// Left Left Case</span>
+    <span class="hljs-keyword">if</span> (balance &gt; <span class="hljs-number">1</span> &amp;&amp; key &lt; node-&gt;left-&gt;key)
+        <span class="hljs-keyword">return</span> rotateRight(node);
 
-    // Right Right Case
-    if (balance &lt; -1 &amp;&amp; key &gt; node-&gt;right-&gt;key)
-        return rotateLeft(node);
+    <span class="hljs-comment">// Right Right Case</span>
+    <span class="hljs-keyword">if</span> (balance &lt; <span class="hljs-number">-1</span> &amp;&amp; key &gt; node-&gt;right-&gt;key)
+        <span class="hljs-keyword">return</span> rotateLeft(node);
 
-    // Left Right Case
-    if (balance &gt; 1 &amp;&amp; key &gt; node-&gt;left-&gt;key) {
+    <span class="hljs-comment">// Left Right Case</span>
+    <span class="hljs-keyword">if</span> (balance &gt; <span class="hljs-number">1</span> &amp;&amp; key &gt; node-&gt;left-&gt;key) {
         node-&gt;left = rotateLeft(node-&gt;left);
-        return rotateRight(node);
+        <span class="hljs-keyword">return</span> rotateRight(node);
     }
 
-    // Right Left Case
-    if (balance &lt; -1 &amp;&amp; key &lt; node-&gt;right-&gt;key) {
+    <span class="hljs-comment">// Right Left Case</span>
+    <span class="hljs-keyword">if</span> (balance &lt; <span class="hljs-number">-1</span> &amp;&amp; key &lt; node-&gt;right-&gt;key) {
         node-&gt;right = rotateRight(node-&gt;right);
-        return rotateLeft(node);
+        <span class="hljs-keyword">return</span> rotateLeft(node);
     }
 
-    return node;
+    <span class="hljs-keyword">return</span> node;
 }
 
-AVLTreeNode* AVLTree::remove(AVLTreeNode* node, const int&amp; key) {
-    if (node == nullptr) return node;
+AVLTreeNode* <span class="hljs-title function_">AVLTree::remove</span><span class="hljs-params">(AVLTreeNode* node, <span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; key)</span> {
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> node;
 
-    if (key &lt; node-&gt;key) {
+    <span class="hljs-keyword">if</span> (key &lt; node-&gt;key) {
         node-&gt;left = remove(node-&gt;left, key);
-    } else if (key &gt; node-&gt;key) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &gt; node-&gt;key) {
         node-&gt;right = remove(node-&gt;right, key);
-    } else {
-        if (node-&gt;left == nullptr || node-&gt;right == nullptr) {
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (node-&gt;left == nullptr || node-&gt;right == nullptr) {
             AVLTreeNode* temp = node-&gt;left ? node-&gt;left : node-&gt;right;
-            if (temp == nullptr) {
+            <span class="hljs-keyword">if</span> (temp == nullptr) {
                 temp = node;
                 node = nullptr;
-            } else {
-                *node = *temp; // Copy the contents of temp to node
+            } <span class="hljs-keyword">else</span> {
+                *node = *temp; <span class="hljs-comment">// Copy the contents of temp to node</span>
             }
             delete temp;
-        } else {
+        } <span class="hljs-keyword">else</span> {
             AVLTreeNode* temp = findMinNode(node-&gt;right);
             node-&gt;key = temp-&gt;key;
             node-&gt;right = remove(node-&gt;right, temp-&gt;key);
         }
     }
 
-    if (node == nullptr) return node;
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> node;
 
-    node-&gt;height = 1 + std::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
+    node-&gt;height = <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(getHeight(node-&gt;left), getHeight(node-&gt;right));
 
-    int balance = getBalanceFactor(node);
+    <span class="hljs-type">int</span> balance = getBalanceFactor(node);
 
-    // Left Left Case
-    if (balance &gt; 1 &amp;&amp; getBalanceFactor(node-&gt;left) &gt;= 0)
-        return rotateRight(node);
+    <span class="hljs-comment">// Left Left Case</span>
+    <span class="hljs-keyword">if</span> (balance &gt; <span class="hljs-number">1</span> &amp;&amp; getBalanceFactor(node-&gt;left) &gt;= <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> rotateRight(node);
 
-    // Left Right Case
-    if (balance &gt; 1 &amp;&amp; getBalanceFactor(node-&gt;left) &lt; 0) {
+    <span class="hljs-comment">// Left Right Case</span>
+    <span class="hljs-keyword">if</span> (balance &gt; <span class="hljs-number">1</span> &amp;&amp; getBalanceFactor(node-&gt;left) &lt; <span class="hljs-number">0</span>) {
         node-&gt;left = rotateLeft(node-&gt;left);
-        return rotateRight(node);
+        <span class="hljs-keyword">return</span> rotateRight(node);
     }
 
-    // Right Right Case
-    if (balance &lt; -1 &amp;&amp; getBalanceFactor(node-&gt;right) &lt;= 0)
-        return rotateLeft(node);
+    <span class="hljs-comment">// Right Right Case</span>
+    <span class="hljs-keyword">if</span> (balance &lt; <span class="hljs-number">-1</span> &amp;&amp; getBalanceFactor(node-&gt;right) &lt;= <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> rotateLeft(node);
 
-    // Right Left Case
-    if (balance &lt; -1 &amp;&amp; getBalanceFactor(node-&gt;right) &gt; 0) {
+    <span class="hljs-comment">// Right Left Case</span>
+    <span class="hljs-keyword">if</span> (balance &lt; <span class="hljs-number">-1</span> &amp;&amp; getBalanceFactor(node-&gt;right) &gt; <span class="hljs-number">0</span>) {
         node-&gt;right = rotateRight(node-&gt;right);
-        return rotateLeft(node);
+        <span class="hljs-keyword">return</span> rotateLeft(node);
     }
 
-    return node;
+    <span class="hljs-keyword">return</span> node;
 }
 
-AVLTreeNode* AVLTree::findMinNode(AVLTreeNode* node) {
-    if (node == nullptr) return nullptr;
-    while (node-&gt;left != nullptr) {
+AVLTreeNode* <span class="hljs-title function_">AVLTree::findMinNode</span><span class="hljs-params">(AVLTreeNode* node)</span> {
+    <span class="hljs-keyword">if</span> (node == nullptr) <span class="hljs-keyword">return</span> nullptr;
+    <span class="hljs-keyword">while</span> (node-&gt;left != nullptr) {
         node = node-&gt;left;
     }
-    return node;
+    <span class="hljs-keyword">return</span> node;
 }
 
-// Other member functions remain the same
+<span class="hljs-comment">// Other member functions remain the same</span>
 
-int main() {
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
     AVLTree avl;
 
-    // Test AVL tree operations
-    avl.insert(avl.root, 10);
-    avl.insert(avl.root, 20);
-    avl.insert(avl.root, 30);
-    avl.insert(avl.root, 40);
-    avl.insert(avl.root, 50);
+    <span class="hljs-comment">// Test AVL tree operations</span>
+    avl.insert(avl.root, <span class="hljs-number">10</span>);
+    avl.insert(avl.root, <span class="hljs-number">20</span>);
+    avl.insert(avl.root, <span class="hljs-number">30</span>);
+    avl.insert(avl.root, <span class="hljs-number">40</span>);
+    avl.insert(avl.root, <span class="hljs-number">50</span>);
 
-    std::cout &lt;&lt; &quot;Inorder traversal of AVL tree after insertions:\n&quot;;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Inorder traversal of AVL tree after insertions:\n&quot;</span>;
     avl.DFSInOrder(avl.root);
-    std::cout &lt;&lt; std::endl;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
 
-    avl.remove(avl.root, 30);
+    avl.remove(avl.root, <span class="hljs-number">30</span>);
 
-    std::cout &lt;&lt; &quot;Inorder traversal of AVL tree after removal of 
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Inorder traversal of AVL tree after removal of 
 
-</code></pre>
+</span></code></pre>
 
                 </div>
                 

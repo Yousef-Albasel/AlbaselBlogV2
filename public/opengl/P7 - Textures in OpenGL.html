@@ -168,25 +168,25 @@
                 <div class="post-content">
                     <h3>Textures in OpenGL</h3>
 <p>All the code we need to assign a texture to a rectangle is as follows :</p>
-<pre><code class="language-c">unsigned int texture;
-    glGenTextures(1, &amp;texture);
+<pre class="hljs"><code><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> texture;
+    glGenTextures(<span class="hljs-number">1</span>, &amp;texture);
     glBindTexture(GL_TEXTURE_2D, texture);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
+    <span class="hljs-comment">// set the texture wrapping/filtering options (on the currently bound texture object)</span>
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load and generate the texture
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(&quot;src/container.jpg&quot;, &amp;width, &amp;height, &amp;nrChannels, 0);
-    if (data)
+    <span class="hljs-comment">// load and generate the texture</span>
+    <span class="hljs-type">int</span> width, height, nrChannels;
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* data = stbi_load(<span class="hljs-string">&quot;src/container.jpg&quot;</span>, &amp;width, &amp;height, &amp;nrChannels, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, <span class="hljs-number">0</span>, GL_RGB, width, height, <span class="hljs-number">0</span>, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
-    else
+    <span class="hljs-keyword">else</span>
     {
-        std::cout &lt;&lt; &quot;Failed to load texture&quot; &lt;&lt; std::endl;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Failed to load texture&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
     }
     stbi_image_free(data);
 
@@ -204,7 +204,7 @@
 <blockquote>
 <p>Specified in our code here</p>
 </blockquote>
-<pre><code class="language-c">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+<pre class="hljs"><code>glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 </code></pre>
 <p><img src="https://open.gl/media/img/c3_clamping.png" alt=""></p>
@@ -214,7 +214,7 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 <p><strong>GL_LINEAR</strong> (also known as (bi)linear filtering) takes an interpolated value from the texture coordinate’s neighboring texels, approximating a color between the texels. The smaller the distance from the texture coordinate to a texel’s center, the more that texel’s color contributes to the sampled color. Below we can see that a mixed color of the neighboring pixels is returned:</p>
 <p><img src="https://www.hiperaktif.org/uploads/articles/textureoutput55649.jpg" alt=""></p>
 <p><img src="https://slideplayer.com/slide/17906772/108/images/43/Bi-linear+filtering+%28GL_LINEAR%29.jpg" alt=""></p>
-<pre><code class="language-c">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+<pre class="hljs"><code>glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 
 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -228,17 +228,17 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 <strong>GL_LINEAR_MIPMAP_LINEAR</strong> : linearly interpolates between the two closest mipmaps and samples the interpolated level via linear interpolation.</p>
 <p><img src="https://f.hubspotusercontent10.net/hubfs/2426966/Imported_Blog_Media/example_mipmap_chain-1.png" alt=""></p>
 <hr>
-<pre><code class="language-c">    // load and generate the texture
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(&quot;src/container.jpg&quot;, &amp;width, &amp;height, &amp;nrChannels, 0);
-    if (data)
+<pre class="hljs"><code>    <span class="hljs-comment">// load and generate the texture</span>
+    <span class="hljs-type">int</span> width, height, nrChannels;
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* data = stbi_load(<span class="hljs-string">&quot;src/container.jpg&quot;</span>, &amp;width, &amp;height, &amp;nrChannels, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, <span class="hljs-number">0</span>, GL_RGB, width, height, <span class="hljs-number">0</span>, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
-    else
+    <span class="hljs-keyword">else</span>
     {
-        std::cout &lt;&lt; &quot;Failed to load texture&quot; &lt;&lt; std::endl;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Failed to load texture&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
     }
     stbi_image_free(data);
 </code></pre>

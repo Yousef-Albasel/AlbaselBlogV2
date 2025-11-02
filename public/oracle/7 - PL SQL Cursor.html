@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 7 of 8</strong> in
+                    <strong>Part 7 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    7/8
+                    7/7
                 </div>
             </div>
             
@@ -216,7 +216,7 @@ Used for:</p>
 </ul>
 <h2>FOR UPDATE</h2>
 <p>This keyword locks the records a cursor is selecting until you finish working on the query.</p>
-<pre><code class="language-plsql">DECLARE 
+<pre class="hljs"><code>DECLARE 
 cursor c_emp is
        SELECT * FROM Employee WHERE Department_id = 30 FOR UPDATE
 BEGIN
@@ -232,20 +232,20 @@ END
 <h2>Current of (VERY IMPORTANT)</h2>
 <p>Imagine a case where you have a table EMP that has 2 duplicate employees with same name and same salary
 when you write a sql cursor loop</p>
-<pre><code class="language-sql">DECLARE
-cursor c_emp is
-select * from EMP for update;
-BEGIN
-FOR row in c_emp 
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+<span class="hljs-keyword">cursor</span> c_emp <span class="hljs-keyword">is</span>
+<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> EMP <span class="hljs-keyword">for</span> <span class="hljs-keyword">update</span>;
+<span class="hljs-keyword">BEGIN</span>
+<span class="hljs-keyword">FOR</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> c_emp 
 LOOP
-update EMP set salary = salary + 1000
-    where name = row.name;
-END LOOP;
-END
+<span class="hljs-keyword">update</span> EMP <span class="hljs-keyword">set</span> salary <span class="hljs-operator">=</span> salary <span class="hljs-operator">+</span> <span class="hljs-number">1000</span>
+    <span class="hljs-keyword">where</span> name <span class="hljs-operator">=</span> row.name;
+<span class="hljs-keyword">END</span> LOOP;
+<span class="hljs-keyword">END</span>
 
 </code></pre>
 <p>This code will give you a problem because it loops and uses update statments which loops again to find a row that matches the name from your cursor, making it n^2 complexity in addition to it will increase the salary twice for duplicate names to fix this we use where current</p>
-<pre><code class="language-plsql">CURSOR c_emp IS
+<pre class="hljs"><code>CURSOR c_emp IS
   SELECT * FROM emp FOR UPDATE;
 
 FOR row IN c_emp LOOP
@@ -268,10 +268,7 @@ END
                     
                     
                     
-                        <a href="/oracle/new-file.html" class="nav-link" style="text-align: right;">
-                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
-                            <span class="nav-link-title">new file</span>
-                        </a>
+                        <div class="nav-placeholder"></div>
                     
                 </nav>
                 

@@ -168,56 +168,56 @@
 <ul>
 <li>Server Side Rendering (SSR)</li>
 </ul>
-<pre><code class="language-js">async function Page({params}) {
- const res = await fetch(
- 'https://../posts/${params.id},
- {cache:'no-store'} &lt;-- server side, refetches every time.
+<pre class="hljs"><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params">{params}</span>) {
+ <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(
+ <span class="hljs-string">&#x27;https://../posts/${params.id},
+ {cache:&#x27;</span>no-store<span class="hljs-string">&#x27;} &lt;-- server side, refetches every time.
  );
 const data = await res.json();
 return ( use data here)
 }
-</code></pre>
+</span></code></pre>
 <ul>
 <li>Static Site Generation (SSG)
 by default, next js caches the data it fetches.</li>
 </ul>
-<pre><code class="language-js">async function Page({params}) {
- const res = await fetch(
- 'https://../posts/${params.id},
+<pre class="hljs"><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params">{params}</span>) {
+ <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(
+ <span class="hljs-string">&#x27;https://../posts/${params.id},
  );
 return ( use data here)
 }
-</code></pre>
+</span></code></pre>
 <ul>
 <li>Incremental Static Generation (ISG)</li>
 </ul>
-<pre><code class="language-js">async function Page({params}) {
- const res = await fetch(
- 'https://../posts/${params.id},
+<pre class="hljs"><code><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params">{params}</span>) {
+ <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(
+ <span class="hljs-string">&#x27;https://../posts/${params.id},
  {next: {revalidate:10} } /*&lt;-- Combines the benefits from SSR and SSG, you can specify certain
  data to be statically fetched and build time and
 revalidated each time interval*/  );
 return ( use data here)
 }
-</code></pre>
+</span></code></pre>
 <p>To make API routes, we depend on api folder, and we create route.js to implement RestfulAPIs</p>
-<pre><code class="language-js">export async function GET(request){
-const users = [
-{id:1,name:'john}
+<pre class="hljs"><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">GET</span>(<span class="hljs-params">request</span>){
+<span class="hljs-keyword">const</span> users = [
+{<span class="hljs-attr">id</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">name</span>:<span class="hljs-string">&#x27;john}
 ];
 return new Response(JSON.stringify(users))
 }
-</code></pre>
-<pre><code class="language-js">export async function HEAD(request){
+</span></code></pre>
+<pre class="hljs"><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">HEAD</span>(<span class="hljs-params">request</span>){
 }
 </code></pre>
-<pre><code class="language-js">export async function POST(request){
+<pre class="hljs"><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">POST</span>(<span class="hljs-params">request</span>){
 }
 </code></pre>
-<pre><code class="language-js">export async function PUT(request){
+<pre class="hljs"><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">PUT</span>(<span class="hljs-params">request</span>){
 }
 </code></pre>
-<pre><code class="language-js">export async function DELETE(request){
+<pre class="hljs"><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">DELETE</span>(<span class="hljs-params">request</span>){
 }
 </code></pre>
 

@@ -175,48 +175,48 @@ Total running time: <strong>Θ(nlogn)</strong></p>
 the output sequence</p>
 <p>The array cannot be merged in place</p>
 <p>Additional space usage is <strong>O(n)</strong></p>
-<pre><code class="language-c">#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;algorithm&gt;
-using namespace std;
-void merge(int arr[], int left, int middle, int right);
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
+<span class="hljs-type">void</span> <span class="hljs-title function_">merge</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> middle, <span class="hljs-type">int</span> right)</span>;
 
-void mergeSort(int arr[], int left, int right)
+<span class="hljs-type">void</span> <span class="hljs-title function_">mergeSort</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>
 {
-    if (left &gt;= right)
-        return;
+    <span class="hljs-keyword">if</span> (left &gt;= right)
+        <span class="hljs-keyword">return</span>;
 
-    int middle = (left + right) / 2;
+    <span class="hljs-type">int</span> middle = (left + right) / <span class="hljs-number">2</span>;
     mergeSort(arr, left, middle);
-    mergeSort(arr, middle + 1, right);
+    mergeSort(arr, middle + <span class="hljs-number">1</span>, right);
     merge(arr, left, middle, right);
 }
 
-void merge(int arr[], int left, int middle, int right)
+<span class="hljs-type">void</span> <span class="hljs-title function_">merge</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> middle, <span class="hljs-type">int</span> right)</span>
 {
-    int n1 = middle - left + 1;
-    int n2 = right - middle;
-    int *leftArr = new int[n1];
-    int *rightArr = new int[n2];
+    <span class="hljs-type">int</span> n1 = middle - left + <span class="hljs-number">1</span>;
+    <span class="hljs-type">int</span> n2 = right - middle;
+    <span class="hljs-type">int</span> *leftArr = new <span class="hljs-type">int</span>[n1];
+    <span class="hljs-type">int</span> *rightArr = new <span class="hljs-type">int</span>[n2];
 
-    // now copy elements into these array
+    <span class="hljs-comment">// now copy elements into these array</span>
 
-    for (int i = 0; i &lt; n1; i++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n1; i++)
         leftArr[i] = arr[i + left];
 
-    for (int i = 0; i &lt; n2; i++)
-        rightArr[i] = arr[i + middle + 1];
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n2; i++)
+        rightArr[i] = arr[i + middle + <span class="hljs-number">1</span>];
 
-    int r = 0, l = 0, k = left; // ptrs for each sub array
+    <span class="hljs-type">int</span> r = <span class="hljs-number">0</span>, l = <span class="hljs-number">0</span>, k = left; <span class="hljs-comment">// ptrs for each sub array</span>
 
-    while (l &lt; n1 &amp;&amp; r &lt; n2)
+    <span class="hljs-keyword">while</span> (l &lt; n1 &amp;&amp; r &lt; n2)
     {
-        if (leftArr[l] &lt; rightArr[r])
+        <span class="hljs-keyword">if</span> (leftArr[l] &lt; rightArr[r])
         {
             arr[k] = leftArr[l];
             l++;
         }
-        else
+        <span class="hljs-keyword">else</span>
         {
             arr[k] = rightArr[r];
             r++;
@@ -224,9 +224,9 @@ void merge(int arr[], int left, int middle, int right)
         k++;
     }
 
-    while (l &lt; n1)
+    <span class="hljs-keyword">while</span> (l &lt; n1)
         arr[k] = leftArr[l], k++, l++;
-    while (r &lt; n2)
+    <span class="hljs-keyword">while</span> (r &lt; n2)
         arr[k] = rightArr[r], k++, r++;
 
     delete[] leftArr;

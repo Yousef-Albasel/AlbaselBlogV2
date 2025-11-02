@@ -167,23 +167,23 @@
                     <h1>NextJS Notes 1</h1>
 <h3>Special Next.js pages and features:</h3>
 <p>Dynamic Routing In React:</p>
-<pre><code class="language-js">&lt;Router&gt;
- &lt;Routes&gt;
-  &lt;Route path='/' element={&lt;Home /&gt;}/&gt;
-  &lt;Route path='posts' element={&lt;Posts /&gt;}&gt;
-    &lt;Route path='/new' element={&lt;NewPost/&gt;}/&gt;  {}
-    &lt;Route path=':postId' element={&lt;Post /&gt;} /&gt; {} /*Dynamic*/
-  &lt;/Route&gt;
-&lt;/Routes&gt;
-&lt;/Router&gt;
+<pre class="hljs"><code>&lt;<span class="hljs-title class_">Router</span>&gt;
+ <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Home</span> /&gt;</span>}/&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;posts&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Posts</span> /&gt;</span>}&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;/new&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">NewPost</span>/&gt;</span>}/&gt;  {}
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&#x27;:postId&#x27;</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Post</span> /&gt;</span>} /&gt; {} /*Dynamic*/
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Route</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span></span>
+&lt;/<span class="hljs-title class_">Router</span>&gt;
 </code></pre>
 <p>Dynamic Routing in Next.js:
 We create a new folder callid [postId], inside this we create a page.js</p>
-<pre><code class="language-js">/*page.js*/
-import React from 'react'
-const page = () = &gt;{
-return (
-&lt;div&gt;{postId}&lt;/div&gt;
+<pre class="hljs"><code><span class="hljs-comment">/*page.js*/</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">const</span> page = () = &gt;{
+<span class="hljs-keyword">return</span> (
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{postId}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
  )
 }
 </code></pre>
@@ -191,20 +191,20 @@ return (
 <h3>Error Handling</h3>
 <p>we need  to create an error.js file
 it might look something like this</p>
-<pre><code class="language-js">'use client'
-import {useEffect} from 'react';
-const Error = ({error,reset}) =&gt; {
-useEffect(()=&gt;{
-console.error(error);
+<pre class="hljs"><code><span class="hljs-string">&#x27;use client&#x27;</span>
+<span class="hljs-keyword">import</span> {useEffect} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">Error</span> = (<span class="hljs-params">{error,reset}</span>) =&gt; {
+<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">()=&gt;</span>{
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
 },[error]);
-return (
-  &lt;div&gt;
-    &lt;h2&gt; Something went wrong! &lt;/h2&gt;
-    &lt;button onClick={()=&gt;reset()}&gt;
-  &lt;/div&gt;  
+<span class="hljs-keyword">return</span> (
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span> Something went wrong! <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span>=&gt;</span>reset()}&gt;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>  
  )
 }
-</code></pre>
+</span></code></pre>
 
                 </div>
                 

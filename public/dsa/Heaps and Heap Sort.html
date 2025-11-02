@@ -200,50 +200,50 @@
 <li>Priority queues</li>
 </ul>
 <p><strong>1 - Max Heapify</strong></p>
-<pre><code class="language-cpp">  
+<pre class="hljs"><code>  
 
-void MaxHeap::MaxHeapify(int i, int n)
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">MaxHeap::MaxHeapify</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> n)</span>
 
-{
+</span>{
 
-    int left = Left(i);
+    <span class="hljs-type">int</span> left = <span class="hljs-built_in">Left</span>(i);
 
-    int right = Right(i);
+    <span class="hljs-type">int</span> right = <span class="hljs-built_in">Right</span>(i);
 
-    int largest = i;
+    <span class="hljs-type">int</span> largest = i;
 
   
 
-    if (left &lt; n &amp;&amp; Heap[left] &gt; Heap[largest])
+    <span class="hljs-keyword">if</span> (left &lt; n &amp;&amp; Heap[left] &gt; Heap[largest])
 
         largest = left;
 
   
 
-    if (right &lt; n &amp;&amp; Heap[right] &gt; Heap[largest])
+    <span class="hljs-keyword">if</span> (right &lt; n &amp;&amp; Heap[right] &gt; Heap[largest])
 
         largest = right;
 
   
 
-    if (largest != i)
+    <span class="hljs-keyword">if</span> (largest != i)
 
     {
 
-        std::swap(Heap[i], Heap[largest]);
+        std::<span class="hljs-built_in">swap</span>(Heap[i], Heap[largest]);
 
-        MaxHeapify(largest, n);
+        <span class="hljs-built_in">MaxHeapify</span>(largest, n);
 
     }
 
 }
 </code></pre>
 <p><strong>2- Build a Max Heap</strong></p>
-<pre><code class="language-cpp">void MaxHeap&lt;T&gt;::BuildMaxHeap() {
+<pre class="hljs"><code><span class="hljs-type">void</span> MaxHeap&lt;T&gt;::<span class="hljs-built_in">BuildMaxHeap</span>() {
 
-    for (int i = size / 2 - 1; i &gt;= 0; --i) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = size / <span class="hljs-number">2</span> - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; --i) {
 
-        MaxHeapify(i, size);
+        <span class="hljs-built_in">MaxHeapify</span>(i, size);
 
     }
 }
@@ -254,15 +254,15 @@ void MaxHeap::MaxHeapify(int i, int n)
 <li>Max Heapify</li>
 <li>Discard</li>
 </ul>
-<pre><code class="language-cpp">void MaxHeap&lt;T&gt;::HeapSort() {
+<pre class="hljs"><code><span class="hljs-type">void</span> MaxHeap&lt;T&gt;::<span class="hljs-built_in">HeapSort</span>() {
 
-    BuildMaxHeap();
+    <span class="hljs-built_in">BuildMaxHeap</span>();
 
-    for (int i = size - 1; i &gt; 0; --i) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = size - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; --i) {
 
-        std::swap(Heap[0], Heap[i]);
+        std::<span class="hljs-built_in">swap</span>(Heap[<span class="hljs-number">0</span>], Heap[i]);
 
-        MaxHeapify(0, i);
+        <span class="hljs-built_in">MaxHeapify</span>(<span class="hljs-number">0</span>, i);
 
     }
 
@@ -271,32 +271,32 @@ void MaxHeap::MaxHeapify(int i, int n)
 <h3>Operations on Priority Queues</h3>
 <p>Max-priority queues support the following operations:</p>
 <p><strong>INSERT(S, x):</strong> inserts element x into set S O($log{n}$)</p>
-<pre><code class="language-c">void insertKey(vector&lt;int&gt;&amp; A, int key, int&amp; heap_size) {
-heap_size = heap_size + 1;
-if (heap_size &gt;= A.size()) {
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">insertKey</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; A, <span class="hljs-type">int</span> key, <span class="hljs-type">int</span>&amp; heap_size)</span> {
+heap_size = heap_size + <span class="hljs-number">1</span>;
+<span class="hljs-keyword">if</span> (heap_size &gt;= A.size()) {
 	A.push_back(INT_MIN); 
-} else {
+} <span class="hljs-keyword">else</span> {
 	A[heap_size] = INT_MIN;
 } 
 HEAP_INCREASE_KEY(A, heap_size, key); }
 </code></pre>
 <p><strong>EXTRACT-MAX(S):</strong> removes and returns element of S with largest key <strong>O($log{n}$)</strong></p>
-<pre><code class="language-c">int ExtractMax(A,n){
-int mx = A[1]
-A[1] = A[n];
-maxheapify(A,1,n-1);
-return mx;
+<pre class="hljs"><code><span class="hljs-type">int</span> <span class="hljs-title function_">ExtractMax</span><span class="hljs-params">(A,n)</span>{
+<span class="hljs-type">int</span> mx = A[<span class="hljs-number">1</span>]
+A[<span class="hljs-number">1</span>] = A[n];
+maxheapify(A,<span class="hljs-number">1</span>,n<span class="hljs-number">-1</span>);
+<span class="hljs-keyword">return</span> mx;
 }
 </code></pre>
 <p><strong>MAXIMUM(S):</strong> returns element of S with largest key <strong>O(1)</strong></p>
 <p><strong>INCREASE-KEY(S, x, k)</strong>: increases value of element x’s key to k (Assume k ≥ x’s current key value) O($log{n}$)</p>
-<pre><code class="language-c">IncreaseKey(int A[], int i, int key){
-if key &lt; A[i]
- 	cerr &lt;&lt; “new key is smaller than current key”;
+<pre class="hljs"><code>IncreaseKey(<span class="hljs-type">int</span> A[], <span class="hljs-type">int</span> i, <span class="hljs-type">int</span> key){
+<span class="hljs-keyword">if</span> key &lt; A[i]
+ 	<span class="hljs-built_in">cerr</span> &lt;&lt; “new key is smaller than current key”;
 
 A[i] = key;
 
-while i &gt; 1 &amp;&amp; A[PARENT(i)] &lt; A[i] // This loop is to bubble up the elements larger than the parent, to ensure heap property 
+<span class="hljs-keyword">while</span> i &gt; <span class="hljs-number">1</span> &amp;&amp; A[PARENT(i)] &lt; A[i] <span class="hljs-comment">// This loop is to bubble up the elements larger than the parent, to ensure heap property </span>
 	{
 		swap(A[i],A[PARENT(i)])
 		i = PARENT(i)

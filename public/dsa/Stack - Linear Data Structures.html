@@ -167,221 +167,221 @@
                 
                 <div class="post-content">
                     <h4>Stack Implementation Using Array</h4>
-<pre><code class="language-c">#include &lt;iostream&gt;
-using namespace std;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
 
-#define MAX 1000 // Define the maximum size of the stack
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX 1000 <span class="hljs-comment">// Define the maximum size of the stack</span></span>
 
-class Stack {
-    int top;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span> {</span>
+    <span class="hljs-type">int</span> top;
 
 public:
-    int arr[MAX]; // Maximum size of Stack
+    <span class="hljs-type">int</span> arr[MAX]; <span class="hljs-comment">// Maximum size of Stack</span>
 
-    Stack() { top = -1; }
+    Stack() { top = <span class="hljs-number">-1</span>; }
 
-    bool push(int x);
-    int pop();
-    int peek();
-    bool isEmpty();
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
 };
 
-bool Stack::push(int x) {
-    if (top &gt;= (MAX - 1)) {
-        cout &lt;&lt; &quot;Stack Overflow&quot; &lt;&lt; endl;
-        return false;
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
+    <span class="hljs-keyword">if</span> (top &gt;= (MAX - <span class="hljs-number">1</span>)) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Overflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     }
-    else {
+    <span class="hljs-keyword">else</span> {
         arr[++top] = x;
-        cout &lt;&lt; x &lt;&lt; &quot; pushed into stack&quot; &lt;&lt; endl;
-        return true;
+        <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed into stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 }
 
-int Stack::pop() {
-    if (top &lt; 0) {
-        cout &lt;&lt; &quot;Stack Underflow&quot; &lt;&lt; endl;
-        return 0;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
     }
-    else {
-        int x = arr[top--];
-        return x;
-    }
-}
-
-int Stack::peek() {
-    if (top &lt; 0) {
-        cout &lt;&lt; &quot;Stack is Empty&quot; &lt;&lt; endl;
-        return 0;
-    }
-    else {
-        int x = arr[top];
-        return x;
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> x = arr[top--];
+        <span class="hljs-keyword">return</span> x;
     }
 }
 
-bool Stack::isEmpty() {
-    return (top &lt; 0);
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> x = arr[top];
+        <span class="hljs-keyword">return</span> x;
+    }
 }
 
-int main() {
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> (top &lt; <span class="hljs-number">0</span>);
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
     Stack s;
-    s.push(10);
-    s.push(20);
-    s.push(30);
-    cout &lt;&lt; s.pop() &lt;&lt; &quot; popped from stack&quot; &lt;&lt; endl;
-    cout &lt;&lt; &quot;Top element is &quot; &lt;&lt; s.peek() &lt;&lt; endl;
-    cout &lt;&lt; &quot;Stack is empty: &quot; &lt;&lt; (s.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+    s.push(<span class="hljs-number">10</span>);
+    s.push(<span class="hljs-number">20</span>);
+    s.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; s.pop() &lt;&lt; <span class="hljs-string">&quot; popped from stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Top element is &quot;</span> &lt;&lt; s.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is empty: &quot;</span> &lt;&lt; (s.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
 </code></pre>
 <h3>Stack Implementation using Linked list</h3>
-<pre><code class="language-c">#include &lt;iostream&gt;
-using namespace std;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
 
-class StackNode {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackNode</span> {</span>
 public:
-    int data;
+    <span class="hljs-type">int</span> data;
     StackNode* next;
 };
 
-class Stack {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span> {</span>
     StackNode* top;
 
 public:
     Stack() { top = nullptr; }
 
-    void push(int x);
-    int pop();
-    int peek();
-    bool isEmpty();
+    <span class="hljs-type">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
 };
 
-void Stack::push(int x) {
+<span class="hljs-type">void</span> <span class="hljs-title function_">Stack::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
     StackNode* newNode = new StackNode();
     newNode-&gt;data = x;
     newNode-&gt;next = top;
     top = newNode;
-    cout &lt;&lt; x &lt;&lt; &quot; pushed into stack&quot; &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed into stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 }
 
-int Stack::pop() {
-    if (top == nullptr) {
-        cout &lt;&lt; &quot;Stack Underflow&quot; &lt;&lt; endl;
-        return 0;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
     }
-    else {
-        int popped = top-&gt;data;
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> popped = top-&gt;data;
         StackNode* temp = top;
         top = top-&gt;next;
         delete temp;
-        return popped;
+        <span class="hljs-keyword">return</span> popped;
     }
 }
 
-int Stack::peek() {
-    if (top == nullptr) {
-        cout &lt;&lt; &quot;Stack is Empty&quot; &lt;&lt; endl;
-        return 0;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
     }
-    else {
-        return top-&gt;data;
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> top-&gt;data;
     }
 }
 
-bool Stack::isEmpty() {
-    return top == nullptr;
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> top == nullptr;
 }
 
-int main() {
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
     Stack s;
-    s.push(10);
-    s.push(20);
-    s.push(30);
-    cout &lt;&lt; s.pop() &lt;&lt; &quot; popped from stack&quot; &lt;&lt; endl;
-    cout &lt;&lt; &quot;Top element is &quot; &lt;&lt; s.peek() &lt;&lt; endl;
-    cout &lt;&lt; &quot;Stack is empty: &quot; &lt;&lt; (s.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+    s.push(<span class="hljs-number">10</span>);
+    s.push(<span class="hljs-number">20</span>);
+    s.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; s.pop() &lt;&lt; <span class="hljs-string">&quot; popped from stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Top element is &quot;</span> &lt;&lt; s.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is empty: &quot;</span> &lt;&lt; (s.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
 </code></pre>
 <h4>Solution to applications on stack : Bracket Balancing</h4>
-<pre><code class="language-c">
+<pre class="hljs"><code>
 
-bool isMatchingPair(char character1, char character2) {
-    if (character1 == '(' &amp;&amp; character2 == ')')
-        return true;
-    else if (character1 == '{' &amp;&amp; character2 == '}')
-        return true;
-    else if (character1 == '[' &amp;&amp; character2 == ']')
-        return true;
-    else
-        return false;
+<span class="hljs-type">bool</span> <span class="hljs-title function_">isMatchingPair</span><span class="hljs-params">(<span class="hljs-type">char</span> character1, <span class="hljs-type">char</span> character2)</span> {
+    <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;(&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;)&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;{&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;}&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;[&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;]&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 }
 
-bool areBracketsBalanced(string expr) {
-    stack&lt;char&gt; s;
-    for (int i = 0; i &lt; expr.length(); i++) {
-        if (expr[i] == '(' || expr[i] == '{' || expr[i] == '[') {
+<span class="hljs-type">bool</span> <span class="hljs-title function_">areBracketsBalanced</span><span class="hljs-params">(<span class="hljs-built_in">string</span> expr)</span> {
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-type">char</span>&gt; s;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; expr.length(); i++) {
+        <span class="hljs-keyword">if</span> (expr[i] == <span class="hljs-string">&#x27;(&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;{&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;[&#x27;</span>) {
             s.push(expr[i]);
         }
 
-        if (expr[i] == ')' || expr[i] == '}' || expr[i] == ']') {
-            if (s.empty()) {
-                return false;
+        <span class="hljs-keyword">if</span> (expr[i] == <span class="hljs-string">&#x27;)&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;}&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;]&#x27;</span>) {
+            <span class="hljs-keyword">if</span> (s.empty()) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
             }
-            else if (!isMatchingPair(s.top(), expr[i])) {
-                return false;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!isMatchingPair(s.top(), expr[i])) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
             }
-            else {
+            <span class="hljs-keyword">else</span> {
                 s.pop();
             }
         }
     }
 
-    return s.empty();
+    <span class="hljs-keyword">return</span> s.empty();
 }
 
 </code></pre>
 <h4>Solution to applications on stack: Postfix to Infix</h4>
-<pre><code class="language-c">int precedence(char op) {
-    if (op == '+' || op == '-') return 1;
-    if (op == '*' || op == '/') return 2;
-    return 0;
+<pre class="hljs"><code><span class="hljs-type">int</span> <span class="hljs-title function_">precedence</span><span class="hljs-params">(<span class="hljs-type">char</span> op)</span> {
+    <span class="hljs-keyword">if</span> (op == <span class="hljs-string">&#x27;+&#x27;</span> || op == <span class="hljs-string">&#x27;-&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (op == <span class="hljs-string">&#x27;*&#x27;</span> || op == <span class="hljs-string">&#x27;/&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
-string InfixToPostfix(const string &amp;infix) {
-    stack&lt;char&gt; s;
-    string postfix;
-    for (auto i : infix) {
-        if (isdigit(i)) {
+<span class="hljs-built_in">string</span> <span class="hljs-title function_">InfixToPostfix</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-built_in">string</span> &amp;infix)</span> {
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-type">char</span>&gt; s;
+    <span class="hljs-built_in">string</span> postfix;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> i : infix) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isdigit</span>(i)) {
             postfix += i;
-        } else if (i == '(') {
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == <span class="hljs-string">&#x27;(&#x27;</span>) {
             s.push(i);
-        } else if (i == ')') {
-            while (!s.empty() &amp;&amp; s.top() != '(') {
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == <span class="hljs-string">&#x27;)&#x27;</span>) {
+            <span class="hljs-keyword">while</span> (!s.empty() &amp;&amp; s.top() != <span class="hljs-string">&#x27;(&#x27;</span>) {
                 postfix += s.top();
                 s.pop();
             }
             s.pop(); 
-        } else {
-            // Operator 
-            while (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) {
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// Operator </span>
+            <span class="hljs-keyword">while</span> (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) {
                 postfix += s.top();
                 s.pop();
             }
             s.push(i);
         }
     }
-    // remaining operators inthe stack
-    while (!s.empty()) {
+    <span class="hljs-comment">// remaining operators inthe stack</span>
+    <span class="hljs-keyword">while</span> (!s.empty()) {
         postfix += s.top();
         s.pop();
     }
-    return postfix;
+    <span class="hljs-keyword">return</span> postfix;
 }
 </code></pre>
 

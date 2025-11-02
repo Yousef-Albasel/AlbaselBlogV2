@@ -171,25 +171,25 @@
 <p>to start with drawing a triangle in <strong>“Moden OpenGL”</strong> we need two things, a <strong>vertex buffer</strong> and a <strong>Shader</strong></p>
 <p>a buffer is nothing but an array, the basic concept that i want to define a bunch of data that represents a triangle, put it in our GPU’s vRam, and then define a draw function, and then tell our GPU how to read those data, and display it on screen.</p>
 <p>“Have some data, draw me something” or &quot; I want you to select this buffer, and this shader, then draw me a triangle&quot; it’s a <strong>state machine</strong></p>
-<pre><code class="language-c">
-    float positions[6] = { -0.5f, -0.5f,
-                         0.0f, 0.5f,
-                         0.5f,-0.5f }; // our data to draw a triangle also a buffer
+<pre class="hljs"><code>
+    <span class="hljs-type">float</span> positions[<span class="hljs-number">6</span>] = { <span class="hljs-number">-0.5f</span>, <span class="hljs-number">-0.5f</span>,
+                         <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.5f</span>,
+                         <span class="hljs-number">0.5f</span>,<span class="hljs-number">-0.5f</span> }; <span class="hljs-comment">// our data to draw a triangle also a buffer</span>
 
-    // Creating our Vertex Buffer
-    unsigned int buffer;
-    glGenBuffers(1, &amp;buffer); // Generates a buffer and gives back ID
+    <span class="hljs-comment">// Creating our Vertex Buffer</span>
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> buffer;
+    glGenBuffers(<span class="hljs-number">1</span>, &amp;buffer); <span class="hljs-comment">// Generates a buffer and gives back ID</span>
 
-    // Binding a buffer (selecting)
+    <span class="hljs-comment">// Binding a buffer (selecting)</span>
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffer); // binding to the buffer we created.
+    glBindBuffer(GL_ARRAY_BUFFER, buffer); <span class="hljs-comment">// binding to the buffer we created.</span>
 
-    // Put data into the Buffer.
+    <span class="hljs-comment">// Put data into the Buffer.</span>
  
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, <span class="hljs-number">6</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">float</span>), positions,GL_STATIC_DRAW);
 
-    // Now we need to tell OpenGL how our data is laid out, is it a 2D Vector or 3D...
-    // But it's a problem for future me.
+    <span class="hljs-comment">// Now we need to tell OpenGL how our data is laid out, is it a 2D Vector or 3D...</span>
+    <span class="hljs-comment">// But it&#x27;s a problem for future me.</span>
 </code></pre>
 <ul>
 <li>

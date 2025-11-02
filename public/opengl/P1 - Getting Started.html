@@ -183,48 +183,48 @@
 <p><img src="https://i.postimg.cc/3wKV5njm/image.png" alt=""></p>
 <p>doing that , we are good to go to start creating our first triangle.
 Here is the code we used to do so:</p>
-<pre><code class="language-c">#include &lt;GLFW/glfw3.h&gt;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;GLFW/glfw3.h&gt;</span></span>
 
-int main(void)
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>
 {
     GLFWwindow* window;
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+    <span class="hljs-comment">/* Initialize the library */</span>
+    <span class="hljs-keyword">if</span> (!glfwInit())
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, &quot;Hello World&quot;, NULL, NULL);
-    if (!window)
+    <span class="hljs-comment">/* Create a windowed mode window and its OpenGL context */</span>
+    window = glfwCreateWindow(<span class="hljs-number">640</span>, <span class="hljs-number">480</span>, <span class="hljs-string">&quot;Hello World&quot;</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-keyword">if</span> (!window)
     {
         glfwTerminate();
-        return -1;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
     }
 
-    /* Make the window's context current */
+    <span class="hljs-comment">/* Make the window&#x27;s context current */</span>
     glfwMakeContextCurrent(window);
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
+    <span class="hljs-comment">/* Loop until the user closes the window */</span>
+    <span class="hljs-keyword">while</span> (!glfwWindowShouldClose(window))
     {
-        /* Render here */
+        <span class="hljs-comment">/* Render here */</span>
         glClear(GL_COLOR_BUFFER_BIT);
 
         glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f,-0.5f);
+        glVertex2f(<span class="hljs-number">-0.5f</span>, <span class="hljs-number">-0.5f</span>);
+        glVertex2f(<span class="hljs-number">0.0f</span>, <span class="hljs-number">0.5f</span>);
+        glVertex2f(<span class="hljs-number">0.5f</span>,<span class="hljs-number">-0.5f</span>);
         glEnd();
 
-        /* Swap front and back buffers */
+        <span class="hljs-comment">/* Swap front and back buffers */</span>
         glfwSwapBuffers(window);
 
-        /* Poll for and process events */
+        <span class="hljs-comment">/* Poll for and process events */</span>
         glfwPollEvents();
     }
 
     glfwTerminate();
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
 <p><img src="https://i.postimg.cc/K8KrKLZw/image.png" alt=""></p>

@@ -205,33 +205,33 @@
 <hr>
 <h1>Quick start — create frontend &amp; backend</h1>
 <h3>Frontend (Next.js)</h3>
-<pre><code class="language-bash"># create Next app (choose TypeScript, App Router, Tailwind if asked)
+<pre class="hljs"><code><span class="hljs-comment"># create Next app (choose TypeScript, App Router, Tailwind if asked)</span>
 npx create-next-app@latest orbitify-frontend
-cd orbitify-frontend
+<span class="hljs-built_in">cd</span> orbitify-frontend
 
-# dev server
+<span class="hljs-comment"># dev server</span>
 npm run dev
 </code></pre>
 <p><code>create-next-app</code> will prompt options (TypeScript? App Router? Tailwind?). Use App Router (recommended). System reqs &amp; steps: Next.js docs. (<a href="https://nextjs.org/docs/app/getting-started/installation" title="Getting Started: Installation | Next.js">Next.js</a>)</p>
 <p>Install front-end libs (examples):</p>
-<pre><code class="language-bash">npm install axios @tanstack/react-query react-dropzone react-plotly.js plotly.js
-# optional: tailwindcss, clsx, zustand, react-hook-form
+<pre class="hljs"><code>npm install axios @tanstack/react-query react-dropzone react-plotly.js plotly.js
+<span class="hljs-comment"># optional: tailwindcss, clsx, zustand, react-hook-form</span>
 </code></pre>
 <h3>Backend (FastAPI)</h3>
-<pre><code class="language-bash"># create backend folder
-mkdir ../orbitify-backend &amp;&amp; cd ../orbitify-backend
+<pre class="hljs"><code><span class="hljs-comment"># create backend folder</span>
+<span class="hljs-built_in">mkdir</span> ../orbitify-backend &amp;&amp; <span class="hljs-built_in">cd</span> ../orbitify-backend
 python -m venv venv
-source venv/bin/activate      # or venv\Scripts\activate on Windows
+<span class="hljs-built_in">source</span> venv/bin/activate      <span class="hljs-comment"># or venv\Scripts\activate on Windows</span>
 
-pip install &quot;fastapi[all]&quot; uvicorn lightkurve astropy numpy pandas scikit-learn tsfresh joblib
+pip install <span class="hljs-string">&quot;fastapi[all]&quot;</span> uvicorn lightkurve astropy numpy pandas scikit-learn tsfresh joblib
 </code></pre>
 <p>FastAPI quickstart &amp; docs: see FastAPI tutorial. (<a href="https://fastapi.tiangolo.com/tutorial/first-steps/?utm_source=chatgpt.com" title="First Steps">FastAPI</a>)</p>
 <p>Run dev server:</p>
-<pre><code class="language-bash">uvicorn app.main:app --reload --port 8000
+<pre class="hljs"><code>uvicorn app.main:app --reload --port 8000
 </code></pre>
 <hr>
 <h1>Recommended repo layout / folder structure</h1>
-<pre><code>orbitify/                       # monorepo root (recommended)
+<pre class="hljs"><code>orbitify/                       # monorepo root (recommended)
 ├─ frontend/                    # Next.js app
 │  ├─ app/
 │  │  ├─ layout.tsx
@@ -287,13 +287,13 @@ pip install &quot;fastapi[all]&quot; uvicorn lightkurve astropy numpy pandas sci
 <li>Upload pattern (recommended): <code>POST /api/upload</code> as <code>multipart/form-data</code> (file + metadata). Backend returns job id and quick preview; Next polls <code>GET /api/jobs/{job_id}</code> until done.</li>
 </ul>
 <p><strong>Example client upload (fetch):</strong></p>
-<pre><code class="language-js">const form = new FormData();
-form.append('file', file);
-form.append('source', 'kepler');
+<pre class="hljs"><code><span class="hljs-keyword">const</span> form = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>();
+form.<span class="hljs-title function_">append</span>(<span class="hljs-string">&#x27;file&#x27;</span>, file);
+form.<span class="hljs-title function_">append</span>(<span class="hljs-string">&#x27;source&#x27;</span>, <span class="hljs-string">&#x27;kepler&#x27;</span>);
 
-await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
-  method: 'POST',
-  body: form
+<span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`<span class="hljs-subst">${process.env.NEXT_PUBLIC_API_URL}</span>/upload`</span>, {
+  <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+  <span class="hljs-attr">body</span>: form
 });
 </code></pre>
 <hr>
@@ -308,18 +308,18 @@ await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
 <li><code>GET /model/metrics</code> — Current model metrics (ROC AUC, precision/recall) for dashboard.</li>
 </ul>
 <h3>Example <code>main.py</code> skeleton</h3>
-<pre><code class="language-py">from fastapi import FastAPI, UploadFile, File
-app = FastAPI(title=&quot;Orbitify API&quot;)
+<pre class="hljs"><code><span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI, UploadFile, File
+app = FastAPI(title=<span class="hljs-string">&quot;Orbitify API&quot;</span>)
 
-@app.post(&quot;/upload&quot;)
-async def upload(file: UploadFile = File(...)):
-    # save file, enqueue job (or process sync for demo)
-    return {&quot;job_id&quot;: &quot;abc123&quot;, &quot;status&quot;: &quot;processing&quot;}
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/upload&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">upload</span>(<span class="hljs-params">file: UploadFile = File(<span class="hljs-params">...</span>)</span>):
+    <span class="hljs-comment"># save file, enqueue job (or process sync for demo)</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;job_id&quot;</span>: <span class="hljs-string">&quot;abc123&quot;</span>, <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;processing&quot;</span>}
 
-@app.post(&quot;/predict&quot;)
-def predict(payload: dict):
-    # payload might contain time[], flux[] OR file_id
-    return {&quot;label&quot;:&quot;candidate&quot;, &quot;prob&quot;:0.87, &quot;period&quot;:3.24}
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/predict&quot;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">payload: <span class="hljs-built_in">dict</span></span>):
+    <span class="hljs-comment"># payload might contain time[], flux[] OR file_id</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;label&quot;</span>:<span class="hljs-string">&quot;candidate&quot;</span>, <span class="hljs-string">&quot;prob&quot;</span>:<span class="hljs-number">0.87</span>, <span class="hljs-string">&quot;period&quot;</span>:<span class="hljs-number">3.24</span>}
 </code></pre>
 <p><strong>Tip:</strong> For production or heavier models use <code>uvicorn</code>/<code>gunicorn</code> + workers or a background task queue (Redis + RQ/Celery). FastAPI docs for background tasks are excellent. (<a href="https://fastapi.tiangolo.com/tutorial/first-steps/?utm_source=chatgpt.com" title="First Steps">FastAPI</a>)</p>
 <hr>
@@ -377,16 +377,16 @@ def predict(payload: dict):
 </li>
 </ol>
 <p><strong>Pseudo-code (very short):</strong></p>
-<pre><code class="language-py">import lightkurve as lk
+<pre class="hljs"><code><span class="hljs-keyword">import</span> lightkurve <span class="hljs-keyword">as</span> lk
 lcfile = lk.search_lightcurvefile(target_id).download()
 lc = lcfile.PDCSAP_FLUX.remove_nans().normalize()
-lc_flat = lc.flatten(window_length=401) # tuned per star
+lc_flat = lc.flatten(window_length=<span class="hljs-number">401</span>) <span class="hljs-comment"># tuned per star</span>
 time, flux = lc_flat.time.value, lc_flat.flux
 
-# BLS
-from astropy.timeseries import BoxLeastSquares
+<span class="hljs-comment"># BLS</span>
+<span class="hljs-keyword">from</span> astropy.timeseries <span class="hljs-keyword">import</span> BoxLeastSquares
 bls = BoxLeastSquares(time, flux)
-result = bls.autopower(0.2)  # duration guess
+result = bls.autopower(<span class="hljs-number">0.2</span>)  <span class="hljs-comment"># duration guess</span>
 best_period = result.period[np.argmax(result.power)]
 </code></pre>
 <p><strong>Notes:</strong></p>
@@ -442,33 +442,33 @@ best_period = result.period[np.argmax(result.power)]
 <li>Request: <code>file</code> (FITS or CSV), <code>source</code> (string), <code>meta</code> (json optional)</li>
 <li>Response:</li>
 </ul>
-<pre><code class="language-json">{
-  &quot;job_id&quot;: &quot;string&quot;,
-  &quot;status&quot;: &quot;queued|processing|done|failed&quot;,
-  &quot;preview&quot;: {&quot;n_points&quot;: 1234, &quot;nan_frac&quot;: 0.02}
-}
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;job_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;queued|processing|done|failed&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;preview&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;n_points&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1234</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;nan_frac&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.02</span><span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
 <p><strong>POST /predict</strong> (JSON)</p>
 <ul>
 <li>Request:</li>
 </ul>
-<pre><code class="language-json">{
-  &quot;time&quot;: [..],
-  &quot;flux&quot;: [..],
-  &quot;meta&quot;: {&quot;kic&quot;: &quot;12345&quot;}
-}
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>..<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;flux&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>..<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;meta&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;kic&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;12345&quot;</span><span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
 <ul>
 <li>Response:</li>
 </ul>
-<pre><code class="language-json">{
-  &quot;label&quot;: &quot;planet_candidate&quot;,
-  &quot;probability&quot;: 0.92,
-  &quot;period&quot;: 3.24,
-  &quot;depth&quot;: 0.0012,
-  &quot;duration&quot;: 0.12,
-  &quot;transit_windows&quot;: [[2455000.2, 2455000.32], ...]
-}
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;planet_candidate&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;probability&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.92</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;period&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3.24</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;depth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.0012</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;duration&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.12</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;transit_windows&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">[</span><span class="hljs-number">2455000.2</span><span class="hljs-punctuation">,</span> <span class="hljs-number">2455000.32</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> ...<span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
 <hr>
 <h1>Final checklist (tick boxes)</h1>

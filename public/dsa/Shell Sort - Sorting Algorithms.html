@@ -181,16 +181,16 @@ locations away</p>
 </ul>
 <p>Start with sub arrays created by looking at data that is far apart and
 then reduce the gap size</p>
-<pre><code class="language-c">void shellSort(vector&lt;int&gt; &amp;v, int n)
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">shellSort</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt; &amp;v, <span class="hljs-type">int</span> n)</span>
 {
-    for (int gap = n / 2; gap &gt; 0; gap /= 2) // deviding gap until it's 1
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> gap = n / <span class="hljs-number">2</span>; gap &gt; <span class="hljs-number">0</span>; gap /= <span class="hljs-number">2</span>) <span class="hljs-comment">// deviding gap until it&#x27;s 1</span>
     {
-        for (int i = gap; i &lt; n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = gap; i &lt; n; i++)
         {
-            // Now Implementing Insertion Sort
-            int Temp = v[i];
-            int j = i;
-            for (; j &gt;= gap &amp;&amp; Temp &lt; v[j - gap]; j -= gap)
+            <span class="hljs-comment">// Now Implementing Insertion Sort</span>
+            <span class="hljs-type">int</span> Temp = v[i];
+            <span class="hljs-type">int</span> j = i;
+            <span class="hljs-keyword">for</span> (; j &gt;= gap &amp;&amp; Temp &lt; v[j - gap]; j -= gap)
             {
                 v[j] = v[j - gap];
             }

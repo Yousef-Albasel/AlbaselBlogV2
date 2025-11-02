@@ -167,11 +167,11 @@
                 
                 <div class="post-content">
                     <h5>Insertion in BST</h5>
-<pre><code class="language-c">void BinarySearchTree::insert(const int &amp;key)
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">BinarySearchTree::insert</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;key)</span>
 
 {
 
-    if (root == nullptr)
+    <span class="hljs-keyword">if</span> (root == nullptr)
 
     {
 
@@ -179,9 +179,9 @@
 
         root-&gt;key = key;
 
-        m_height = 1;
+        m_height = <span class="hljs-number">1</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
@@ -193,31 +193,31 @@
 
   
 
-    // Traverse the tree to find the appropriate position to insert the key
+    <span class="hljs-comment">// Traverse the tree to find the appropriate position to insert the key</span>
 
-    while (current != nullptr)
+    <span class="hljs-keyword">while</span> (current != nullptr)
 
     {
 
         parent = current;
 
-        if (key &lt; current-&gt;key)
+        <span class="hljs-keyword">if</span> (key &lt; current-&gt;key)
 
             current = current-&gt;left;
 
-        else if (key &gt; current-&gt;key)
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &gt; current-&gt;key)
 
             current = current-&gt;right;
 
-        else
+        <span class="hljs-keyword">else</span>
 
-            return;
+            <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    // Create a new node and insert it into the tree
+    <span class="hljs-comment">// Create a new node and insert it into the tree</span>
 
     TreeNode *newNode = new TreeNode();
 
@@ -229,55 +229,55 @@
 
   
 
-    if (key &lt; parent-&gt;key)
+    <span class="hljs-keyword">if</span> (key &lt; parent-&gt;key)
 
         parent-&gt;left = newNode;
 
-    else
+    <span class="hljs-keyword">else</span>
 
         parent-&gt;right = newNode;
 
   
 
-    m_height = std::max(m_height, getHeight(root));
+    m_height = <span class="hljs-built_in">std</span>::max(m_height, getHeight(root));
 
 }
 </code></pre>
 <h5>Finding Height in BST</h5>
-<pre><code class="language-c">int BinarySearchTree::getHeight(TreeNode *p)
+<pre class="hljs"><code><span class="hljs-type">int</span> <span class="hljs-title function_">BinarySearchTree::getHeight</span><span class="hljs-params">(TreeNode *p)</span>
 
 {
 
-    if (p == nullptr)
+    <span class="hljs-keyword">if</span> (p == nullptr)
 
-        return 0;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 
-    int leftHeight = getHeight(p-&gt;left);
+    <span class="hljs-type">int</span> leftHeight = getHeight(p-&gt;left);
 
-    int rightHeight = getHeight(p-&gt;right);
+    <span class="hljs-type">int</span> rightHeight = getHeight(p-&gt;right);
 
-    return 1 + std::max(leftHeight, rightHeight);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + <span class="hljs-built_in">std</span>::max(leftHeight, rightHeight);
 
 }
 
 </code></pre>
 <h5>BFS &amp; DFS</h5>
-<pre><code class="language-C">
-void BinarySearchTree::BreadthFirstSearch()
+<pre class="hljs"><code>
+<span class="hljs-type">void</span> <span class="hljs-title function_">BinarySearchTree::BreadthFirstSearch</span><span class="hljs-params">()</span>
 
 {
 
-    std::queue&lt;TreeNode *&gt; q;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">queue</span>&lt;TreeNode *&gt; q;
 
     TreeNode *p = root;
 
-    if (p != nullptr)
+    <span class="hljs-keyword">if</span> (p != nullptr)
 
     {
 
         q.push(p);
 
-        while (!q.empty())
+        <span class="hljs-keyword">while</span> (!q.empty())
 
         {
 
@@ -287,7 +287,7 @@ void BinarySearchTree::BreadthFirstSearch()
 
             visit(p);
 
-            if (p-&gt;left != nullptr)
+            <span class="hljs-keyword">if</span> (p-&gt;left != nullptr)
 
             {
 
@@ -295,7 +295,7 @@ void BinarySearchTree::BreadthFirstSearch()
 
             }
 
-            if (p-&gt;right != nullptr)
+            <span class="hljs-keyword">if</span> (p-&gt;right != nullptr)
 
             {
 
@@ -311,11 +311,11 @@ void BinarySearchTree::BreadthFirstSearch()
 
   
 
-void BinarySearchTree::DFSInOrder(TreeNode *p)
+<span class="hljs-type">void</span> <span class="hljs-title function_">BinarySearchTree::DFSInOrder</span><span class="hljs-params">(TreeNode *p)</span>
 
 {
 
-    if (p != nullptr)
+    <span class="hljs-keyword">if</span> (p != nullptr)
 
     {
 
@@ -331,11 +331,11 @@ void BinarySearchTree::DFSInOrder(TreeNode *p)
 
   
 
-void BinarySearchTree::DFSPreOrder(TreeNode *p)
+<span class="hljs-type">void</span> <span class="hljs-title function_">BinarySearchTree::DFSPreOrder</span><span class="hljs-params">(TreeNode *p)</span>
 
 {
 
-    if (p != nullptr)
+    <span class="hljs-keyword">if</span> (p != nullptr)
 
     {
 
@@ -351,11 +351,11 @@ void BinarySearchTree::DFSPreOrder(TreeNode *p)
 
   
 
-void BinarySearchTree::DFSPostOrder(TreeNode *p)
+<span class="hljs-type">void</span> <span class="hljs-title function_">BinarySearchTree::DFSPostOrder</span><span class="hljs-params">(TreeNode *p)</span>
 
 {
 
-    if (p != nullptr)
+    <span class="hljs-keyword">if</span> (p != nullptr)
 
     {
 
@@ -370,17 +370,17 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 };
 </code></pre>
 <h3>Removing from BST</h3>
-<pre><code class="language-c">TreeNode *BinarySearchTree::remove(TreeNode *root, const int &amp;key)
+<pre class="hljs"><code>TreeNode *<span class="hljs-title function_">BinarySearchTree::remove</span><span class="hljs-params">(TreeNode *root, <span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;key)</span>
 
 {
 
-    if (root == nullptr)
+    <span class="hljs-keyword">if</span> (root == nullptr)
 
-        return root;
+        <span class="hljs-keyword">return</span> root;
 
   
 
-    if (key &lt; root-&gt;key)
+    <span class="hljs-keyword">if</span> (key &lt; root-&gt;key)
 
     {
 
@@ -388,7 +388,7 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 
     }
 
-    else if (key &gt; root-&gt;key)
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (key &gt; root-&gt;key)
 
     {
 
@@ -396,11 +396,11 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 
     }
 
-    else
+    <span class="hljs-keyword">else</span>
 
     {
 
-        if (root-&gt;left == nullptr)
+        <span class="hljs-keyword">if</span> (root-&gt;left == nullptr)
 
         {
 
@@ -408,11 +408,11 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 
             delete root;
 
-            return temp;
+            <span class="hljs-keyword">return</span> temp;
 
         }
 
-        else if (root-&gt;right == nullptr)
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (root-&gt;right == nullptr)
 
         {
 
@@ -420,7 +420,7 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 
             delete root;
 
-            return temp;
+            <span class="hljs-keyword">return</span> temp;
 
         }
 
@@ -434,21 +434,21 @@ void BinarySearchTree::DFSPostOrder(TreeNode *p)
 
     }
 
-    return root;
+    <span class="hljs-keyword">return</span> root;
 
 }
 
   
 
-TreeNode *BinarySearchTree::FindSuccessor(TreeNode *root)
+TreeNode *<span class="hljs-title function_">BinarySearchTree::FindSuccessor</span><span class="hljs-params">(TreeNode *root)</span>
 
 {
 
-    while (root &amp;&amp; root-&gt;left != nullptr)
+    <span class="hljs-keyword">while</span> (root &amp;&amp; root-&gt;left != nullptr)
 
         root = root-&gt;left;
 
-    return root;
+    <span class="hljs-keyword">return</span> root;
 
 }
 </code></pre>

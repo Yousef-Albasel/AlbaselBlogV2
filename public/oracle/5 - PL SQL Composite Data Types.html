@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 5 of 8</strong> in
+                    <strong>Part 5 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    5/8
+                    5/7
                 </div>
             </div>
             
@@ -167,44 +167,44 @@
                     <h1>5 - PL SQL Composite Data Types</h1>
 <p>A composite datatype is a data structure that can have multiple different variables and datatypes inside it.</p>
 <p>So <code>%rowtype</code> we can say it is used to capture entire row of the table inside a variable with the same column names and dtypes.</p>
-<pre><code class="language-sql">DECLARE
-   v_employee employees%ROWTYPE; 
-BEGIN
-   SELECT * 
-   INTO v_employee
-   FROM employees
-   WHERE employee_id = 100;
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+   v_employee employees<span class="hljs-operator">%</span>ROWTYPE; 
+<span class="hljs-keyword">BEGIN</span>
+   <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> 
+   <span class="hljs-keyword">INTO</span> v_employee
+   <span class="hljs-keyword">FROM</span> employees
+   <span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;
 
-   DBMS_OUTPUT.PUT_LINE('Name: ' || v_employee.first_name || ' ' || v_employee.last_name);
-END;
+   DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;Name: &#x27;</span> <span class="hljs-operator">||</span> v_employee.first_name <span class="hljs-operator">||</span> <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-operator">||</span> v_employee.last_name);
+<span class="hljs-keyword">END</span>;
 </code></pre>
 <p>This way you make sure that whatever changes happen to the database, you will always have the right results.</p>
 <p>In a case where you need to select specific columns, you need to make sure to specify where you put those columns inside the variable</p>
-<pre><code class="language-sql">DECLARE
-   v_employee employees%ROWTYPE; 
-BEGIN
-   SELECT first_name,salary
-   INTO v_employee.first_name,
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+   v_employee employees<span class="hljs-operator">%</span>ROWTYPE; 
+<span class="hljs-keyword">BEGIN</span>
+   <span class="hljs-keyword">SELECT</span> first_name,salary
+   <span class="hljs-keyword">INTO</span> v_employee.first_name,
         v_employee.salary
-   FROM employees
-   WHERE employee_id = 100;
+   <span class="hljs-keyword">FROM</span> employees
+   <span class="hljs-keyword">WHERE</span> employee_id <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;
 
-   DBMS_OUTPUT.PUT_LINE('Name: ' || v_employee.first_name || ' ' || v_employee.last_name);
-END;
+   DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;Name: &#x27;</span> <span class="hljs-operator">||</span> v_employee.first_name <span class="hljs-operator">||</span> <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-operator">||</span> v_employee.last_name);
+<span class="hljs-keyword">END</span>;
 </code></pre>
 <h2>Structs in PL SQL (User Defined Records)</h2>
-<pre><code class="language-sql">DECLARE
- type dept_type is record(
-                        d_name varchar(30),
-                        m_id departments.department_id%TYPE
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+ type dept_type <span class="hljs-keyword">is</span> record(
+                        d_name <span class="hljs-type">varchar</span>(<span class="hljs-number">30</span>),
+                        m_id departments.department_id<span class="hljs-operator">%</span>TYPE
                          );
 var1 dept_type;
-BEGIN
- SELECT department_name.department_id INTO var1.d_name, var1.m_id 
-FROM departments
-WHERE department_id = 20;
+<span class="hljs-keyword">BEGIN</span>
+ <span class="hljs-keyword">SELECT</span> department_name.department_id <span class="hljs-keyword">INTO</span> var1.d_name, var1.m_id 
+<span class="hljs-keyword">FROM</span> departments
+<span class="hljs-keyword">WHERE</span> department_id <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;
 dbms_output.put_line(var1.d_name);
-END
+<span class="hljs-keyword">END</span>
 </code></pre>
 <p>That’s how we define a custom data type.</p>
 

@@ -167,52 +167,52 @@
                     <h2>Quick Sort Algoirthm</h2>
 <hr>
 <h4>First Implementation</h4>
-<pre><code class="language-c">void quickSort(int arr[], int start, int end)
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">quickSort</span><span class="hljs-params">(<span class="hljs-type">int</span> arr[], <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span>
 {
-    if (start &lt;= end)
+    <span class="hljs-keyword">if</span> (start &lt;= end)
     {
-        int pivot = partition(arr, start, end);
-        quickSort(arr, start, pivot - 1);
-        quickSort(arr, pivot + 1, end);
+        <span class="hljs-type">int</span> pivot = partition(arr, start, end);
+        quickSort(arr, start, pivot - <span class="hljs-number">1</span>);
+        quickSort(arr, pivot + <span class="hljs-number">1</span>, end);
     }
 }
 
-int partition(int a[], int start, int end)
+<span class="hljs-type">int</span> <span class="hljs-title function_">partition</span><span class="hljs-params">(<span class="hljs-type">int</span> a[], <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span>
 {
-  int i = start;
-  int j = end;
-  int pivot = a[i];
-  while (i &lt; j){
+  <span class="hljs-type">int</span> i = start;
+  <span class="hljs-type">int</span> j = end;
+  <span class="hljs-type">int</span> pivot = a[i];
+  <span class="hljs-keyword">while</span> (i &lt; j){
     
-    do {
+    <span class="hljs-keyword">do</span> {
       i++;
-    } while(a[i] &lt;= pivot); 
-    do {
+    } <span class="hljs-keyword">while</span>(a[i] &lt;= pivot); 
+    <span class="hljs-keyword">do</span> {
       j--;
-    } while (a[j]&gt; pivot);
+    } <span class="hljs-keyword">while</span> (a[j]&gt; pivot);
 
-    if (i&lt;j)
+    <span class="hljs-keyword">if</span> (i&lt;j)
       swap(a[i],a[j]);
   }
   swap(a[start],a[j]);
-  return j;
+  <span class="hljs-keyword">return</span> j;
 }
 </code></pre>
 <h4>Second Implementation</h4>
-<pre><code class="language-c">int partition(int a[], int start, int end)
+<pre class="hljs"><code><span class="hljs-type">int</span> <span class="hljs-title function_">partition</span><span class="hljs-params">(<span class="hljs-type">int</span> a[], <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span>
 {
-  int i = start;
-  int pivot = a[i];
+  <span class="hljs-type">int</span> i = start;
+  <span class="hljs-type">int</span> pivot = a[i];
 
-  for(int j = start + 1; j &lt; end; j++){
-    if (a[j] &lt; pivot){
+  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = start + <span class="hljs-number">1</span>; j &lt; end; j++){
+    <span class="hljs-keyword">if</span> (a[j] &lt; pivot){
       i++;
       swap(a[i],a[j]);
     }
   }
 
   swap(a[i],a[start]);
-  return i;
+  <span class="hljs-keyword">return</span> i;
 }
 </code></pre>
 

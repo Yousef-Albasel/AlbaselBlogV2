@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 3 of 8</strong> in
+                    <strong>Part 3 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    3/8
+                    3/7
                 </div>
             </div>
             
@@ -166,69 +166,69 @@
                 <div class="post-content">
                     <h1>3 - PL SQL Flow Control</h1>
 <p>Flow control in PL SQl can be done in 2 ways, one way is using IF, else Statements</p>
-<pre><code class="language-sql">DECLARE
- v_no number:= &amp;number1;
-BEGIN
- if v_no &gt; 0
-   then
-     dbms_output.put_line('You Entered a Positive Number');
- else
-     dbms_output.put_line('You Entered a Negative Number');
- end if;
-end;
-/
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+ v_no number:<span class="hljs-operator">=</span> <span class="hljs-operator">&amp;</span>number1;
+<span class="hljs-keyword">BEGIN</span>
+ if v_no <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span>
+   <span class="hljs-keyword">then</span>
+     dbms_output.put_line(<span class="hljs-string">&#x27;You Entered a Positive Number&#x27;</span>);
+ <span class="hljs-keyword">else</span>
+     dbms_output.put_line(<span class="hljs-string">&#x27;You Entered a Negative Number&#x27;</span>);
+ <span class="hljs-keyword">end</span> if;
+<span class="hljs-keyword">end</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>Another way is defined using <code>CASE</code> statements, now let’s compare between both ways.</p>
-<pre><code class="language-sql">DECLARE
-  v_letter CHAR(1) := UPPER('&amp;char1');
-BEGIN
-  IF v_letter = 'A' THEN
-    DBMS_OUTPUT.PUT_LINE('Excellent');
-  ELSIF v_letter = 'B' THEN
-    DBMS_OUTPUT.PUT_LINE('Good');
-  ELSE
-    DBMS_OUTPUT.PUT_LINE('Not Found');
-  END IF;
-END;
-/
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_letter <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+<span class="hljs-keyword">BEGIN</span>
+  IF v_letter <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;A&#x27;</span> <span class="hljs-keyword">THEN</span>
+    DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;Excellent&#x27;</span>);
+  ELSIF v_letter <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;B&#x27;</span> <span class="hljs-keyword">THEN</span>
+    DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;Good&#x27;</span>);
+  <span class="hljs-keyword">ELSE</span>
+    DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;Not Found&#x27;</span>);
+  <span class="hljs-keyword">END</span> IF;
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>Now to write this using CASE statements</p>
-<pre><code class="language-sql">DECLARE
-  v_letter CHAR(1) := UPPER('&amp;char1');
-BEGIN
-CASE v_grade
-when 'A' then DBMS_OUTPUT.put_line('Excellint')
-when 'B' then
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_letter <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+<span class="hljs-keyword">BEGIN</span>
+<span class="hljs-keyword">CASE</span> v_grade
+<span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;A&#x27;</span> <span class="hljs-keyword">then</span> DBMS_OUTPUT.put_line(<span class="hljs-string">&#x27;Excellint&#x27;</span>)
+<span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;B&#x27;</span> <span class="hljs-keyword">then</span>
 ...
-END;
-/
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>This is the same as using switch statements in normal programming languages.
 Also equivilent to</p>
-<pre><code class="language-sql">DECLARE
-  v_letter CHAR(1) := UPPER('&amp;char1');
-BEGIN
-CASE 
-when v_grade 'A' then DBMS_OUTPUT.put_line('Excellint')
-when v_grade 'B' then
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_letter <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+<span class="hljs-keyword">BEGIN</span>
+<span class="hljs-keyword">CASE</span> 
+<span class="hljs-keyword">when</span> v_grade <span class="hljs-string">&#x27;A&#x27;</span> <span class="hljs-keyword">then</span> DBMS_OUTPUT.put_line(<span class="hljs-string">&#x27;Excellint&#x27;</span>)
+<span class="hljs-keyword">when</span> v_grade <span class="hljs-string">&#x27;B&#x27;</span> <span class="hljs-keyword">then</span>
 ...
-END;
-/
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>also we can edit the variable value inside the begin block</p>
-<pre><code class="language-sql">DECLARE
-  v_grade CHAR(1) := UPPER('&amp;char1');
-  appraisal VARCHAR2(20);
-BEGIN
-   appraisal := CASE v_grade
-                  WHEN 'A' THEN 'Excellent'
-                  WHEN 'B' THEN 'V.Good'
-                  WHEN 'C' THEN 'Good'
-                  ELSE 'Not Found'
-                END;
-   DBMS_OUTPUT.PUT_LINE('The appraisal for grade ' || v_grade || ' is ' || appraisal);
-END;
-/
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_grade <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+  appraisal VARCHAR2(<span class="hljs-number">20</span>);
+<span class="hljs-keyword">BEGIN</span>
+   appraisal :<span class="hljs-operator">=</span> <span class="hljs-keyword">CASE</span> v_grade
+                  <span class="hljs-keyword">WHEN</span> <span class="hljs-string">&#x27;A&#x27;</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">&#x27;Excellent&#x27;</span>
+                  <span class="hljs-keyword">WHEN</span> <span class="hljs-string">&#x27;B&#x27;</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">&#x27;V.Good&#x27;</span>
+                  <span class="hljs-keyword">WHEN</span> <span class="hljs-string">&#x27;C&#x27;</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">&#x27;Good&#x27;</span>
+                  <span class="hljs-keyword">ELSE</span> <span class="hljs-string">&#x27;Not Found&#x27;</span>
+                <span class="hljs-keyword">END</span>;
+   DBMS_OUTPUT.PUT_LINE(<span class="hljs-string">&#x27;The appraisal for grade &#x27;</span> <span class="hljs-operator">||</span> v_grade <span class="hljs-operator">||</span> <span class="hljs-string">&#x27; is &#x27;</span> <span class="hljs-operator">||</span> appraisal);
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>Important note must use ‘’ not “” for printing strings</p>
 

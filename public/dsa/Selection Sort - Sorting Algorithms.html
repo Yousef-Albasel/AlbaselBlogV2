@@ -173,14 +173,14 @@ time and placing it where it belongs in the array</p>
 <p>It attempts to localize exchanges by putting the item
 directly in its final place.</p>
 <p>Efficiency is <strong>O(n*n)</strong></p>
-<pre><code class="language-c">void selectionSort(vector&lt;int&gt; &amp;v, int n)
+<pre class="hljs"><code><span class="hljs-type">void</span> <span class="hljs-title function_">selectionSort</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt; &amp;v, <span class="hljs-type">int</span> n)</span>
 {
-    for (int i = 0, j, mn; i &lt; n - 1; i++)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>, j, mn; i &lt; n - <span class="hljs-number">1</span>; i++)
     {
 
-        for (j = i + 1, mn = i; j &lt; n; j++)
+        <span class="hljs-keyword">for</span> (j = i + <span class="hljs-number">1</span>, mn = i; j &lt; n; j++)
         {
-            if (v[j] &lt; v[mn])
+            <span class="hljs-keyword">if</span> (v[j] &lt; v[mn])
                 mn = j;
         }
         swap(v[i], v[mn]);

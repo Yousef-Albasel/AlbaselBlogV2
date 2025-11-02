@@ -169,34 +169,34 @@
                     <h4>Index Buffers</h4>
 <hr>
 <p>When we draw shapes like triangles, using the same vertex positions repeatedly can lead to unnecessary memory duplication. Imagine drawing a triangle; you would have three vertices at the corners, and each vertex has its position information. If you want to draw another triangle to form a square, you’d end up storing the same vertex positions again, leading to redundancy in memory usage.</p>
-<pre><code class="language-cpp">float positions[] = {
-                            -0.5f, -0.5f,
-                             0.5f,-0.5f, 
-                             0.5f, 0.5f,
+<pre class="hljs"><code><span class="hljs-type">float</span> positions[] = {
+                            <span class="hljs-number">-0.5f</span>, <span class="hljs-number">-0.5f</span>,
+                             <span class="hljs-number">0.5f</span>,<span class="hljs-number">-0.5f</span>, 
+                             <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.5f</span>,
 
-                              0.5f,0.5f, // redundunt
-                             -0.5f, 0.5f,
-                             -0.5f, -0.5f, //redundunt
+                              <span class="hljs-number">0.5f</span>,<span class="hljs-number">0.5f</span>, <span class="hljs-comment">// redundunt</span>
+                             <span class="hljs-number">-0.5f</span>, <span class="hljs-number">0.5f</span>,
+                             <span class="hljs-number">-0.5f</span>, <span class="hljs-number">-0.5f</span>, <span class="hljs-comment">//redundunt</span>
         };
 </code></pre>
 <p>Index Buffers it’s like having a shared list of vertices, and the index buffer tells the graphics system which vertices to use for each triangle. This approach not only reduces memory consumption but also improves rendering efficiency, especially when dealing with complex 3D models composed of numerous triangles.</p>
 <p>so what we gonna do is to get rid of the two redundant vertices and create an array for indices</p>
-<pre><code class="language-c">unsigned int indices[] = {
-                      0, 1, 2,
-                      2, 3, 0
+<pre class="hljs"><code><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> indices[] = {
+                      <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>,
+                      <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>
         };
 
 </code></pre>
 <p>next we create an index buffer of type <code>GL_ELEMENT_ARRAY_BUFFER</code> and bind it so we can use this index buffer to draw whatever shapes we want</p>
-<pre><code class="language-c">
-        // Index Buffer creating
-        unsigned int ibo;
-        glGenBuffers(1, &amp;ibo); // Generates a buffer and gives back ID
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // binding to the buffer we created.
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6  * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+<pre class="hljs"><code>
+        <span class="hljs-comment">// Index Buffer creating</span>
+        <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> ibo;
+        glGenBuffers(<span class="hljs-number">1</span>, &amp;ibo); <span class="hljs-comment">// Generates a buffer and gives back ID</span>
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); <span class="hljs-comment">// binding to the buffer we created.</span>
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, <span class="hljs-number">6</span>  * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>), indices, GL_STATIC_DRAW);
 </code></pre>
 <p>last thing we want to do is to modify the draw method we used, this time we will use a <code>glDrawElement()</code> method to draw our shape.</p>
-<pre><code class="language-c">glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,NULL); // use if you don't have a index buffer
+<pre class="hljs"><code>glDrawElements(GL_TRIANGLES,<span class="hljs-number">6</span>,GL_UNSIGNED_INT,<span class="hljs-literal">NULL</span>); <span class="hljs-comment">// use if you don&#x27;t have a index buffer</span>
 </code></pre>
 <p><img src="https://i.postimg.cc/j5Yg9VfM/image.png" alt=""></p>
 

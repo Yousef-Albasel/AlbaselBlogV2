@@ -143,11 +143,11 @@
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part 4 of 8</strong> in
+                    <strong>Part 4 of 7</strong> in
                     <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    4/8
+                    4/7
                 </div>
             </div>
             
@@ -171,44 +171,44 @@
 <li>for loop</li>
 <li>while loop</li>
 </ul>
-<pre><code class="language-sql">LOOP
+<pre class="hljs"><code>LOOP
    statements
    ....
-   EXIT [WHEN condition];
-END LOOP;
+   EXIT [<span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">condition</span>];
+<span class="hljs-keyword">END</span> LOOP;
 </code></pre>
 <p>An example:</p>
-<pre><code class="language-sql">DECLARE
-  v_grade CHAR(1) := UPPER('&amp;char1');
-  appraisal VARCHAR2(10);
-  counter number := 2;
-BEGIN
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_grade <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+  appraisal VARCHAR2(<span class="hljs-number">10</span>);
+  counter number :<span class="hljs-operator">=</span> <span class="hljs-number">2</span>;
+<span class="hljs-keyword">BEGIN</span>
 LOOP
-   counter := counter + 1;
-   dbms_output.put_line('Hello World');
-   EXIT WHEN (counter = 10);
-end loop;
-END;
-/
+   counter :<span class="hljs-operator">=</span> counter <span class="hljs-operator">+</span> <span class="hljs-number">1</span>;
+   dbms_output.put_line(<span class="hljs-string">&#x27;Hello World&#x27;</span>);
+   EXIT <span class="hljs-keyword">WHEN</span> (counter <span class="hljs-operator">=</span> <span class="hljs-number">10</span>);
+<span class="hljs-keyword">end</span> loop;
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
 </code></pre>
 <p>The next is while loops this is the syntax</p>
-<pre><code class="language-sql">WHILE condition LOOP
+<pre class="hljs"><code>WHILE <span class="hljs-keyword">condition</span> LOOP
    statements
    ....
-END LOOP;
+<span class="hljs-keyword">END</span> LOOP;
 </code></pre>
 <p>Finally FOR loops:</p>
-<pre><code class="language-sql">FOR counter IN [REVERSE]
+<pre class="hljs"><code><span class="hljs-keyword">FOR</span> counter <span class="hljs-keyword">IN</span> [REVERSE]
    lower_bound..upper_bound LOOP
    statements...
-END LOOP;
+<span class="hljs-keyword">END</span> LOOP;
 </code></pre>
-<pre><code class="language-sql">DECLARE
-BEGIN
-  for i in REVERSE 1..10 loop
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+<span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> REVERSE <span class="hljs-number">1.</span><span class="hljs-number">.10</span> loop
      dbms_output.put_line(i);
-     end loop;
-END;
+     <span class="hljs-keyword">end</span> loop;
+<span class="hljs-keyword">END</span>;
 </code></pre>
 
                 </div>

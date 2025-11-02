@@ -148,8 +148,6 @@ body {
 
 /* Container */
 .container {
-    max-width: 900px;
-    margin: 0 auto;
 }
 
 /* Hero Section */
@@ -343,7 +341,6 @@ body {
     border-radius: 2px;
     font-size: 0.75rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }

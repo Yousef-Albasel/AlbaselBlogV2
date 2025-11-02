@@ -169,45 +169,45 @@
                     <h4>Writing our own Shader</h4>
 <p>The plan is to create a function that takes <strong>vertexShader</strong>, <strong>fragmentShader</strong> source codes, compile them and provide a “<strong>program</strong>” that works as a shader for our triangle.</p>
 <p>First let’s define a function that compiles shader string <strong>( we will basically write code in a string that opengl can later read it)</strong>.</p>
-<pre><code class="language-c">static unsigned int CompileShader(unsigned int type, const std::string&amp; source) {
-    // Create a shader object of the specified type
-    unsigned int id = glCreateShader(type);
+<pre class="hljs"><code><span class="hljs-type">static</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> <span class="hljs-title function_">CompileShader</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> type, <span class="hljs-type">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; source)</span> {
+    <span class="hljs-comment">// Create a shader object of the specified type</span>
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> id = glCreateShader(type);
 
-    // Get a pointer to the C string of the source code
-    const char* src = source.c_str();
+    <span class="hljs-comment">// Get a pointer to the C string of the source code</span>
+    <span class="hljs-type">const</span> <span class="hljs-type">char</span>* src = source.c_str();
 
-    // Provide the shader source code to OpenGL
-    glShaderSource(id, 1, &amp;src, nullptr);
+    <span class="hljs-comment">// Provide the shader source code to OpenGL</span>
+    glShaderSource(id, <span class="hljs-number">1</span>, &amp;src, nullptr);
 
-    // Compile the shader
+    <span class="hljs-comment">// Compile the shader</span>
     glCompileShader(id);
 
-    // Check for compilation errors
-    int result;
+    <span class="hljs-comment">// Check for compilation errors</span>
+    <span class="hljs-type">int</span> result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &amp;result);
-    if (result == GL_FALSE) {
-        // If there's an error, retrieve the error message
-        int length;
+    <span class="hljs-keyword">if</span> (result == GL_FALSE) {
+        <span class="hljs-comment">// If there&#x27;s an error, retrieve the error message</span>
+        <span class="hljs-type">int</span> length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &amp;length);
 
-        // Allocate memory on the stack for the error message
-        char* message = (char*)alloca(length * sizeof(char));
+        <span class="hljs-comment">// Allocate memory on the stack for the error message</span>
+        <span class="hljs-type">char</span>* message = (<span class="hljs-type">char</span>*)alloca(length * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>));
 
-        // Retrieve the error message
+        <span class="hljs-comment">// Retrieve the error message</span>
         glGetShaderInfoLog(id, length, &amp;length, message);
 
-        // Print the error message
-        std::cout &lt;&lt; &quot;Fail to Compile Shader: &quot; &lt;&lt; message &lt;&lt; std::endl;
+        <span class="hljs-comment">// Print the error message</span>
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Fail to Compile Shader: &quot;</span> &lt;&lt; message &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
 
-        // Delete the shader as it's not needed anymore
+        <span class="hljs-comment">// Delete the shader as it&#x27;s not needed anymore</span>
         glDeleteShader(id);
 
-        // Return 0 to indicate failure
-        return 0;
+        <span class="hljs-comment">// Return 0 to indicate failure</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
     }
 
-    // Return the ID of the successfully compiled shader
-    return id;
+    <span class="hljs-comment">// Return the ID of the successfully compiled shader</span>
+    <span class="hljs-keyword">return</span> id;
 }
 
 </code></pre>
@@ -249,30 +249,30 @@
 <hr>
 <p>The fundamental purpose of the <code>CreateShader</code> function is to perform a couple of tasks, but at its core, we need to supply OpenGL with the code text. Afterward, it links both components together and returns a unique identifier. This identifier allows us to bind the shader and use it, akin to how we generate a buffer that provides us with an ID, which we can then bind to access and utilize.</p>
 <p>so the function takes two sources codes, sends them to compile function, then returns <code>Gluint</code> type shader that we can bind and use for our triangle.</p>
-<pre><code class="language-c">static unsigned int CreateShader(const std::string&amp; vertexShader, const std::string&amp; fragmentShader) {
-    // Create a shader program object
-    unsigned int program = glCreateProgram();
+<pre class="hljs"><code><span class="hljs-type">static</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> <span class="hljs-title function_">CreateShader</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; vertexShader, <span class="hljs-type">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; fragmentShader)</span> {
+    <span class="hljs-comment">// Create a shader program object</span>
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> program = glCreateProgram();
 
-    // Compile the vertex and fragment shaders
-    unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
-    unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
+    <span class="hljs-comment">// Compile the vertex and fragment shaders</span>
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
-    // Attach the compiled shaders to the program
+    <span class="hljs-comment">// Attach the compiled shaders to the program</span>
     glAttachShader(program, vs);
     glAttachShader(program, fs);
 
-    // Link the shaders into a program
+    <span class="hljs-comment">// Link the shaders into a program</span>
     glLinkProgram(program);
 
-    // Validate the program
+    <span class="hljs-comment">// Validate the program</span>
     glValidateProgram(program);
 
-    // Delete the individual shaders as they are now part of the program
+    <span class="hljs-comment">// Delete the individual shaders as they are now part of the program</span>
     glDeleteShader(vs);
     glDeleteShader(fs);
 
-    // Return the ID of the shader program
-    return program;
+    <span class="hljs-comment">// Return the ID of the shader program</span>
+    <span class="hljs-keyword">return</span> program;
 }
 </code></pre>
 <ul>
@@ -305,26 +305,26 @@
 </ul>
 <hr>
 <p>These two shaders are example for creating a simple red color effect on the triangle, we don’t need to understand how it’s written now but it’s good to know</p>
-<pre><code class="language-c">
-        std::string vertexShader =
-            &quot;#version 330 core&quot;
-            &quot;\n&quot;
-            &quot;layout(location = 0) in vec4 position;&quot;
-            &quot;\n&quot;
-            &quot;void main()\n&quot;
-            &quot;{\n&quot;
-            &quot;gl_Position = position;\n&quot;
-            &quot;}\n&quot;;
+<pre class="hljs"><code>
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> vertexShader =
+            <span class="hljs-string">&quot;#version 330 core&quot;</span>
+            <span class="hljs-string">&quot;\n&quot;</span>
+            <span class="hljs-string">&quot;layout(location = 0) in vec4 position;&quot;</span>
+            <span class="hljs-string">&quot;\n&quot;</span>
+            <span class="hljs-string">&quot;void main()\n&quot;</span>
+            <span class="hljs-string">&quot;{\n&quot;</span>
+            <span class="hljs-string">&quot;gl_Position = position;\n&quot;</span>
+            <span class="hljs-string">&quot;}\n&quot;</span>;
 
-        std::string fragmentShader =
-            &quot;#version 330 core&quot;
-            &quot;\n&quot;
-            &quot;layout(location = 0) out vec4 color;&quot;
-            &quot;\n&quot;
-            &quot;void main()\n&quot;
-            &quot;{\n&quot;
-            &quot;color = vec4(1.0,0.0,0.0,1.0);\n&quot;
-            &quot;}\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> fragmentShader =
+            <span class="hljs-string">&quot;#version 330 core&quot;</span>
+            <span class="hljs-string">&quot;\n&quot;</span>
+            <span class="hljs-string">&quot;layout(location = 0) out vec4 color;&quot;</span>
+            <span class="hljs-string">&quot;\n&quot;</span>
+            <span class="hljs-string">&quot;void main()\n&quot;</span>
+            <span class="hljs-string">&quot;{\n&quot;</span>
+            <span class="hljs-string">&quot;color = vec4(1.0,0.0,0.0,1.0);\n&quot;</span>
+            <span class="hljs-string">&quot;}\n&quot;</span>;
 </code></pre>
 <p>Next we will use files to make writing more efficient and cleaner.</p>
 

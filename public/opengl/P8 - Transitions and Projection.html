@@ -219,31 +219,31 @@ In the previous chapter we discussed the view matrix and how we can use the view
 When we’re talking about camera/view space we’re talking about all the vertex coordinates as seen from the camera’s perspective as the origin of the scene: the view matrix transforms all the world coordinates into view coordinates that are relative to the camera’s position and direction. To define a camera we need its position in world space, the direction it’s looking at, a vector pointing to the right and a vector pointing upwards from the camera. A careful reader may notice that we’re actually going to create a coordinate system with 3 perpendicular unit axes with the camera’s position as the origin.</p>
 <h4>1- Camera position</h4>
 <p>Getting the camera position is easy. The camera position is a vector in world space that points to the camera’s position. We set the camera at the same position we’ve set the camera in the previous chapter:</p>
-<pre><code class="language-C">glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  
+<pre class="hljs"><code>glm::vec3 cameraPos = glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">3.0f</span>);  
 </code></pre>
 <p>Don’t forget that the positive z-axis is going through your screen towards you so if we want the camera to move backwards, we move along the positive z-axis.</p>
 <h4>2- Camera direction</h4>
 <p>The next vector required is the camera’s direction e.g. at what direction it is pointing at. For now we let the camera point to the origin of our scene: (0,0,0).</p>
 <p>Remember that if we subtract two vectors from each other we get a vector that’s the difference of these two vectors? Subtracting the camera position vector from the scene’s origin vector thus results in the direction vector we want.</p>
 <p>For the view matrix’s coordinate system we want its z-axis to be positive and because by convention (in OpenGL) the camera points towards the negative z-axis we want to negate the direction vector. If we switch the subtraction order around we now get a vector pointing towards the camera’s positive z-axis</p>
-<pre><code class="language-c">glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+<pre class="hljs"><code>glm::vec3 cameraTarget = glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>);
 glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 </code></pre>
 <h4>3- Right axis</h4>
 <p>The next vector that we need is a right vector that represents the positive x-axis of the camera space. To get the right vector we use a little trick by first specifying an up vector that points upwards (in world space). Then we do a cross product on the up vector and the direction vector from step 2. Since the result of a cross product is a vector perpendicular to both vectors, we will get a vector that points in the positive x-axis’s direction (if we would switch the cross product order we’d get a vector that points in the negative x-axis):</p>
-<pre><code class="language-c">glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
+<pre class="hljs"><code>glm::vec3 up = glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span>); 
 glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 </code></pre>
 <h4>4- Up axis</h4>
 <p>is just the cross product between right and camera direction again</p>
-<pre><code class="language-c">glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+<pre class="hljs"><code>glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 </code></pre>
 <h4>5- Look at function</h4>
 <p>The glm::LookAt function requires a position, target and up vector respectively. This example creates a view matrix that is the same as the one we created in the previous chapter.</p>
-<pre><code class="language-c">glm::mat4 view;
-view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), 
-  		   glm::vec3(0.0f, 0.0f, 0.0f), 
-  		   glm::vec3(0.0f, 1.0f, 0.0f));
+<pre class="hljs"><code>glm::mat4 view;
+view = glm::lookAt(glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">3.0f</span>), 
+  		   glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">0.0f</span>), 
+  		   glm::vec3(<span class="hljs-number">0.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">0.0f</span>));
 </code></pre>
 
                 </div>

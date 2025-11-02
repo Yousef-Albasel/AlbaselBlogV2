@@ -166,31 +166,31 @@
                 </header>
                 
                 <div class="post-content">
-                    <pre><code class="language-c">#include &quot;SingleLinkedList.h&quot;
+                    <pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SingleLinkedList.h&quot;</span></span>
 
-#include &lt;iostream&gt;
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-using namespace std;
+using namespace <span class="hljs-built_in">std</span>;
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
 SingleLinkedList&lt;Type&gt; :: SingleLinkedList()
 
 {
 
-    count = 0;
+    count = <span class="hljs-number">0</span>;
 
-    first = NULL;
+    first = <span class="hljs-literal">NULL</span>;
 
-    last = NULL;
+    last = <span class="hljs-literal">NULL</span>;
 
 }
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
 SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList()
 
@@ -202,19 +202,19 @@ SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList()
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element)
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element)
 
 {
 
     nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
 
-    if (isEmpty()){
+    <span class="hljs-keyword">if</span> (isEmpty()){
 
         newNode -&gt; info = element;
 
-        newNode -&gt; link = NULL;
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
 
         first = newNode;
 
@@ -224,7 +224,7 @@ void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element)
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         newNode -&gt; info = element;
 
@@ -240,17 +240,17 @@ void SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element)
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
 
     nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
 
-    if (isEmpty()){
+    <span class="hljs-keyword">if</span> (isEmpty()){
 
         newNode -&gt; info = element;
 
-        newNode -&gt; link = NULL;
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
 
         first = newNode;
 
@@ -260,7 +260,7 @@ void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
 
     }
 
-    else {
+    <span class="hljs-keyword">else</span> {
 
         nodeType &lt;Type&gt; *current;
 
@@ -268,9 +268,9 @@ void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
 
         current = first;
 
-        prev = NULL;
+        prev = <span class="hljs-literal">NULL</span>;
 
-        while (current != NULL){
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
 
             prev = current;
 
@@ -282,7 +282,7 @@ void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
 
         newNode -&gt; info = element;
 
-        newNode -&gt; link = NULL;
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
 
         last = newNode;
 
@@ -294,39 +294,39 @@ void SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt; :: insertAt(Type element, int index){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAt(Type element, <span class="hljs-type">int</span> index){
 
     nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
 
-    if (index &gt; count){
+    <span class="hljs-keyword">if</span> (index &gt; count){
 
-        cout &lt;&lt; &quot;Error! Invalid index.&quot; &lt;&lt; endl;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
     }
 
-    else if (index == 0){
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>){
 
         insertAtHead(element);
 
     }
 
-    else if (index == count){
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count){
 
         insertAtTail(element);
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
         nodeType&lt;Type&gt; *current = first;
 
-        nodeType&lt;Type&gt; *prev = NULL;
+        nodeType&lt;Type&gt; *prev = <span class="hljs-literal">NULL</span>;
 
-        while (i &lt; index){
+        <span class="hljs-keyword">while</span> (i &lt; index){
 
             prev = current;
 
@@ -350,17 +350,17 @@ void SingleLinkedList&lt;Type&gt; :: insertAt(Type element, int index){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt;:: removeAtHead(){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAtHead(){
 
-    if (isEmpty()){
+    <span class="hljs-keyword">if</span> (isEmpty()){
 
-        cout &lt;&lt; &quot;Error! List is empty.&quot; &lt;&lt; endl;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType&lt;Type&gt; *temp;
 
@@ -378,17 +378,17 @@ void SingleLinkedList&lt;Type&gt;:: removeAtHead(){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt;:: removeAtTail(){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAtTail(){
 
-    if (isEmpty()){
+    <span class="hljs-keyword">if</span> (isEmpty()){
 
-        cout &lt;&lt; &quot;Error! List is empty.&quot; &lt;&lt; endl;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType &lt;Type&gt; *current;
 
@@ -396,9 +396,9 @@ void SingleLinkedList&lt;Type&gt;:: removeAtTail(){
 
         current = first;
 
-        prev = NULL;
+        prev = <span class="hljs-literal">NULL</span>;
 
-        while (current -&gt; link != NULL){
+        <span class="hljs-keyword">while</span> (current -&gt; link != <span class="hljs-literal">NULL</span>){
 
             prev = current;
 
@@ -406,7 +406,7 @@ void SingleLinkedList&lt;Type&gt;:: removeAtTail(){
 
         }
 
-        prev -&gt; link = NULL;
+        prev -&gt; link = <span class="hljs-literal">NULL</span>;
 
         last = prev;
 
@@ -420,37 +420,37 @@ void SingleLinkedList&lt;Type&gt;:: removeAtTail(){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt;:: removeAt(int index){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAt(<span class="hljs-type">int</span> index){
 
-    if (index  &gt; count - 1){
+    <span class="hljs-keyword">if</span> (index  &gt; count - <span class="hljs-number">1</span>){
 
-        cout &lt;&lt; &quot;Error! Invalid index.&quot; &lt;&lt; endl;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
     }
 
-    else if (index == count - 1){
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count - <span class="hljs-number">1</span>){
 
         removeAtTail();
 
     }
 
-    else if (index == 0){
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>){
 
         removeAtHead();
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
         nodeType&lt;Type&gt; *current = first;
 
-        nodeType&lt;Type&gt; *prev = NULL;
+        nodeType&lt;Type&gt; *prev = <span class="hljs-literal">NULL</span>;
 
-        while (i &lt; index){
+        <span class="hljs-keyword">while</span> (i &lt; index){
 
             prev = current;
 
@@ -472,23 +472,23 @@ void SingleLinkedList&lt;Type&gt;:: removeAt(int index){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{
+Type SingleLinkedList&lt;Type&gt; :: retrieveAt (<span class="hljs-type">int</span> index) <span class="hljs-type">const</span>{
 
-    if (index &gt; count - 1 || index &lt; 0){
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span> || index &lt; <span class="hljs-number">0</span>){
 
-        cout &lt;&lt; &quot;Error! Invalid index.\n&quot;;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType&lt;Type&gt; *current = first;
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
-        while (i != index){
+        <span class="hljs-keyword">while</span> (i != index){
 
             current = current -&gt; link;
 
@@ -496,7 +496,7 @@ Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{
 
         }
 
-        return current -&gt; info;
+        <span class="hljs-keyword">return</span> current -&gt; info;
 
     }
 
@@ -504,23 +504,23 @@ Type SingleLinkedList&lt;Type&gt; :: retrieveAt (int index) const{
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, int index){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, <span class="hljs-type">int</span> index){
 
     nodeType&lt;Type&gt; *current = first;
 
-    if (index &gt; count - 1 || index &lt; 0){
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span> || index &lt; <span class="hljs-number">0</span>){
 
-        cout &lt;&lt; &quot;Error! Invalid index.\n&quot;;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
-        while (current != NULL &amp;&amp; i &lt; index){
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span> &amp;&amp; i &lt; index){
 
             current = current -&gt; link;
 
@@ -536,17 +536,17 @@ void SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, int index){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-bool SingleLinkedList&lt;Type&gt; :: isExist(Type element) const{
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isExist(Type element) <span class="hljs-type">const</span>{
 
     nodeType &lt;Type&gt; *current = first;
 
-    while (current != NULL){
+    <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
 
-        if (current -&gt; info == element){
+        <span class="hljs-keyword">if</span> (current -&gt; info == element){
 
-            return true;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 
         }
 
@@ -554,33 +554,33 @@ bool SingleLinkedList&lt;Type&gt; :: isExist(Type element) const{
 
     }
 
-    return false;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
 }
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, <span class="hljs-type">int</span> index){
 
-    if (index &gt; count - 1){
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span>){
 
-        cout &lt;&lt; &quot;Error! Invalid index.\n&quot;;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType&lt;Type&gt; *current = first;
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
-        while (current != NULL){
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
 
-            if (i == index &amp;&amp; current -&gt; info == element){
+            <span class="hljs-keyword">if</span> (i == index &amp;&amp; current -&gt; info == element){
 
-                return true;
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 
             }
 
@@ -590,7 +590,7 @@ bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){
 
         }
 
-        return false;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 
     }
 
@@ -598,31 +598,31 @@ bool SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, int index){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: swap(<span class="hljs-type">int</span> firstItemIdx, <span class="hljs-type">int</span> secondItemIdx){
 
-    if (firstItemIdx &gt; count - 1 || secondItemIdx &gt; count - 1){
+    <span class="hljs-keyword">if</span> (firstItemIdx &gt; count - <span class="hljs-number">1</span> || secondItemIdx &gt; count - <span class="hljs-number">1</span>){
 
-        cout &lt;&lt; &quot;Error! Invalid index.\n&quot;;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType&lt;Type&gt; *F_idx, *S_idx;
 
         F_idx = first, S_idx = first;
 
-        int i = 0;
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
 
-        int j = 0;
+        <span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;
 
-        while (F_idx != NULL){
+        <span class="hljs-keyword">while</span> (F_idx != <span class="hljs-literal">NULL</span>){
 
-            if (i == firstItemIdx){
+            <span class="hljs-keyword">if</span> (i == firstItemIdx){
 
-                break;
+                <span class="hljs-keyword">break</span>;
 
             }
 
@@ -632,11 +632,11 @@ void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){
 
         }
 
-        while (S_idx != NULL){
+        <span class="hljs-keyword">while</span> (S_idx != <span class="hljs-literal">NULL</span>){
 
-            if (j == secondItemIdx){
+            <span class="hljs-keyword">if</span> (j == secondItemIdx){
 
-                break;
+                <span class="hljs-keyword">break</span>;
 
             }
 
@@ -658,33 +658,33 @@ void SingleLinkedList&lt;Type&gt; :: swap(int firstItemIdx, int secondItemIdx){
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-bool SingleLinkedList&lt;Type&gt; :: isEmpty(){
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isEmpty(){
 
-    return (first == NULL);
-
-}
-
-  
-
-template &lt;class Type&gt;
-
-int SingleLinkedList&lt;Type&gt; :: linkedListSize(){
-
-    return count;
+    <span class="hljs-keyword">return</span> (first == <span class="hljs-literal">NULL</span>);
 
 }
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt;:: clear() {
+<span class="hljs-type">int</span> SingleLinkedList&lt;Type&gt; :: linkedListSize(){
+
+    <span class="hljs-keyword">return</span> count;
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: clear() {
 
     nodeType&lt;Type&gt; *temp;
 
-    while(first != NULL){
+    <span class="hljs-keyword">while</span>(first != <span class="hljs-literal">NULL</span>){
 
         temp = first;
 
@@ -694,44 +694,44 @@ void SingleLinkedList&lt;Type&gt;:: clear() {
 
     }
 
-    last = NULL;
+    last = <span class="hljs-literal">NULL</span>;
 
-    count = 0;
+    count = <span class="hljs-number">0</span>;
 
 }
 
   
 
-template &lt;class Type&gt;
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
 
-void SingleLinkedList&lt;Type&gt;:: print (){
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: print (){
 
-    if (isEmpty()){
+    <span class="hljs-keyword">if</span> (isEmpty()){
 
-        cout &lt;&lt; &quot;Empty! Nothing to print.&quot; &lt;&lt; endl;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Empty! Nothing to print.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
     }
 
-    else{
+    <span class="hljs-keyword">else</span>{
 
         nodeType&lt;Type&gt; *current = first;
 
-        while (current != NULL){
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
 
-            cout &lt;&lt; current -&gt; info &lt;&lt; ' ';
+            <span class="hljs-built_in">cout</span> &lt;&lt; current -&gt; info &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
 
             current = current -&gt; link;
 
         }
 
-        cout &lt;&lt; '\n';
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 
     }
 
 }
 </code></pre>
 <h5>Doubly Linked List</h5>
-<pre><code class="language-c">#include &quot;DoublyLinkedList.h&quot;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;DoublyLinkedList.h&quot;</span></span>
 
   
 
@@ -741,7 +741,7 @@ DoublyLinkedList&lt;ElementType&gt;::DoublyLinkedList()
 
 {
 
-    count = 0;
+    count = <span class="hljs-number">0</span>;
 
     head = nullptr;
 
@@ -765,11 +765,11 @@ DoublyLinkedList&lt;ElementType&gt;::~DoublyLinkedList()
 
 template &lt;typename ElementType&gt;
 
-bool DoublyLinkedList&lt;ElementType&gt;::isEmpty() const
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isEmpty() <span class="hljs-type">const</span>
 
 {
 
-    return (head == nullptr);
+    <span class="hljs-keyword">return</span> (head == nullptr);
 
 }
 
@@ -777,7 +777,7 @@ bool DoublyLinkedList&lt;ElementType&gt;::isEmpty() const
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::clear()
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::clear()
 
 {
 
@@ -785,7 +785,7 @@ void DoublyLinkedList&lt;ElementType&gt;::clear()
 
   
 
-    while (head != nullptr)
+    <span class="hljs-keyword">while</span> (head != nullptr)
 
     {
 
@@ -801,7 +801,7 @@ void DoublyLinkedList&lt;ElementType&gt;::clear()
 
     tail = nullptr;
 
-    count = 0;
+    count = <span class="hljs-number">0</span>;
 
 }
 
@@ -809,11 +809,11 @@ void DoublyLinkedList&lt;ElementType&gt;::clear()
 
 template &lt;typename ElementType&gt;
 
-int DoublyLinkedList&lt;ElementType&gt;::linkedListSize() const
+<span class="hljs-type">int</span> DoublyLinkedList&lt;ElementType&gt;::linkedListSize() <span class="hljs-type">const</span>
 
 {
 
-    return count;
+    <span class="hljs-keyword">return</span> count;
 
 }
 
@@ -821,35 +821,35 @@ int DoublyLinkedList&lt;ElementType&gt;::linkedListSize() const
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::print() const
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::print() <span class="hljs-type">const</span>
 
 {
 
     Node&lt;ElementType&gt; *current = head;
 
-    if (head == nullptr)
+    <span class="hljs-keyword">if</span> (head == nullptr)
 
     {
 
-        std::cout &lt;&lt; &quot;List is empty.&quot; &lt;&lt; std::endl;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
-    while (current-&gt;next != nullptr)
+    <span class="hljs-keyword">while</span> (current-&gt;next != nullptr)
 
     {
 
-        std::cout &lt;&lt; current-&gt;info &lt;&lt; &quot; &quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; current-&gt;info &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
 
         current = current-&gt;next;
 
     }
 
-    std::cout &lt;&lt; current-&gt;info;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; current-&gt;info;
 
-    std::cout &lt;&lt; std::endl;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
 
 }
 
@@ -857,27 +857,27 @@ void DoublyLinkedList&lt;ElementType&gt;::print() const
 
 template &lt;typename ElementType&gt;
 
-bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element) const
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isExist(<span class="hljs-type">const</span> ElementType &amp;element) <span class="hljs-type">const</span>
 
 {
 
     Node&lt;ElementType&gt; *current = head;
 
-    bool isFound = false;
+    <span class="hljs-type">bool</span> isFound = <span class="hljs-literal">false</span>;
 
-    while (!isFound &amp;&amp; current != nullptr)
+    <span class="hljs-keyword">while</span> (!isFound &amp;&amp; current != nullptr)
 
     {
 
-        if (current-&gt;info &gt;= element)
+        <span class="hljs-keyword">if</span> (current-&gt;info &gt;= element)
 
         {
 
-            isFound = true;
+            isFound = <span class="hljs-literal">true</span>;
 
         }
 
-        else
+        <span class="hljs-keyword">else</span>
 
         {
 
@@ -887,11 +887,11 @@ bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element
 
     }
 
-    if (isFound)
+    <span class="hljs-keyword">if</span> (isFound)
 
         isFound = (current-&gt;info == element);
 
-    return isFound;
+    <span class="hljs-keyword">return</span> isFound;
 
 }
 
@@ -899,15 +899,15 @@ bool DoublyLinkedList&lt;ElementType&gt;::isExist(const ElementType &amp;element
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;element)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAtHead(<span class="hljs-type">const</span> ElementType &amp;element)
 
 {
 
     Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element);
 
-    if (head == nullptr &amp;&amp; tail == nullptr)
+    <span class="hljs-keyword">if</span> (head == nullptr &amp;&amp; tail == nullptr)
 
-    { // if the list is empty
+    { <span class="hljs-comment">// if the list is empty</span>
 
         head = newNode;
 
@@ -915,9 +915,9 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;el
 
     }
 
-    else
+    <span class="hljs-keyword">else</span>
 
-    { // if the list is not empty
+    { <span class="hljs-comment">// if the list is not empty</span>
 
         newNode-&gt;next = head;
 
@@ -935,15 +935,15 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAtHead(const ElementType &amp;el
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;element)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAtTail(<span class="hljs-type">const</span> ElementType &amp;element)
 
 {
 
     Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element);
 
-    if (head == nullptr &amp;&amp; tail == nullptr)
+    <span class="hljs-keyword">if</span> (head == nullptr &amp;&amp; tail == nullptr)
 
-    { // if the list is empty
+    { <span class="hljs-comment">// if the list is empty</span>
 
         head = newNode;
 
@@ -951,9 +951,9 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;el
 
     }
 
-    else
+    <span class="hljs-keyword">else</span>
 
-    { // if the list is not empty
+    { <span class="hljs-comment">// if the list is not empty</span>
 
         newNode-&gt;back = tail;
 
@@ -971,17 +971,17 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAtTail(const ElementType &amp;el
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;element, int index)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAt(<span class="hljs-type">const</span> ElementType &amp;element, <span class="hljs-type">int</span> index)
 
 {
 
-    if (index &lt; 0 || index &gt; count)
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
 
     {
 
-        std::cout &lt;&lt; &quot;Error: Index out of range\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
@@ -991,37 +991,37 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;elemen
 
   
 
-    if (index == 0) // index at head
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>) <span class="hljs-comment">// index at head</span>
 
     {
 
         insertAtHead(element);
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    else if (index == count) // index at tail
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count) <span class="hljs-comment">// index at tail</span>
 
     {
 
         insertAtTail(element);
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    else
+    <span class="hljs-keyword">else</span>
 
     {
 
-        Node&lt;ElementType&gt; *current = head; // Loop until you find the index
+        Node&lt;ElementType&gt; *current = head; <span class="hljs-comment">// Loop until you find the index</span>
 
-        for (int i = 0; i &lt; index - 1; ++i)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index - <span class="hljs-number">1</span>; ++i)
 
         {
 
@@ -1047,17 +1047,17 @@ void DoublyLinkedList&lt;ElementType&gt;::insertAt(const ElementType &amp;elemen
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
 
 {
 
-    if (head == nullptr)
+    <span class="hljs-keyword">if</span> (head == nullptr)
 
     {
 
-        std::cout &lt;&lt; &quot;Error: can't remove item; list is empty.\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: can&#x27;t remove item; list is empty.\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
@@ -1067,7 +1067,7 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
 
     head = head-&gt;next;
 
-    if (head != nullptr)
+    <span class="hljs-keyword">if</span> (head != nullptr)
 
     {
 
@@ -1075,7 +1075,7 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
 
     }
 
-    else
+    <span class="hljs-keyword">else</span>
 
     {
 
@@ -1091,17 +1091,17 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
 
 {
 
-    if (tail == nullptr)
+    <span class="hljs-keyword">if</span> (tail == nullptr)
 
     {
 
-        std::cout &lt;&lt; &quot;Error: can't remove item; list is empty.\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: can&#x27;t remove item; list is empty.\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
@@ -1111,7 +1111,7 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
 
     tail = tail-&gt;back;
 
-    if (tail != nullptr)
+    <span class="hljs-keyword">if</span> (tail != nullptr)
 
     {
 
@@ -1119,7 +1119,7 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
 
     }
 
-    else
+    <span class="hljs-keyword">else</span>
 
     {
 
@@ -1137,65 +1137,65 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::removeAt(int index)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAt(<span class="hljs-type">int</span> index)
 
 {
 
-    if (isEmpty())
+    <span class="hljs-keyword">if</span> (isEmpty())
 
     {
 
-        std::cout &lt;&lt; &quot;Error: List is empty\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: List is empty\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    if (index &lt; 0 || index &gt; count)
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
 
     {
 
-        std::cout &lt;&lt; &quot;Error: Index out of range\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    if (index == 0)
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>)
 
     {
 
         removeAtHead();
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    else if (index == count - 1) // index at tail
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count - <span class="hljs-number">1</span>) <span class="hljs-comment">// index at tail</span>
 
     {
 
         removeAtTail();
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    else
+    <span class="hljs-keyword">else</span>
 
     {
 
         Node&lt;ElementType&gt; *temp = head;
 
-        for (int i = 0; i &lt; index; ++i)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
 
         {
 
@@ -1221,41 +1221,41 @@ void DoublyLinkedList&lt;ElementType&gt;::removeAt(int index)
 
 template &lt;typename ElementType&gt;
 
-ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index)
+ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(<span class="hljs-type">int</span> index)
 
 {
 
-    if (isEmpty())
+    <span class="hljs-keyword">if</span> (isEmpty())
 
     {
 
-        throw std::runtime_error(&quot;Error: List is empty&quot;);
+        throw <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">&quot;Error: List is empty&quot;</span>);
 
     }
 
-    if (index &lt; 0 || index &gt; count)
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
 
     {
 
-        throw std::runtime_error(&quot;Error: Invalid index, out of range&quot;);
+        throw <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">&quot;Error: Invalid index, out of range&quot;</span>);
 
     }
 
-    if (index == 0) // index at head
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>) <span class="hljs-comment">// index at head</span>
 
     {
 
-        return head-&gt;info;
+        <span class="hljs-keyword">return</span> head-&gt;info;
 
     }
 
   
 
-    else if (index == count) // index at tail
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count) <span class="hljs-comment">// index at tail</span>
 
     {
 
-        return tail-&gt;info;
+        <span class="hljs-keyword">return</span> tail-&gt;info;
 
     }
 
@@ -1263,7 +1263,7 @@ ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index)
 
     Node&lt;ElementType&gt; *temp = head;
 
-    for (int i = 0; i &lt; index; ++i)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
 
     {
 
@@ -1271,7 +1271,7 @@ ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index)
 
     }
 
-    return temp-&gt;info;
+    <span class="hljs-keyword">return</span> temp-&gt;info;
 
 };
 
@@ -1279,51 +1279,51 @@ ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(int index)
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newElement, int index)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::replaceAt(<span class="hljs-type">const</span> ElementType &amp;newElement, <span class="hljs-type">int</span> index)
 
 {
 
-    if (isEmpty())
+    <span class="hljs-keyword">if</span> (isEmpty())
 
     {
 
-        std::cout &lt;&lt; &quot;Error: List is empty\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: List is empty\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
-    if (index &lt; 0 || index &gt; count)
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
 
     {
 
-        std::cout &lt;&lt; &quot;Error: Index out of range\n&quot;;
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    if (index == 0)
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>)
 
     {
 
         head-&gt;info = newElement;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
   
 
-    else if (index == count)
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count)
 
     {
 
         tail-&gt;info = newElement;
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
     }
 
@@ -1331,7 +1331,7 @@ void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newEl
 
     Node&lt;ElementType&gt; *temp = head;
 
-    for (int i = 0; i &lt; index; ++i)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
 
     {
 
@@ -1347,11 +1347,11 @@ void DoublyLinkedList&lt;ElementType&gt;::replaceAt(const ElementType &amp;newEl
 
 template &lt;typename ElementType&gt;
 
-bool DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(const ElementType &amp;element, int index)
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(<span class="hljs-type">const</span> ElementType &amp;element, <span class="hljs-type">int</span> index)
 
 {
 
-    return (retrieveAt(index) == element);
+    <span class="hljs-keyword">return</span> (retrieveAt(index) == element);
 
 };
 
@@ -1359,15 +1359,15 @@ bool DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(const ElementType &amp;e
 
 template &lt;typename ElementType&gt;
 
-void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemIdx)
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::swap(<span class="hljs-type">int</span> firstItemIdx, <span class="hljs-type">int</span> secondItemIdx)
 
 {
 
   
 
-    if (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx)
+    <span class="hljs-keyword">if</span> (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx)
 
-        return;
+        <span class="hljs-keyword">return</span>;
 
   
 
@@ -1377,9 +1377,9 @@ void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemI
 
   
 
-    // Finding the correct Nodes
+    <span class="hljs-comment">// Finding the correct Nodes</span>
 
-    for (int i = 0; i &lt; firstItemIdx; ++i)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; firstItemIdx; ++i)
 
     {
 
@@ -1389,7 +1389,7 @@ void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemI
 
   
 
-    for (int i = 0; i &lt; secondItemIdx; ++i)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; secondItemIdx; ++i)
 
     {
 
@@ -1399,27 +1399,27 @@ void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemI
 
   
 
-    // reverse head and tail
+    <span class="hljs-comment">// reverse head and tail</span>
 
-    if (fisrtNode == head)
+    <span class="hljs-keyword">if</span> (fisrtNode == head)
 
         head = secondNode;
 
-    else if (secondNode == head)
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondNode == head)
 
         head = fisrtNode;
 
-    if (fisrtNode == tail)
+    <span class="hljs-keyword">if</span> (fisrtNode == tail)
 
         tail = secondNode;
 
-    else if (secondNode == tail)
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondNode == tail)
 
         tail = fisrtNode;
 
   
 
-    // First make each node points at the next adjacent node of the other
+    <span class="hljs-comment">// First make each node points at the next adjacent node of the other</span>
 
     Node&lt;ElementType&gt; *temp;
 
@@ -1431,19 +1431,19 @@ void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemI
 
   
 
-    // check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap
+    <span class="hljs-comment">// check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap</span>
 
-    if (fisrtNode-&gt;next != nullptr)
+    <span class="hljs-keyword">if</span> (fisrtNode-&gt;next != nullptr)
 
         fisrtNode-&gt;next-&gt;back = fisrtNode;
 
-    if (secondNode-&gt;next != nullptr)
+    <span class="hljs-keyword">if</span> (secondNode-&gt;next != nullptr)
 
         secondNode-&gt;next-&gt;back = secondNode;
 
   
 
-    // vice versa
+    <span class="hljs-comment">// vice versa</span>
 
     temp = fisrtNode-&gt;back;
 
@@ -1453,11 +1453,11 @@ void DoublyLinkedList&lt;ElementType&gt;::swap(int firstItemIdx, int secondItemI
 
   
 
-    if (fisrtNode-&gt;back != nullptr)
+    <span class="hljs-keyword">if</span> (fisrtNode-&gt;back != nullptr)
 
         fisrtNode-&gt;back-&gt;next = fisrtNode;
 
-    if (secondNode-&gt;back != nullptr)
+    <span class="hljs-keyword">if</span> (secondNode-&gt;back != nullptr)
 
         secondNode-&gt;back-&gt;next = secondNode;
 

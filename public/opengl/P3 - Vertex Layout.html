@@ -193,11 +193,11 @@
 <p>0 is the pointer offset. It specifies the offset of the first component of the first generic vertex attribute in the array.</p>
 </li>
 </ul>
-<pre><code class="language-c">
-    // Now we need to tell OpenGL how our data is laid out, is it a 2D Vector or 3D...
+<pre class="hljs"><code>
+    <span class="hljs-comment">// Now we need to tell OpenGL how our data is laid out, is it a 2D Vector or 3D...</span>
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2,0);
+    glEnableVertexAttribArray(<span class="hljs-number">0</span>);
+    glVertexAttribPointer(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, GL_FLOAT, GL_FALSE, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">float</span>) * <span class="hljs-number">2</span>,<span class="hljs-number">0</span>);
 
 </code></pre>
 

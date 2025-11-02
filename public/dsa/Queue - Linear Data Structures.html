@@ -167,16 +167,16 @@
                 
                 <div class="post-content">
                     <p>Implementation for queue using a linked list</p>
-<pre><code class="language-c">#include &lt;iostream&gt;
-using namespace std;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
 
-class Node {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> {</span>
 public:
-    int data;
+    <span class="hljs-type">int</span> data;
     Node* next;
 };
 
-class Queue {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Queue</span> {</span>
     Node* front;
     Node* rear;
 
@@ -185,139 +185,139 @@ public:
         front = rear = nullptr;
     }
 
-    void push(int x);
-    int pop();
-    bool isEmpty();
-    int peek();
+    <span class="hljs-type">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
 };
 
-void Queue::push(int x) {
+<span class="hljs-type">void</span> <span class="hljs-title function_">Queue::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
     Node* newNode = new Node();
     newNode-&gt;data = x;
     newNode-&gt;next = nullptr;
 
-    if (rear == nullptr) {
+    <span class="hljs-keyword">if</span> (rear == nullptr) {
         front = rear = newNode;
-        return;
+        <span class="hljs-keyword">return</span>;
     }
 
     rear-&gt;next = newNode;
     rear = newNode;
-    cout &lt;&lt; x &lt;&lt; &quot; pushed to queue&quot; &lt;&lt; endl;
+    <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed to queue&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 }
 
-int Queue::pop() {
-    if (front == nullptr) {
-        cout &lt;&lt; &quot;Queue Underflow&quot; &lt;&lt; endl;
-        return -1;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Queue::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (front == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
     }
 
     Node* temp = front;
     front = front-&gt;next;
 
-    if (front == nullptr) {
+    <span class="hljs-keyword">if</span> (front == nullptr) {
         rear = nullptr;
     }
 
-    int popped = temp-&gt;data;
+    <span class="hljs-type">int</span> popped = temp-&gt;data;
     delete temp;
-    return popped;
+    <span class="hljs-keyword">return</span> popped;
 }
 
-bool Queue::isEmpty() {
-    return front == nullptr;
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Queue::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> front == nullptr;
 }
 
-int Queue::peek() {
-    if (front == nullptr) {
-        cout &lt;&lt; &quot;Queue is Empty&quot; &lt;&lt; endl;
-        return -1;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Queue::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (front == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
     }
-    return front-&gt;data;
+    <span class="hljs-keyword">return</span> front-&gt;data;
 }
 
-int main() {
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
     Queue q;
-    q.push(10);
-    q.push(20);
-    q.push(30);
-    cout &lt;&lt; q.pop() &lt;&lt; &quot; popped from queue&quot; &lt;&lt; endl;
-    cout &lt;&lt; &quot;Front element is &quot; &lt;&lt; q.peek() &lt;&lt; endl;
-    cout &lt;&lt; &quot;Queue is empty: &quot; &lt;&lt; (q.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+    q.push(<span class="hljs-number">10</span>);
+    q.push(<span class="hljs-number">20</span>);
+    q.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.pop() &lt;&lt; <span class="hljs-string">&quot; popped from queue&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Front element is &quot;</span> &lt;&lt; q.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue is empty: &quot;</span> &lt;&lt; (q.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 
 </code></pre>
 <h3>Queue Implementation using Array</h3>
-<pre><code class="language-c">#include &lt;iostream&gt;
-using namespace std;
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
 
-#define MAX 1000 // Define the maximum size of the queue
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX 1000 <span class="hljs-comment">// Define the maximum size of the queue</span></span>
 
-class Queue {
-    int front, rear, size;
-    int arr[MAX];
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Queue</span> {</span>
+    <span class="hljs-type">int</span> front, rear, size;
+    <span class="hljs-type">int</span> arr[MAX];
 
 public:
     Queue() {
-        front = size = 0;
-        rear = MAX - 1;
+        front = size = <span class="hljs-number">0</span>;
+        rear = MAX - <span class="hljs-number">1</span>;
     }
 
-    bool push(int x);
-    int pop();
-    bool isEmpty();
-    int peek();
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
 };
 
-bool Queue::push(int x) {
-    if (size == MAX) {
-        cout &lt;&lt; &quot;Queue Overflow&quot; &lt;&lt; endl;
-        return false;
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Queue::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
+    <span class="hljs-keyword">if</span> (size == MAX) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue Overflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
     }
 
-    rear = (rear + 1) % MAX;
+    rear = (rear + <span class="hljs-number">1</span>) % MAX;
     arr[rear] = x;
-    size = size + 1;
-    cout &lt;&lt; x &lt;&lt; &quot; pushed to queue&quot; &lt;&lt; endl;
-    return true;
+    size = size + <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed to queue&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 }
 
-int Queue::pop() {
-    if (isEmpty()) {
-        cout &lt;&lt; &quot;Queue Underflow&quot; &lt;&lt; endl;
-        return -1;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Queue::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (isEmpty()) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
     }
 
-    int item = arr[front];
-    front = (front + 1) % MAX;
-    size = size - 1;
-    return item;
+    <span class="hljs-type">int</span> item = arr[front];
+    front = (front + <span class="hljs-number">1</span>) % MAX;
+    size = size - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> item;
 }
 
-bool Queue::isEmpty() {
-    return (size == 0);
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Queue::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> (size == <span class="hljs-number">0</span>);
 }
 
-int Queue::peek() {
-    if (isEmpty()) {
-        cout &lt;&lt; &quot;Queue is Empty&quot; &lt;&lt; endl;
-        return -1;
+<span class="hljs-type">int</span> <span class="hljs-title function_">Queue::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (isEmpty()) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
     }
-    return arr[front];
+    <span class="hljs-keyword">return</span> arr[front];
 }
 
-int main() {
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
     Queue q;
-    q.push(10);
-    q.push(20);
-    q.push(30);
-    cout &lt;&lt; q.pop() &lt;&lt; &quot; popped from queue&quot; &lt;&lt; endl;
-    cout &lt;&lt; &quot;Front element is &quot; &lt;&lt; q.peek() &lt;&lt; endl;
-    cout &lt;&lt; &quot;Queue is empty: &quot; &lt;&lt; (q.isEmpty() ? &quot;True&quot; : &quot;False&quot;) &lt;&lt; endl;
+    q.push(<span class="hljs-number">10</span>);
+    q.push(<span class="hljs-number">20</span>);
+    q.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; q.pop() &lt;&lt; <span class="hljs-string">&quot; popped from queue&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Front element is &quot;</span> &lt;&lt; q.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Queue is empty: &quot;</span> &lt;&lt; (q.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
 
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
 
