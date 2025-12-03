@@ -2,14 +2,27 @@ const fs = require('fs-extra');
 const path = require('path');
 const matter = require('gray-matter');
 const MarkdownIt = require('markdown-it');
+const hljs = require('highlight.js');
+
 const nunjucks = require('nunjucks');
 const { config } = require('process');
 
 const md = MarkdownIt({
   html: true,
   linkify: true,
-  typographer: true
-})
+  typographer: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+               hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+               '</code></pre>';
+      } catch (__) {}
+    }
+
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+  }
+});
 
 // Get the theme directory based on config
 function getThemeDir(projectDir, themeName) {
