@@ -65,3 +65,32 @@ penetration is literally how much two objects are inside each other.
 
 `glm::vec3 GetPenetrationVector(const AABB& a, const AABB& b)`
 This is useful so you don't get a character literally inside another object, this will push the character outside it
+How u calculate it is by finding the minimum overlap between all 3 axis. This way the character feels more stable, imagine 2 boxes, one on top of another, and you get the overlap for X and Y axis,
+![image.png](/images/paste-1765376794257-4a920ba8e0201378.png)
+X-axis overlap would be a lot bigger than y-overlap, we don't need to displace the box using X for this case.
+
+```cpp
+inline glm::vec3 GetPenetrationVector(const AABB& a, const AABB& b) {
+    glm::vec3 penetration(0.0f);
+    
+    float xOverlap = glm::min(a.max.x, b.max.x) - glm::max(a.min.x, b.min.x);
+    float yOverlap = glm::min(a.max.y, b.max.y) - glm::max(a.min.y, b.min.y);
+    float zOverlap = glm::min(a.max.z, b.max.z) - glm::max(a.min.z, b.min.z);
+    
+    if (xOverlap < yOverlap && xOverlap < zOverlap) {
+        penetration.x = (a.getCenter().x < b.getCenter().x) ? -xOverlap : xOverlap;
+    } else if (yOverlap < zOverlap) {
+        penetration.y = (a.getCenter().y < b.getCenter().y) ? -yOverlap : yOverlap;
+    } else {
+        penetration.z = (a.getCenter().z < b.getCenter().z) ? -zOverlap : zOverlap;
+    }
+    
+    return penetration;
+}
+```
+
+
+![image.png](/images/paste-1765375444138-2f6985cd26d2633f.png)
+
+
+Now our character can walk and run on a platform and fall out of it. We also have added a mode that makes camera follow the player, we have enough components to start writing networking modules, we will do that next devlog.
