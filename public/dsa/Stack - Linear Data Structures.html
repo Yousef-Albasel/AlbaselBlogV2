@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Data structure - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: #333;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 11 of 11</strong> in
+                    <a href="/dsa/">DSA</a>
+                </div>
+                <div class="series-progress">
+                    11/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>Stack Data structure</h1>
+                    <div class="post-meta">
+                        <time>2024-02-20</time>
+                        <span class="post-category">Algorithms</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/algorithms.png" alt="Stack Data structure" class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h4>Stack Implementation Using Array</h4>
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
+
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX 1000 <span class="hljs-comment">// Define the maximum size of the stack</span></span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span> {</span>
+    <span class="hljs-type">int</span> top;
+
+public:
+    <span class="hljs-type">int</span> arr[MAX]; <span class="hljs-comment">// Maximum size of Stack</span>
+
+    Stack() { top = <span class="hljs-number">-1</span>; }
+
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
+};
+
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
+    <span class="hljs-keyword">if</span> (top &gt;= (MAX - <span class="hljs-number">1</span>)) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Overflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        arr[++top] = x;
+        <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed into stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> x = arr[top--];
+        <span class="hljs-keyword">return</span> x;
+    }
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> x = arr[top];
+        <span class="hljs-keyword">return</span> x;
+    }
+}
+
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> (top &lt; <span class="hljs-number">0</span>);
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    Stack s;
+    s.push(<span class="hljs-number">10</span>);
+    s.push(<span class="hljs-number">20</span>);
+    s.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; s.pop() &lt;&lt; <span class="hljs-string">&quot; popped from stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Top element is &quot;</span> &lt;&lt; s.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is empty: &quot;</span> &lt;&lt; (s.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+</code></pre>
+<h3>Stack Implementation using Linked list</h3>
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+using namespace <span class="hljs-built_in">std</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackNode</span> {</span>
+public:
+    <span class="hljs-type">int</span> data;
+    StackNode* next;
+};
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span> {</span>
+    StackNode* top;
+
+public:
+    Stack() { top = nullptr; }
+
+    <span class="hljs-type">void</span> <span class="hljs-title function_">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">pop</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">int</span> <span class="hljs-title function_">peek</span><span class="hljs-params">()</span>;
+    <span class="hljs-type">bool</span> <span class="hljs-title function_">isEmpty</span><span class="hljs-params">()</span>;
+};
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">Stack::push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> {
+    StackNode* newNode = new StackNode();
+    newNode-&gt;data = x;
+    newNode-&gt;next = top;
+    top = newNode;
+    <span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; pushed into stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::pop</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack Underflow&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-type">int</span> popped = top-&gt;data;
+        StackNode* temp = top;
+        top = top-&gt;next;
+        delete temp;
+        <span class="hljs-keyword">return</span> popped;
+    }
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">Stack::peek</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">if</span> (top == nullptr) {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is Empty&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> top-&gt;data;
+    }
+}
+
+<span class="hljs-type">bool</span> <span class="hljs-title function_">Stack::isEmpty</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> top == nullptr;
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    Stack s;
+    s.push(<span class="hljs-number">10</span>);
+    s.push(<span class="hljs-number">20</span>);
+    s.push(<span class="hljs-number">30</span>);
+    <span class="hljs-built_in">cout</span> &lt;&lt; s.pop() &lt;&lt; <span class="hljs-string">&quot; popped from stack&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Top element is &quot;</span> &lt;&lt; s.peek() &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stack is empty: &quot;</span> &lt;&lt; (s.isEmpty() ? <span class="hljs-string">&quot;True&quot;</span> : <span class="hljs-string">&quot;False&quot;</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+</code></pre>
+<h4>Solution to applications on stack : Bracket Balancing</h4>
+<pre class="hljs"><code>
+
+<span class="hljs-type">bool</span> <span class="hljs-title function_">isMatchingPair</span><span class="hljs-params">(<span class="hljs-type">char</span> character1, <span class="hljs-type">char</span> character2)</span> {
+    <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;(&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;)&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;{&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;}&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (character1 == <span class="hljs-string">&#x27;[&#x27;</span> &amp;&amp; character2 == <span class="hljs-string">&#x27;]&#x27;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+
+<span class="hljs-type">bool</span> <span class="hljs-title function_">areBracketsBalanced</span><span class="hljs-params">(<span class="hljs-built_in">string</span> expr)</span> {
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-type">char</span>&gt; s;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; expr.length(); i++) {
+        <span class="hljs-keyword">if</span> (expr[i] == <span class="hljs-string">&#x27;(&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;{&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;[&#x27;</span>) {
+            s.push(expr[i]);
+        }
+
+        <span class="hljs-keyword">if</span> (expr[i] == <span class="hljs-string">&#x27;)&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;}&#x27;</span> || expr[i] == <span class="hljs-string">&#x27;]&#x27;</span>) {
+            <span class="hljs-keyword">if</span> (s.empty()) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!isMatchingPair(s.top(), expr[i])) {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+            <span class="hljs-keyword">else</span> {
+                s.pop();
+            }
+        }
+    }
+
+    <span class="hljs-keyword">return</span> s.empty();
+}
+
+</code></pre>
+<h4>Solution to applications on stack: Postfix to Infix</h4>
+<pre class="hljs"><code><span class="hljs-type">int</span> <span class="hljs-title function_">precedence</span><span class="hljs-params">(<span class="hljs-type">char</span> op)</span> {
+    <span class="hljs-keyword">if</span> (op == <span class="hljs-string">&#x27;+&#x27;</span> || op == <span class="hljs-string">&#x27;-&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (op == <span class="hljs-string">&#x27;*&#x27;</span> || op == <span class="hljs-string">&#x27;/&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-built_in">string</span> <span class="hljs-title function_">InfixToPostfix</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-built_in">string</span> &amp;infix)</span> {
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-type">char</span>&gt; s;
+    <span class="hljs-built_in">string</span> postfix;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> i : infix) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isdigit</span>(i)) {
+            postfix += i;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == <span class="hljs-string">&#x27;(&#x27;</span>) {
+            s.push(i);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == <span class="hljs-string">&#x27;)&#x27;</span>) {
+            <span class="hljs-keyword">while</span> (!s.empty() &amp;&amp; s.top() != <span class="hljs-string">&#x27;(&#x27;</span>) {
+                postfix += s.top();
+                s.pop();
+            }
+            s.pop(); 
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// Operator </span>
+            <span class="hljs-keyword">while</span> (!s.empty() &amp;&amp; precedence(s.top()) &gt;= precedence(i)) {
+                postfix += s.top();
+                s.pop();
+            }
+            s.push(i);
+        }
+    }
+    <span class="hljs-comment">// remaining operators inthe stack</span>
+    <span class="hljs-keyword">while</span> (!s.empty()) {
+        postfix += s.top();
+        s.pop();
+    }
+    <span class="hljs-keyword">return</span> postfix;
+}
+</code></pre>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/dsa/Shell Sort - Sorting Algorithms.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">Shell Sort</span>
+                        </a>
+                    
+                    
+                    
+                        <div class="nav-placeholder"></div>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/dsa/" class="back-link"><i class="fas fa-book"></i> Back to DSA</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

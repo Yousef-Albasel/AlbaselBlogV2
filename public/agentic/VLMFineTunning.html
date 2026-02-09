@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLM Fine-tunning - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: #333;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 1 of 1</strong> in
+                    <a href="/agentic/">agentic</a>
+                </div>
+                <div class="series-progress">
+                    1/1
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>VLM Fine-tunning</h1>
+                    <div class="post-meta">
+                        <time>2026-02-02</time>
+                        <span class="post-category">AgenticAI</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h1>VLM Fine-tunning Summary Abu-Bakr Soliman</h1>
+<h2>Introduction</h2>
+<p>We need a solution to extract text and data from Arabic documents that are not only limited to normal scanned text but also can include tables, figures and noise… this makes the extraction process challenging.</p>
+<p>The State of The Art method currently is using VLMs, those are Multi-Modal language models that can understand images. but we have 3 challenges</p>
+<p>they need to be</p>
+<ul>
+<li>
+<p>Local Models</p>
+</li>
+<li>
+<p>Low Budget</p>
+</li>
+<li>
+<p>Gives More Value Than OCR</p>
+</li>
+</ul>
+<h2>Google Colab Setup</h2>
+<p>For each PDF File, we extract all the images in it, save it in a certain format and apply preprocessing steps to each image</p>
+<p>The preprocessing steps used are <strong>resize</strong> and <strong>contrast enhancement</strong></p>
+<h2>VLM Choices</h2>
+<p>We have 3 VLM options that we can use</p>
+<ul>
+<li>
+<p>Qwen3 VL</p>
+</li>
+<li>
+<p>Gemma</p>
+</li>
+<li>
+<p>Lllava</p>
+</li>
+</ul>
+<p>AbuBakr tried Qwen3 VL 2B parameter and it didn’t provide the best performance, so he tried 8B, but after fine-tunning he discovered that Qwen3 Always tends to (Add and Fix) details from the documents. which is not needed in our case. (and some chinese characters are present for some reason)</p>
+<p>Abubakr tried Llava Next, he says its faster than qwen but he says it performs poorly with documents that have long content.</p>
+<p>Finally, he tried Gemma3, He said it keeps all the details as it, it doesn’t Fix or add anything, it only outputs a detail if the confidence is high.</p>
+<p>So we are going to use 4b Instruct version for this task.</p>
+<pre class="hljs"><code>
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoProcessor, Gemma3ForConditionalGeneration
+
+<span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+
+<span class="hljs-keyword">import</span> requests
+
+<span class="hljs-keyword">import</span> torch
+
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Image <span class="hljs-keyword">as</span> diplay
+
+data_dir = <span class="hljs-string">&quot;/content/pdf_images&quot;</span>
+
+model_id = <span class="hljs-string">&quot;google/gemma-3-4b-it&quot;</span>
+
+
+
+model = Gemma3ForConditionalGeneration.from_pretrained(
+
+    model_id, dtype=<span class="hljs-string">&quot;auto&quot;</span>, device_map=<span class="hljs-string">&quot;auto&quot;</span>
+
+).<span class="hljs-built_in">eval</span>()
+
+
+
+processor = AutoProcessor.from_pretrained(model_id)
+
+
+
+</code></pre>
+<h2>Why would we extract only text when we can do more</h2>
+<p>If we are going to use VLM and pay for the extra cost… why not use it to also categorize, and classify our documents, adding more rich information to the output.</p>
+<p>its all about adding more information to the output json, such as publishing dates, document type, date type page number etc…</p>
+<h3>Abubakr used a very detailed, long, and rich prompt that contained a lot of information (I’m too lazy to write it all out), but the main purpose was to enrich the output JSON with as much useful information as possible.</h3>
+<p>For bank invoices example, we could do something like (just an example)</p>
+<pre class="hljs"><code>
+{
+
+  &quot;invoice_id&quot;: &quot;INV-2026-0023&quot;,
+
+  &quot;date&quot;: &quot;2026-02-09&quot;,
+
+  &quot;due_date&quot;: &quot;2026-03-09&quot;,
+
+  &quot;sender&quot;: {
+
+    &quot;name&quot;: &quot;ABC Bank&quot;,
+
+    &quot;address&quot;: &quot;123 Finance Street, Cairo, Egypt&quot;,
+
+    &quot;tax_id&quot;: &quot;123456789&quot;
+
+  },
+
+  &quot;recipient&quot;: {
+
+    &quot;name&quot;: &quot;Youssef Albasel&quot;,
+
+    &quot;address&quot;: &quot;45 Nile Avenue, Cairo, Egypt&quot;,
+
+    &quot;customer_id&quot;: &quot;CUST-7890&quot;
+
+  },
+
+  &quot;items&quot;: [
+
+    {
+
+      &quot;description&quot;: &quot;Monthly account maintenance&quot;,
+
+      &quot;quantity&quot;: 1,
+
+      &quot;unit_price&quot;: 50,
+
+      &quot;currency&quot;: &quot;EGP&quot;,
+
+      &quot;total&quot;: 50
+
+    },
+
+    {
+
+      &quot;description&quot;: &quot;International transfer fee&quot;,
+
+      &quot;quantity&quot;: 2,
+
+      &quot;unit_price&quot;: 20,
+
+      &quot;currency&quot;: &quot;EGP&quot;,
+
+      &quot;total&quot;: 40
+
+    }
+
+  ],
+
+  &quot;subtotal&quot;: 90,
+
+  &quot;tax&quot;: {
+
+    &quot;rate&quot;: 14,
+
+    &quot;amount&quot;: 12.6
+
+  },
+
+  &quot;total&quot;: 102.6,
+
+  &quot;status&quot;: &quot;unpaid&quot;,
+
+  &quot;notes&quot;: &quot;Please pay by the due date to avoid late fees.&quot;
+
+}
+
+
+
+</code></pre>
+<p>and add whatever information we want</p>
+<p>and here is the full prompt abu-bakr used <a href="https://sharetext.io/r1zwpwpl">https://sharetext.io/r1zwpwpl</a></p>
+<p>However, Gemma couldn’t extract and provide all the data successfully.</p>
+<p>Next we are evaluating the cloud version, GEMINI</p>
+<p><img src="/images/paste-1770601488955-62b9098844fc31ca.png" alt="image.png"></p>
+<p>This time it performed a lot better, so if we have training data, and these data doesn’t have any sensitive information, we can use those, get the good data we get from the cloud API, then use these synthetic data to train the local model.</p>
+<h2>Knowledge Distillation</h2>
+<p>A machine learning compression technique that transfers knowledge from a large, complex “teacher” model to a smaller, more efficient “student” model</p>
+<p><img src="/images/paste-1770601914792-cc826276789d8175.png" alt="image.png"></p>
+<h3>But what if we don’t have this type of data that we can safely send to an external model ?</h3>
+<p>We might need to do so much manual work to label all the data.</p>
+<h2>Llama Factory</h2>
+<p>After completing all calls to the teacher model, we now have, for each image, the data showing how our local VLM should return the output JSON for training. LLaMA Factory is a well-known framework for fine-tuning, and we looked at its template for how fine-tuning data should be formatted. We then matched our data to this format.</p>
+<p>In Instruction, you don’t have to give the model that entire VERY LONG prompt, in training the model will learn how to output such responses by itself, so you can use less input tokens.</p>
+<p>so we only use 2 prompts in this case</p>
+<pre class="hljs"><code>
+llm_finetunning_data = []
+
+
+
+task_1_message = <span class="hljs-string">&quot;&quot;&quot;
+
+You are a professional OCR Details Extractor.
+
+Your rule to extract: the page markdown content in addition to the structural_elements of the document.
+
+Extract the final output into a json format.
+
+Do not generate any introduction or conclusion.
+
+&quot;&quot;&quot;</span>.strip()
+
+
+
+task_2_message = <span class="hljs-string">&quot;&quot;&quot;
+
+You are a professional OCR Details Extractor.
+
+Your rule to extract the: document_classification, source, physical_properties, official_marks, signatures_authorization, routing_distribution, attachments_references, condition_notes and confidence_quality of the document.
+
+Extract the final output into a json format.
+
+Do not generate any introduction or conclusion.
+
+&quot;&quot;&quot;</span>.strip()
+
+
+
+</code></pre>
+<p>We use 2 prompts for 2 separate tasks, one for the content and one for the extra details.</p>
+<p><strong>Important Note:</strong> We usually shuffle our data when we doing our train-test split. Though we shouldn’t do image-level split here because if we did split on image-level some data leakage will occur (Training images will appear in validation stage).</p>
+<p>So we are going to split on a pdf-level</p>
+<pre class="hljs"><code>
+
+
+val_pdf_files = [<span class="hljs-string">&#x27;0012.pdf&#x27;</span>, <span class="hljs-string">&#x27;0005.pdf&#x27;</span>, <span class="hljs-string">&#x27;0011.pdf&#x27;</span>]
+
+
+
+train_ds = []
+
+val_ds = []
+
+
+
+image_paths_set = <span class="hljs-built_in">set</span>()
+
+
+
+</code></pre>
+<p>we Also define a training example for each task, Each dictionary captures:</p>
+<p>Conversations between a human and the model (gpt).</p>
+<p>Associated images related to the conversation.</p>
+<p>and the output that the LLM should reproduce</p>
+<pre class="hljs"><code>
+    task_1_sft_recored = <span class="hljs-punctuation">{</span>
+
+        <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+
+                <span class="hljs-punctuation">{</span>
+
+                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>+task_1_message<span class="hljs-punctuation">,</span> # what the human says<span class="hljs-punctuation">,</span> prefixed with <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>
+
+                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
+
+                <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+                <span class="hljs-punctuation">{</span>
+
+                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(
+
+                        task_1_output<span class="hljs-punctuation">,</span>
+
+                        ensure_ascii=False<span class="hljs-punctuation">,</span> default=str
+
+                    )<span class="hljs-punctuation">,</span> # model output as JSON string
+
+                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
+
+                <span class="hljs-punctuation">}</span>
+
+            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+
+        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+
+            rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span>
+
+        <span class="hljs-punctuation">]</span>
+
+    <span class="hljs-punctuation">}</span>
+
+
+
+    task_2_sft_recored = <span class="hljs-punctuation">{</span>
+
+        <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+
+                <span class="hljs-punctuation">{</span>
+
+                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>+task_2_message<span class="hljs-punctuation">,</span>
+
+                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
+
+                <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+                <span class="hljs-punctuation">{</span>
+
+                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(
+
+                        task_2_output<span class="hljs-punctuation">,</span>
+
+                        ensure_ascii=False<span class="hljs-punctuation">,</span> default=str
+
+                    )<span class="hljs-punctuation">,</span>
+
+                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
+                <span class="hljs-punctuation">}</span>
+            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+            rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span>
+        <span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+
+
+</code></pre>
+<p>Next we save our formatted data as json files</p>
+<pre class="hljs"><code>
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;train-v1.json&quot;</span>) , <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
+
+    json.dump(train_ds, dest, ensure_ascii=<span class="hljs-literal">False</span>, default=<span class="hljs-built_in">str</span>)
+
+
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;val-v1.json&quot;</span>) , <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
+
+    json.dump(val_ds, dest, ensure_ascii=<span class="hljs-literal">False</span>, default=<span class="hljs-built_in">str</span>)
+
+</code></pre>
+<p>LLaMA Factory expect JSON files with structured training and validation data. so we are just serliazing our data to be used in llama factory</p>
+<h3>Abu bakr uses <a href="http://vast.ai">vast.ai</a> for fine-tunning, iam poor i will just stick with google colab</h3>
+<p>We need to install some specific versions of the requirements</p>
+<pre class="hljs"><code>
+!pip install transformers==<span class="hljs-number">4.57</span><span class="hljs-number">.6</span>
+
+!pip install optimum==<span class="hljs-number">1.26</span><span class="hljs-number">.0</span>
+
+!pip install datasets==<span class="hljs-number">4.4</span><span class="hljs-number">.0</span>
+
+
+
+!pip install torch==<span class="hljs-number">2.8</span><span class="hljs-number">.0</span>
+
+!pip install torchvision==<span class="hljs-number">0.23</span>
+
+!pip install torchaudio==<span class="hljs-number">2.8</span><span class="hljs-number">.0</span>
+
+
+
+!git clone --depth <span class="hljs-number">1</span> https://github.com/hiyouga/LlamaFactory.git
+
+!cd LlamaFactory &amp;&amp; git checkout 762b480131908d37736ad9aa3f12e87f8f7e6313
+
+
+
+!cd LlamaFactory &amp;&amp; pip install -e .
+
+!cd LlamaFactory &amp;&amp; pip install -r requirements/metrics.txt
+
+</code></pre>
+<p>We also need to add our specific template to Llama Factory’s existing templates in <code>LlamaFactory/data/dataset_info.json</code></p>
+<pre class="hljs"><code>
+<span class="hljs-attr">&quot;ocr_finetune_train&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+
+            <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/train-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> # use ur own path here
+
+            <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
+
+            <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+
+                <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
+
+                <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
+
+            <span class="hljs-punctuation">}</span>
+
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+    <span class="hljs-attr">&quot;ocr_finetune_val&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+
+        <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/val-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> # use ur own path here
+
+        <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
+
+        <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+
+            <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
+
+            <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
+
+        <span class="hljs-punctuation">}</span>
+
+    <span class="hljs-punctuation">}</span>
+
+</code></pre>
+<p>We also need to add a YAML file that has the fine-tunning instructions for train_lora in <code>workspace/LlamaFactory/examples/train_lora/ocr_finetune.yaml</code></p>
+<pre class="hljs"><code>### model
+
+model_name_or_path<span class="hljs-punctuation">:</span> google/gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it
+
+use_fast_tokenizer<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span>
+
+cache_dir<span class="hljs-punctuation">:</span> /workspace/cache
+
+trust_remote_code<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+
+
+### method
+
+stage<span class="hljs-punctuation">:</span> sft
+
+do_train<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+finetuning_type<span class="hljs-punctuation">:</span> lora
+
+lora_rank<span class="hljs-punctuation">:</span> <span class="hljs-number">96</span>
+
+lora_target<span class="hljs-punctuation">:</span> all
+
+
+
+### dataset
+
+dataset<span class="hljs-punctuation">:</span> ocr_finetune_train
+
+eval_dataset<span class="hljs-punctuation">:</span> ocr_finetune_val
+
+template<span class="hljs-punctuation">:</span> gemma3
+
+cutoff_len<span class="hljs-punctuation">:</span> <span class="hljs-number">12000</span>
+
+# max_samples<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
+
+overwrite_cache<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+preprocessing_num_workers<span class="hljs-punctuation">:</span> <span class="hljs-number">16</span>
+
+
+
+### output
+
+resume_from_checkpoint<span class="hljs-punctuation">:</span> /workspace/ocr-models-gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it/checkpoint<span class="hljs-number">-100</span>
+
+output_dir<span class="hljs-punctuation">:</span> /workspace/ocr-models-gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it/
+
+logging_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">25</span>
+
+save_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
+
+plot_loss<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+# overwrite_output_dir<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+
+
+### train
+
+per_device_train_batch_size<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+
+gradient_accumulation_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
+
+learning_rate<span class="hljs-punctuation">:</span> <span class="hljs-number">1.0e-4</span>
+
+num_train_epochs<span class="hljs-punctuation">:</span> <span class="hljs-number">20.0</span>
+
+lr_scheduler_type<span class="hljs-punctuation">:</span> cosine
+
+warmup_ratio<span class="hljs-punctuation">:</span> <span class="hljs-number">0.1</span>
+
+bf16<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+ddp_timeout<span class="hljs-punctuation">:</span> <span class="hljs-number">180000000</span>
+
+
+
+### eval
+
+# val_size<span class="hljs-punctuation">:</span> <span class="hljs-number">0.1</span>
+
+per_device_eval_batch_size<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+
+eval_strategy<span class="hljs-punctuation">:</span> steps
+
+eval_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
+
+
+
+report_to<span class="hljs-punctuation">:</span> wandb
+
+run_name<span class="hljs-punctuation">:</span> yt-ocr-finetune-llamafactory
+
+
+
+# push_to_hub<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+# export_hub_model_id<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;bakrianoo/arabic-legal-documents-ocr-parser-1.0&quot;</span>
+
+# hub_private_repo<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+
+# hub_strategy<span class="hljs-punctuation">:</span> checkpoint
+
+</code></pre>
+<p>Finally, we login using wandb and start trainning using our yaml file</p>
+<p><code>!cd LlamaFactory &amp;&amp; export DISABLE_VERSION_CHECK=1 &amp;&amp; llamafactory-cli train /workspace/LLaMA-Factory/examples/train_lora/ocr_finetune.yaml</code></p>
+<p>`</p>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <div class="nav-placeholder"></div>
+                    
+                    
+                    
+                        <div class="nav-placeholder"></div>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/agentic/" class="back-link"><i class="fas fa-book"></i> Back to agentic</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

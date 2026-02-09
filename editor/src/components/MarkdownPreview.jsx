@@ -64,19 +64,38 @@ const createComponents = (isDarkMode) => ({
   },
 });
 
-export default memo(function PreviewPane({ markdown, isDarkMode }) {
+export default memo(function PreviewPane({ markdown, isDarkMode, cursorPercent = 0, isAtBottom = false }) {
   const { content } = useMemo(() => matter(markdown || ""), [markdown]);
   const components = useMemo(() => createComponents(isDarkMode), [isDarkMode]);
 
   const containerRef = useRef(null);
+  const lastPercent = useRef(0);
 
-  // scroll to bottom whenever markdown changes
+  // Sync scroll with cursor position when typing
   useEffect(() => {
     const container = containerRef.current;
-    if (container) {
+    if (!container) return;
+    
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    if (maxScroll <= 0) return;
+    
+    // If at the bottom, always scroll to absolute bottom
+    if (isAtBottom) {
       container.scrollTop = container.scrollHeight;
+      return;
     }
-  }, [content]);
+    
+    // Only scroll if percent changed meaningfully
+    if (Math.abs(cursorPercent - lastPercent.current) < 0.01) return;
+    lastPercent.current = cursorPercent;
+    
+    // Calculate position and center it in the viewport
+    const contentPosition = cursorPercent * container.scrollHeight;
+    const halfViewport = container.clientHeight / 2;
+    const targetScroll = Math.max(0, Math.min(maxScroll, contentPosition - halfViewport)) + 20;
+    
+    container.scrollTop = targetScroll;
+  }, [cursorPercent, isAtBottom, content]);
 
   return (
     <div
@@ -86,7 +105,7 @@ export default memo(function PreviewPane({ markdown, isDarkMode }) {
         wordWrap: 'break-word', 
         overflowWrap: 'break-word', 
         boxSizing: 'border-box',
-        minWidth: 0  // Critical for flex children to allow shrinking
+        minWidth: 0
       }}
     >
       <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
@@ -95,3 +114,5 @@ export default memo(function PreviewPane({ markdown, isDarkMode }) {
     </div>
   );
 });
+
+

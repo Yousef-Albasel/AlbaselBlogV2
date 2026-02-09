@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P4.1 Shaders - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: #333;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 5 of 11</strong> in
+                    <a href="/opengl/">Computer Graphics - OpenGL</a>
+                </div>
+                <div class="series-progress">
+                    5/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>P4.1 Shaders</h1>
+                    <div class="post-meta">
+                        <time>2024-01-01</time>
+                        <span class="post-category">OpenGL</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/opengl.jpg" alt="P4.1 Shaders" class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <h2>How Shaders Work in OpenGL</h2>
+<p>A shader is just a program that runs on your GPU. By program, we mean a block of code. It’s code that we can write as text, then send to the graphics card to compile and link, like any other program. However, it actually runs on our GPU, not CPU. So, why do we need programs that run on the GPU? We learn about graphics programming to utilize the power of the GPU and minimize the load on the CPU. Though some operations are preferably done on the CPU, undoubtedly, a lot of processes we perform in graphics programming are better done on the GPU.</p>
+<h4><strong>A. Vertex Shaders</strong></h4>
+<p>When we issue a draw call, what happens is the vertex shader gets called, then the fragment shader gets called. There are many stages between them, but let’s keep it simple for now. The point is, we go from the draw call to the vertex shader to the fragment shader to see things on the screen. So, a vertex shader gets called for each vertex we are trying to render.</p>
+<p>The primary purpose of a vertex shader is to inform OpenGL about the location in your window where you would like that vertex to be. It doesn’t have anything to do with color or other visual aspects; its main role is to specify positions and pass data to the next stage, which is the fragment shader.</p>
+<p>Consider this scenario: you have a camera in a 3D world positioned in a certain way. Suddenly, the position we specified for our triangle won’t translate directly, as the movements of the camera mean the triangle moves as well. So, it’s not as trivial as it may seem.</p>
+<p>The transformations applied in the vertex shader contribute to the final positions of vertices on the screen, creating the illusion of movement and interaction in the rendered scene.</p>
+<h4>B. Fragment Shaders</h4>
+<p>The next stage in our pipeline is the pixel shader, also known as the fragment shader. It runs once for each pixel that needs to be drawn on the screen. Since our window is essentially made up of pixels, the task is to fill the space between the three vertices with pixels. It is called once for each pixel within our triangle, with its primary purpose being to determine the color to contribute to our triangle.</p>
+<p>While the vertex shader may not be called as frequently, the fragment shader gets called thousands or millions of times. For instance, if we perform a computation like 5 times 5 in the vertex shader, that operation happens three times for each vertex. In contrast, in the fragment shader (which is called thousands of times), the difference becomes apparent. It’s essential to keep in mind that operations in the vertex shader are carried out a few times and then passed, whereas operations in the fragment shader tend to be more computationally expensive.</p>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/opengl/P3 - Vertex Layout.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">P3 Vertex Layout</span>
+                        </a>
+                    
+                    
+                    
+                        <a href="/opengl/P4.2 - Shaders.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">P4.2 Shaders</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/opengl/" class="back-link"><i class="fas fa-book"></i> Back to Computer Graphics - OpenGL</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

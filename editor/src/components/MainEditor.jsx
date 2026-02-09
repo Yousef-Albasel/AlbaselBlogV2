@@ -2,6 +2,8 @@ import React, { useState, useRef, useCallback } from 'react';
 import MarkdownEditor from './MarkdownEditor.jsx';
 import PreviewPane from './MarkdownPreview.jsx';
 import Toolbar from './Toolbar.jsx';
+import AIModal from './AIModal.jsx';
+import { getSuggestion } from '../services/aiService.js';
 
 const MainEditor = ({ 
   selectedFile,
@@ -20,8 +22,18 @@ const MainEditor = ({
 }) => {
   // Resizable pane state (percentage for left pane)
   const [leftPaneWidth, setLeftPaneWidth] = useState(50);
+  const [cursorInfo, setCursorInfo] = useState({ percent: 0, isAtBottom: false });
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
+  
+  // AI Modal state
+  const [aiModalOpen, setAIModalOpen] = useState(false);
+  const [aiLoading, setAILoading] = useState(false);
+  const [aiError, setAIError] = useState(null);
+  const [aiSuggestion, setAISuggestion] = useState('');
+  const [aiOriginal, setAIOriginal] = useState('');
+  const [aiIsFullDocument, setAIIsFullDocument] = useState(false);
+  const [selectionRange, setSelectionRange] = useState(null);
 
   // Handle text formatting
   const handleFormatText = (format) => {
@@ -30,14 +42,77 @@ const MainEditor = ({
     }
   };
 
-  // Handle regular insert (for non-formatting buttons like Image)
   const handleInsert = (text) => {
     if (insertRef.current && insertRef.current.insert) {
       insertRef.current.insert(text);
     }
   };
 
-  // Resizer drag handlers
+  const handleCursorPosition = useCallback((info) => {
+    setCursorInfo(info);
+  }, []);
+
+  // Get selected text from editor
+  const getSelectedText = () => {
+    if (insertRef.current && insertRef.current.getSelection) {
+      return insertRef.current.getSelection();
+    }
+    return null;
+  };
+
+  // Handle AI request
+  const handleAIRequest = async (mode) => {
+    if (!selectedFile?.content) return;
+    
+    setAIError(null);
+    setAISuggestion('');
+    setAIModalOpen(true);
+    setAILoading(true);
+    
+    try {
+      let selection = null;
+      
+      if (mode === 'selection') {
+        const selInfo = getSelectedText();
+        if (!selInfo || !selInfo.text) {
+          setAIError('Please select some text first');
+          setAILoading(false);
+          return;
+        }
+        selection = selInfo.text;
+        setSelectionRange({ start: selInfo.start, end: selInfo.end });
+        setAIIsFullDocument(false);
+      } else {
+        setAIIsFullDocument(true);
+        setSelectionRange(null);
+      }
+      
+      setAIOriginal(selection || selectedFile.content);
+      
+      const result = await getSuggestion(selectedFile.content, selection);
+      setAISuggestion(result.suggestion);
+      
+    } catch (error) {
+      setAIError(error.message);
+    } finally {
+      setAILoading(false);
+    }
+  };
+
+  // Accept AI suggestion
+  const handleAcceptAI = (suggestion) => {
+    if (aiIsFullDocument) {
+      // Replace entire content
+      onContentChange(suggestion);
+    } else if (selectionRange) {
+      // Replace only the selected portion
+      const content = selectedFile.content;
+      const newContent = content.slice(0, selectionRange.start) + suggestion + content.slice(selectionRange.end);
+      onContentChange(newContent);
+    }
+    setAIModalOpen(false);
+  };
+
   const handleMouseDown = useCallback((e) => {
     e.preventDefault();
     isDraggingRef.current = true;
@@ -81,6 +156,7 @@ const MainEditor = ({
         onToggleSidebar={onToggleSidebar}
         selectedFile={selectedFile}
         hasModifiedFiles={hasModifiedFiles}
+        onAIRequest={handleAIRequest}
       />
       
       <div ref={containerRef} className="flex-1 flex min-h-0 min-w-0 overflow-hidden">
@@ -96,6 +172,7 @@ const MainEditor = ({
                 onChange={onContentChange}
                 onInsert={insertRef}
                 isDarkMode={isDarkMode}
+                onCursorPosition={handleCursorPosition}
               />
             </div>
             
@@ -117,7 +194,9 @@ const MainEditor = ({
             >
               <PreviewPane 
                 markdown={selectedFile?.content} 
-                isDarkMode={isDarkMode} 
+                isDarkMode={isDarkMode}
+                cursorPercent={cursorInfo.percent}
+                isAtBottom={cursorInfo.isAtBottom}
               />
             </div>
           </>
@@ -125,11 +204,26 @@ const MainEditor = ({
           <div className={`flex-1 min-w-0 overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
             <PreviewPane 
               markdown={selectedFile?.content} 
-              isDarkMode={isDarkMode} 
+              isDarkMode={isDarkMode}
+              cursorPercent={0}
+              isAtBottom={false}
             />
           </div>
         )}
       </div>
+      
+      {/* AI Modal */}
+      <AIModal
+        isOpen={aiModalOpen}
+        onClose={() => setAIModalOpen(false)}
+        original={aiOriginal}
+        suggestion={aiSuggestion}
+        isLoading={aiLoading}
+        error={aiError}
+        onAccept={handleAcceptAI}
+        isDarkMode={isDarkMode}
+        isFullDocument={aiIsFullDocument}
+      />
     </div>
   );
 };

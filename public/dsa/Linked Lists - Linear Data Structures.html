@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked Lists  - Albasel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .series-info {
+            background: #333;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .series-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+        .series-progress {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .series-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+        }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            background: rgba(126, 179, 214, 0.1);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+            max-width: 45%;
+            border: 2px solid transparent;
+        }
+        .nav-link:hover {
+            background: rgba(126, 179, 214, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        .nav-link-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .nav-link-title {
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        .nav-placeholder {
+            width: 45%;
+        }
+        body.dark-mode .series-navigation {
+            border-top: 2px solid #444;
+        }
+        body.dark-mode .nav-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        body.dark-mode .nav-link-label {
+            color: #aaa;
+        }
+        body.dark-mode .nav-link-title {
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="series-info">
+                <div>
+                    <i class="fas fa-book"></i>
+                    <strong>Part 5 of 11</strong> in
+                    <a href="/dsa/">DSA</a>
+                </div>
+                <div class="series-progress">
+                    5/11
+                </div>
+            </div>
+            
+
+            <article class="post">
+                <header class="post-header">
+                    <h1>Linked Lists </h1>
+                    <div class="post-meta">
+                        <time>2024-02-20</time>
+                        <span class="post-category">Algorithms</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
+                    </div>
+                    
+                    <img src="../images//images/algorithms.png" alt="Linked Lists " class="post-image">
+                    
+                </header>
+                
+                <div class="post-content">
+                    <pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SingleLinkedList.h&quot;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+using namespace <span class="hljs-built_in">std</span>;
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+SingleLinkedList&lt;Type&gt; :: SingleLinkedList()
+
+{
+
+    count = <span class="hljs-number">0</span>;
+
+    first = <span class="hljs-literal">NULL</span>;
+
+    last = <span class="hljs-literal">NULL</span>;
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+SingleLinkedList&lt;Type&gt; :: ~SingleLinkedList()
+
+{
+
+    clear();
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAtHead(Type element)
+
+{
+
+    nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
+
+    <span class="hljs-keyword">if</span> (isEmpty()){
+
+        newNode -&gt; info = element;
+
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
+
+        first = newNode;
+
+        last = newNode;
+
+        count ++;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        newNode -&gt; info = element;
+
+        newNode -&gt; link = first;
+
+        first = newNode;
+
+        count ++;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAtTail(Type element){
+
+    nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
+
+    <span class="hljs-keyword">if</span> (isEmpty()){
+
+        newNode -&gt; info = element;
+
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
+
+        first = newNode;
+
+        last = newNode;
+
+        count ++;
+
+    }
+
+    <span class="hljs-keyword">else</span> {
+
+        nodeType &lt;Type&gt; *current;
+
+        nodeType &lt;Type&gt; *prev;
+
+        current = first;
+
+        prev = <span class="hljs-literal">NULL</span>;
+
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
+
+            prev = current;
+
+            current = current -&gt; link;
+
+        }
+
+        prev -&gt; link = newNode;
+
+        newNode -&gt; info = element;
+
+        newNode -&gt; link = <span class="hljs-literal">NULL</span>;
+
+        last = newNode;
+
+        count ++;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: insertAt(Type element, <span class="hljs-type">int</span> index){
+
+    nodeType &lt;Type&gt; *newNode = new nodeType&lt;Type&gt;;
+
+    <span class="hljs-keyword">if</span> (index &gt; count){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>){
+
+        insertAtHead(element);
+
+    }
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count){
+
+        insertAtTail(element);
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        nodeType&lt;Type&gt; *current = first;
+
+        nodeType&lt;Type&gt; *prev = <span class="hljs-literal">NULL</span>;
+
+        <span class="hljs-keyword">while</span> (i &lt; index){
+
+            prev = current;
+
+            current = current -&gt; link;
+
+            i++;
+
+        }
+
+        prev -&gt; link = newNode;
+
+        newNode -&gt; info = element;
+
+        newNode -&gt; link = current;
+
+        count ++;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAtHead(){
+
+    <span class="hljs-keyword">if</span> (isEmpty()){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType&lt;Type&gt; *temp;
+
+        temp = first;
+
+        first = first -&gt; link;
+
+        delete temp;
+
+        count --;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAtTail(){
+
+    <span class="hljs-keyword">if</span> (isEmpty()){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType &lt;Type&gt; *current;
+
+        nodeType &lt;Type&gt; *prev;
+
+        current = first;
+
+        prev = <span class="hljs-literal">NULL</span>;
+
+        <span class="hljs-keyword">while</span> (current -&gt; link != <span class="hljs-literal">NULL</span>){
+
+            prev = current;
+
+            current = current -&gt; link;
+
+        }
+
+        prev -&gt; link = <span class="hljs-literal">NULL</span>;
+
+        last = prev;
+
+        delete current;
+
+        count --;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: removeAt(<span class="hljs-type">int</span> index){
+
+    <span class="hljs-keyword">if</span> (index  &gt; count - <span class="hljs-number">1</span>){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count - <span class="hljs-number">1</span>){
+
+        removeAtTail();
+
+    }
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>){
+
+        removeAtHead();
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        nodeType&lt;Type&gt; *current = first;
+
+        nodeType&lt;Type&gt; *prev = <span class="hljs-literal">NULL</span>;
+
+        <span class="hljs-keyword">while</span> (i &lt; index){
+
+            prev = current;
+
+            current = current -&gt; link;
+
+            i++;
+
+        }
+
+        prev -&gt; link = current -&gt; link;
+
+        delete current;
+
+        count --;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+Type SingleLinkedList&lt;Type&gt; :: retrieveAt (<span class="hljs-type">int</span> index) <span class="hljs-type">const</span>{
+
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span> || index &lt; <span class="hljs-number">0</span>){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType&lt;Type&gt; *current = first;
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">while</span> (i != index){
+
+            current = current -&gt; link;
+
+            i ++;
+
+        }
+
+        <span class="hljs-keyword">return</span> current -&gt; info;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: replaceAt(Type newElement, <span class="hljs-type">int</span> index){
+
+    nodeType&lt;Type&gt; *current = first;
+
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span> || index &lt; <span class="hljs-number">0</span>){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span> &amp;&amp; i &lt; index){
+
+            current = current -&gt; link;
+
+            i ++;
+
+        }
+
+        current -&gt; info = newElement;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isExist(Type element) <span class="hljs-type">const</span>{
+
+    nodeType &lt;Type&gt; *current = first;
+
+    <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
+
+        <span class="hljs-keyword">if</span> (current -&gt; info == element){
+
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+
+        }
+
+        current = current -&gt; link;
+
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isItemAtEqual(Type element, <span class="hljs-type">int</span> index){
+
+    <span class="hljs-keyword">if</span> (index &gt; count - <span class="hljs-number">1</span>){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType&lt;Type&gt; *current = first;
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
+
+            <span class="hljs-keyword">if</span> (i == index &amp;&amp; current -&gt; info == element){
+
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+
+            }
+
+            current = current -&gt; link;
+
+            i ++;
+
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt; :: swap(<span class="hljs-type">int</span> firstItemIdx, <span class="hljs-type">int</span> secondItemIdx){
+
+    <span class="hljs-keyword">if</span> (firstItemIdx &gt; count - <span class="hljs-number">1</span> || secondItemIdx &gt; count - <span class="hljs-number">1</span>){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error! Invalid index.\n&quot;</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType&lt;Type&gt; *F_idx, *S_idx;
+
+        F_idx = first, S_idx = first;
+
+        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+
+        <span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">while</span> (F_idx != <span class="hljs-literal">NULL</span>){
+
+            <span class="hljs-keyword">if</span> (i == firstItemIdx){
+
+                <span class="hljs-keyword">break</span>;
+
+            }
+
+            F_idx = F_idx -&gt; link;
+
+            i ++;
+
+        }
+
+        <span class="hljs-keyword">while</span> (S_idx != <span class="hljs-literal">NULL</span>){
+
+            <span class="hljs-keyword">if</span> (j == secondItemIdx){
+
+                <span class="hljs-keyword">break</span>;
+
+            }
+
+            S_idx = S_idx -&gt; link;
+
+            j ++;
+
+        }
+
+        Type temp = F_idx -&gt; info;
+
+        F_idx -&gt; info = S_idx -&gt; info;
+
+        S_idx -&gt; info = temp;
+
+    }
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">bool</span> SingleLinkedList&lt;Type&gt; :: isEmpty(){
+
+    <span class="hljs-keyword">return</span> (first == <span class="hljs-literal">NULL</span>);
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">int</span> SingleLinkedList&lt;Type&gt; :: linkedListSize(){
+
+    <span class="hljs-keyword">return</span> count;
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: clear() {
+
+    nodeType&lt;Type&gt; *temp;
+
+    <span class="hljs-keyword">while</span>(first != <span class="hljs-literal">NULL</span>){
+
+        temp = first;
+
+        first = first -&gt; link;
+
+        delete temp;
+
+    }
+
+    last = <span class="hljs-literal">NULL</span>;
+
+    count = <span class="hljs-number">0</span>;
+
+}
+
+  
+
+template &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span>
+
+<span class="hljs-type">void</span> SingleLinkedList&lt;Type&gt;:: print (){
+
+    <span class="hljs-keyword">if</span> (isEmpty()){
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Empty! Nothing to print.&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+    }
+
+    <span class="hljs-keyword">else</span>{
+
+        nodeType&lt;Type&gt; *current = first;
+
+        <span class="hljs-keyword">while</span> (current != <span class="hljs-literal">NULL</span>){
+
+            <span class="hljs-built_in">cout</span> &lt;&lt; current -&gt; info &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
+
+            current = current -&gt; link;
+
+        }
+
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+
+    }
+
+}
+</code></pre>
+<h5>Doubly Linked List</h5>
+<pre class="hljs"><code><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;DoublyLinkedList.h&quot;</span></span>
+
+  
+
+template &lt;typename ElementType&gt;
+
+DoublyLinkedList&lt;ElementType&gt;::DoublyLinkedList()
+
+{
+
+    count = <span class="hljs-number">0</span>;
+
+    head = nullptr;
+
+    tail = nullptr;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+DoublyLinkedList&lt;ElementType&gt;::~DoublyLinkedList()
+
+{
+
+    clear();
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isEmpty() <span class="hljs-type">const</span>
+
+{
+
+    <span class="hljs-keyword">return</span> (head == nullptr);
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::clear()
+
+{
+
+    Node&lt;ElementType&gt; *temp;
+
+  
+
+    <span class="hljs-keyword">while</span> (head != nullptr)
+
+    {
+
+        temp = head;
+
+        head = head-&gt;next;
+
+        delete temp;
+
+    }
+
+    head = nullptr;
+
+    tail = nullptr;
+
+    count = <span class="hljs-number">0</span>;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">int</span> DoublyLinkedList&lt;ElementType&gt;::linkedListSize() <span class="hljs-type">const</span>
+
+{
+
+    <span class="hljs-keyword">return</span> count;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::print() <span class="hljs-type">const</span>
+
+{
+
+    Node&lt;ElementType&gt; *current = head;
+
+    <span class="hljs-keyword">if</span> (head == nullptr)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;List is empty.&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+    <span class="hljs-keyword">while</span> (current-&gt;next != nullptr)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; current-&gt;info &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+
+        current = current-&gt;next;
+
+    }
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; current-&gt;info;
+
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isExist(<span class="hljs-type">const</span> ElementType &amp;element) <span class="hljs-type">const</span>
+
+{
+
+    Node&lt;ElementType&gt; *current = head;
+
+    <span class="hljs-type">bool</span> isFound = <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">while</span> (!isFound &amp;&amp; current != nullptr)
+
+    {
+
+        <span class="hljs-keyword">if</span> (current-&gt;info &gt;= element)
+
+        {
+
+            isFound = <span class="hljs-literal">true</span>;
+
+        }
+
+        <span class="hljs-keyword">else</span>
+
+        {
+
+            current = current-&gt;next;
+
+        }
+
+    }
+
+    <span class="hljs-keyword">if</span> (isFound)
+
+        isFound = (current-&gt;info == element);
+
+    <span class="hljs-keyword">return</span> isFound;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAtHead(<span class="hljs-type">const</span> ElementType &amp;element)
+
+{
+
+    Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element);
+
+    <span class="hljs-keyword">if</span> (head == nullptr &amp;&amp; tail == nullptr)
+
+    { <span class="hljs-comment">// if the list is empty</span>
+
+        head = newNode;
+
+        tail = newNode;
+
+    }
+
+    <span class="hljs-keyword">else</span>
+
+    { <span class="hljs-comment">// if the list is not empty</span>
+
+        newNode-&gt;next = head;
+
+        head-&gt;back = newNode;
+
+        head = newNode;
+
+    }
+
+    count++;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAtTail(<span class="hljs-type">const</span> ElementType &amp;element)
+
+{
+
+    Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element);
+
+    <span class="hljs-keyword">if</span> (head == nullptr &amp;&amp; tail == nullptr)
+
+    { <span class="hljs-comment">// if the list is empty</span>
+
+        head = newNode;
+
+        tail = newNode;
+
+    }
+
+    <span class="hljs-keyword">else</span>
+
+    { <span class="hljs-comment">// if the list is not empty</span>
+
+        newNode-&gt;back = tail;
+
+        tail-&gt;next = newNode;
+
+        tail = newNode;
+
+    }
+
+    count++;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::insertAt(<span class="hljs-type">const</span> ElementType &amp;element, <span class="hljs-type">int</span> index)
+
+{
+
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    Node&lt;ElementType&gt; *newNode = new Node&lt;ElementType&gt;(element);
+
+  
+
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>) <span class="hljs-comment">// index at head</span>
+
+    {
+
+        insertAtHead(element);
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count) <span class="hljs-comment">// index at tail</span>
+
+    {
+
+        insertAtTail(element);
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span>
+
+    {
+
+        Node&lt;ElementType&gt; *current = head; <span class="hljs-comment">// Loop until you find the index</span>
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index - <span class="hljs-number">1</span>; ++i)
+
+        {
+
+            current = current-&gt;next;
+
+        }
+
+        newNode-&gt;next = current-&gt;next;
+
+        current-&gt;next-&gt;back = newNode;
+
+        current-&gt;next = newNode;
+
+        newNode-&gt;back = current;
+
+    }
+
+    count++;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAtHead()
+
+{
+
+    <span class="hljs-keyword">if</span> (head == nullptr)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: can&#x27;t remove item; list is empty.\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    Node&lt;ElementType&gt; *temp = head;
+
+    head = head-&gt;next;
+
+    <span class="hljs-keyword">if</span> (head != nullptr)
+
+    {
+
+        head-&gt;back = nullptr;
+
+    }
+
+    <span class="hljs-keyword">else</span>
+
+    {
+
+        tail = nullptr;
+
+    }
+
+    delete temp;
+
+    count--;
+
+}
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAtTail()
+
+{
+
+    <span class="hljs-keyword">if</span> (tail == nullptr)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: can&#x27;t remove item; list is empty.\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    Node&lt;ElementType&gt; *temp = tail;
+
+    tail = tail-&gt;back;
+
+    <span class="hljs-keyword">if</span> (tail != nullptr)
+
+    {
+
+        tail-&gt;next = nullptr;
+
+    }
+
+    <span class="hljs-keyword">else</span>
+
+    {
+
+        head = nullptr;
+
+    }
+
+    delete temp;
+
+    count--;
+
+};
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::removeAt(<span class="hljs-type">int</span> index)
+
+{
+
+    <span class="hljs-keyword">if</span> (isEmpty())
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: List is empty\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>)
+
+    {
+
+        removeAtHead();
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count - <span class="hljs-number">1</span>) <span class="hljs-comment">// index at tail</span>
+
+    {
+
+        removeAtTail();
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span>
+
+    {
+
+        Node&lt;ElementType&gt; *temp = head;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
+
+        {
+
+            temp = temp-&gt;next;
+
+        }
+
+  
+
+        temp-&gt;back-&gt;next = temp-&gt;next;
+
+        temp-&gt;next-&gt;back = temp-&gt;back;
+
+        delete temp;
+
+    }
+
+    count--;
+
+};
+
+  
+
+template &lt;typename ElementType&gt;
+
+ElementType DoublyLinkedList&lt;ElementType&gt;::retrieveAt(<span class="hljs-type">int</span> index)
+
+{
+
+    <span class="hljs-keyword">if</span> (isEmpty())
+
+    {
+
+        throw <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">&quot;Error: List is empty&quot;</span>);
+
+    }
+
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
+
+    {
+
+        throw <span class="hljs-built_in">std</span>::runtime_error(<span class="hljs-string">&quot;Error: Invalid index, out of range&quot;</span>);
+
+    }
+
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>) <span class="hljs-comment">// index at head</span>
+
+    {
+
+        <span class="hljs-keyword">return</span> head-&gt;info;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count) <span class="hljs-comment">// index at tail</span>
+
+    {
+
+        <span class="hljs-keyword">return</span> tail-&gt;info;
+
+    }
+
+  
+
+    Node&lt;ElementType&gt; *temp = head;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
+
+    {
+
+        temp = temp-&gt;next;
+
+    }
+
+    <span class="hljs-keyword">return</span> temp-&gt;info;
+
+};
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::replaceAt(<span class="hljs-type">const</span> ElementType &amp;newElement, <span class="hljs-type">int</span> index)
+
+{
+
+    <span class="hljs-keyword">if</span> (isEmpty())
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: List is empty\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt; count)
+
+    {
+
+        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Error: Index out of range\n&quot;</span>;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">if</span> (index == <span class="hljs-number">0</span>)
+
+    {
+
+        head-&gt;info = newElement;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (index == count)
+
+    {
+
+        tail-&gt;info = newElement;
+
+        <span class="hljs-keyword">return</span>;
+
+    }
+
+  
+
+    Node&lt;ElementType&gt; *temp = head;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; index; ++i)
+
+    {
+
+        temp = temp-&gt;next;
+
+    }
+
+    temp-&gt;info = newElement;
+
+}
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">bool</span> DoublyLinkedList&lt;ElementType&gt;::isItemAtEqual(<span class="hljs-type">const</span> ElementType &amp;element, <span class="hljs-type">int</span> index)
+
+{
+
+    <span class="hljs-keyword">return</span> (retrieveAt(index) == element);
+
+};
+
+  
+
+template &lt;typename ElementType&gt;
+
+<span class="hljs-type">void</span> DoublyLinkedList&lt;ElementType&gt;::swap(<span class="hljs-type">int</span> firstItemIdx, <span class="hljs-type">int</span> secondItemIdx)
+
+{
+
+  
+
+    <span class="hljs-keyword">if</span> (head == nullptr || head-&gt;next == nullptr || firstItemIdx == secondItemIdx)
+
+        <span class="hljs-keyword">return</span>;
+
+  
+
+    Node&lt;ElementType&gt; *fisrtNode = head;
+
+    Node&lt;ElementType&gt; *secondNode = head;
+
+  
+
+    <span class="hljs-comment">// Finding the correct Nodes</span>
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; firstItemIdx; ++i)
+
+    {
+
+        fisrtNode = fisrtNode-&gt;next;
+
+    }
+
+  
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; secondItemIdx; ++i)
+
+    {
+
+        secondNode = secondNode-&gt;next;
+
+    }
+
+  
+
+    <span class="hljs-comment">// reverse head and tail</span>
+
+    <span class="hljs-keyword">if</span> (fisrtNode == head)
+
+        head = secondNode;
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondNode == head)
+
+        head = fisrtNode;
+
+    <span class="hljs-keyword">if</span> (fisrtNode == tail)
+
+        tail = secondNode;
+
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondNode == tail)
+
+        tail = fisrtNode;
+
+  
+
+    <span class="hljs-comment">// First make each node points at the next adjacent node of the other</span>
+
+    Node&lt;ElementType&gt; *temp;
+
+    temp = fisrtNode-&gt;next;
+
+    fisrtNode-&gt;next = secondNode-&gt;next;
+
+    secondNode-&gt;next = temp;
+
+  
+
+    <span class="hljs-comment">// check if the nodes we pointed at is not the last or first, if so, make them point back at the nodes that we want to swap</span>
+
+    <span class="hljs-keyword">if</span> (fisrtNode-&gt;next != nullptr)
+
+        fisrtNode-&gt;next-&gt;back = fisrtNode;
+
+    <span class="hljs-keyword">if</span> (secondNode-&gt;next != nullptr)
+
+        secondNode-&gt;next-&gt;back = secondNode;
+
+  
+
+    <span class="hljs-comment">// vice versa</span>
+
+    temp = fisrtNode-&gt;back;
+
+    fisrtNode-&gt;back = secondNode-&gt;back;
+
+    secondNode-&gt;back = temp;
+
+  
+
+    <span class="hljs-keyword">if</span> (fisrtNode-&gt;back != nullptr)
+
+        fisrtNode-&gt;back-&gt;next = fisrtNode;
+
+    <span class="hljs-keyword">if</span> (secondNode-&gt;back != nullptr)
+
+        secondNode-&gt;back-&gt;next = secondNode;
+
+};
+</code></pre>
+
+                </div>
+                
+                
+                <nav class="series-navigation">
+                    
+                        <a href="/dsa/Insertion Sort - Sorting Algorithms.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">Insertion Sort</span>
+                        </a>
+                    
+                    
+                    
+                        <a href="/dsa/Merge Sort - Sorting Algorithms.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">Merge Sort</span>
+                        </a>
+                    
+                </nav>
+                
+                
+                <footer class="post-footer">
+                    
+                        <a href="/dsa/" class="back-link"><i class="fas fa-book"></i> Back to DSA</a>
+                    
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </footer>
+            </article>
+        </div>
+    </main>
+    
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.querySelector('.theme-toggle-btn span');
+    
+    function setTheme(mode) {
+        document.body.classList.toggle('dark-mode', mode === 'dark');
+        if (mode === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+            if (themeText) themeText.textContent = 'Light Mode';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+            if (themeText) themeText.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('theme', mode);
+    }
+    
+    toggleBtn.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'dark' : 'light');
+    });
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setTheme('dark');
+    </script>
+</body>
+</html>

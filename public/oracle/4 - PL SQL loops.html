@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - {{ site.name }}</title>
+    <title>4   PL SQL loops - Albasel</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -93,66 +93,148 @@
     </style>
 </head>
 <body>
-    {% include "_navbar.html" %}
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
 
     <main class="main-content">
         <div class="container">
-            {% if seriesInfo %}
+            
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part {{ seriesInfo.currentIndex }} of {{ seriesInfo.totalPosts }}</strong> in
-                    <a href="/{{ seriesInfo.slug }}/">{{ seriesInfo.title }}</a>
+                    <strong>Part 4 of 7</strong> in
+                    <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    {{ seriesInfo.currentIndex }}/{{ seriesInfo.totalPosts }}
+                    4/7
                 </div>
             </div>
-            {% endif %}
+            
 
             <article class="post">
                 <header class="post-header">
-                    <h1>{{ title }}</h1>
+                    <h1>4   PL SQL loops</h1>
                     <div class="post-meta">
-                        <time>{{ date }}</time>
-                        {% if category %}<span class="post-category">{{ category }}</span>{% endif %}
-                        {% if series %}<span class="series-tag"><i class="fas fa-book"></i> Series</span>{% endif %}
+                        <time>2025-09-01</time>
+                        <span class="post-category">oracle</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
                     </div>
-                    {% if image %}
-                    <img src="../images/{{image}}" alt="{{ title }}" class="post-image">
-                    {% endif %}
+                    
                 </header>
                 
                 <div class="post-content">
-                    {{ content | safe }}
+                    <h1>4 - PL SQL loops</h1>
+<p>We have 3 types of loop</p>
+<ul>
+<li>basic loop</li>
+<li>for loop</li>
+<li>while loop</li>
+</ul>
+<pre class="hljs"><code>LOOP
+   statements
+   ....
+   EXIT [<span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">condition</span>];
+<span class="hljs-keyword">END</span> LOOP;
+</code></pre>
+<p>An example:</p>
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+  v_grade <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) :<span class="hljs-operator">=</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;&amp;char1&#x27;</span>);
+  appraisal VARCHAR2(<span class="hljs-number">10</span>);
+  counter number :<span class="hljs-operator">=</span> <span class="hljs-number">2</span>;
+<span class="hljs-keyword">BEGIN</span>
+LOOP
+   counter :<span class="hljs-operator">=</span> counter <span class="hljs-operator">+</span> <span class="hljs-number">1</span>;
+   dbms_output.put_line(<span class="hljs-string">&#x27;Hello World&#x27;</span>);
+   EXIT <span class="hljs-keyword">WHEN</span> (counter <span class="hljs-operator">=</span> <span class="hljs-number">10</span>);
+<span class="hljs-keyword">end</span> loop;
+<span class="hljs-keyword">END</span>;
+<span class="hljs-operator">/</span>
+</code></pre>
+<p>The next is while loops this is the syntax</p>
+<pre class="hljs"><code>WHILE <span class="hljs-keyword">condition</span> LOOP
+   statements
+   ....
+<span class="hljs-keyword">END</span> LOOP;
+</code></pre>
+<p>Finally FOR loops:</p>
+<pre class="hljs"><code><span class="hljs-keyword">FOR</span> counter <span class="hljs-keyword">IN</span> [REVERSE]
+   lower_bound..upper_bound LOOP
+   statements...
+<span class="hljs-keyword">END</span> LOOP;
+</code></pre>
+<pre class="hljs"><code><span class="hljs-keyword">DECLARE</span>
+<span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> REVERSE <span class="hljs-number">1.</span><span class="hljs-number">.10</span> loop
+     dbms_output.put_line(i);
+     <span class="hljs-keyword">end</span> loop;
+<span class="hljs-keyword">END</span>;
+</code></pre>
+
                 </div>
                 
-                {% if seriesInfo %}
+                
                 <nav class="series-navigation">
-                    {% if seriesInfo.previousPost %}
-                        <a href="{{ seriesInfo.previousPost.url }}" class="nav-link">
-                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
-                            <span class="nav-link-title">{{ seriesInfo.previousPost.title }}</span>
-                        </a>
-                    {% else %}
-                        <div class="nav-placeholder"></div>
-                    {% endif %}
                     
-                    {% if seriesInfo.nextPost %}
-                        <a href="{{ seriesInfo.nextPost.url }}" class="nav-link" style="text-align: right;">
-                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
-                            <span class="nav-link-title">{{ seriesInfo.nextPost.title }}</span>
+                        <a href="/oracle/3 - PL SQL Flow Control.html" class="nav-link">
+                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                            <span class="nav-link-title">3   PL SQL Flow Control</span>
                         </a>
-                    {% else %}
-                        <div class="nav-placeholder"></div>
-                    {% endif %}
+                    
+                    
+                    
+                        <a href="/oracle/5 - PL SQL Composite Data Types.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">5   PL SQL Composite Data Types</span>
+                        </a>
+                    
                 </nav>
-                {% endif %}
+                
                 
                 <footer class="post-footer">
-                    {% if series %}
-                        <a href="/{{ series }}/" class="back-link"><i class="fas fa-book"></i> Back to {{ seriesInfo.title if seriesInfo else 'Series' }}</a>
-                    {% endif %}
+                    
+                        <a href="/oracle/" class="back-link"><i class="fas fa-book"></i> Back to oracle-pl-sql</a>
+                    
                     <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
                 </footer>
             </article>
@@ -160,7 +242,6 @@
     </main>
     
     <script>
-    // Theme toggle
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     const themeText = document.querySelector('.theme-toggle-btn span');
@@ -184,35 +265,6 @@
     
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') setTheme('dark');
-
-    // Copy button for code blocks
-    document.querySelectorAll('pre.hljs, .post-content pre').forEach(pre => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-block-wrapper';
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
-        
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn';
-        btn.textContent = 'Copy';
-        wrapper.appendChild(btn);
-        
-        btn.addEventListener('click', async () => {
-            const code = pre.querySelector('code') ? pre.querySelector('code').textContent : pre.textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                btn.textContent = 'Failed';
-                setTimeout(() => btn.textContent = 'Copy', 2000);
-            }
-        });
-    });
     </script>
 </body>
 </html>

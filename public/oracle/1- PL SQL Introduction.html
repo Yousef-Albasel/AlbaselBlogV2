@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - {{ site.name }}</title>
+    <title>1  PL SQL Introduction - Albasel</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -93,66 +93,105 @@
     </style>
 </head>
 <body>
-    {% include "_navbar.html" %}
+    <aside class="sidebar">
+    <div class="sidebar-profile">
+        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
+        <div class="sidebar-name">Albasel</div>
+        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/posts.html">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/categories.html">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="/aboutme.html">
+                    <i class="fa-solid fa-user"></i>
+                    <span>About Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="theme-toggle-sidebar">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</aside>
 
     <main class="main-content">
         <div class="container">
-            {% if seriesInfo %}
+            
             <div class="series-info">
                 <div>
                     <i class="fas fa-book"></i>
-                    <strong>Part {{ seriesInfo.currentIndex }} of {{ seriesInfo.totalPosts }}</strong> in
-                    <a href="/{{ seriesInfo.slug }}/">{{ seriesInfo.title }}</a>
+                    <strong>Part 1 of 7</strong> in
+                    <a href="/oracle/">oracle-pl-sql</a>
                 </div>
                 <div class="series-progress">
-                    {{ seriesInfo.currentIndex }}/{{ seriesInfo.totalPosts }}
+                    1/7
                 </div>
             </div>
-            {% endif %}
+            
 
             <article class="post">
                 <header class="post-header">
-                    <h1>{{ title }}</h1>
+                    <h1>1  PL SQL Introduction</h1>
                     <div class="post-meta">
-                        <time>{{ date }}</time>
-                        {% if category %}<span class="post-category">{{ category }}</span>{% endif %}
-                        {% if series %}<span class="series-tag"><i class="fas fa-book"></i> Series</span>{% endif %}
+                        <time>2025-09-01</time>
+                        <span class="post-category">Oracle</span>
+                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
                     </div>
-                    {% if image %}
-                    <img src="../images/{{image}}" alt="{{ title }}" class="post-image">
-                    {% endif %}
+                    
                 </header>
                 
                 <div class="post-content">
-                    {{ content | safe }}
+                    <h1>PL SQL Introduction</h1>
+<p>PL/SQL (Procedural Language/Structured Query Language) is Oracle’s procedural extension to SQL. It integrates the data manipulation and query capabilities of SQL with the procedural programming features of a language like loops, conditional statements, and exception handling.</p>
+<h2>PL SQL Block Structure</h2>
+<ul>
+<li><strong>Declare</strong>:</li>
+</ul>
+
                 </div>
                 
-                {% if seriesInfo %}
+                
                 <nav class="series-navigation">
-                    {% if seriesInfo.previousPost %}
-                        <a href="{{ seriesInfo.previousPost.url }}" class="nav-link">
-                            <span class="nav-link-label"><i class="fas fa-arrow-left"></i> Previous</span>
-                            <span class="nav-link-title">{{ seriesInfo.previousPost.title }}</span>
-                        </a>
-                    {% else %}
-                        <div class="nav-placeholder"></div>
-                    {% endif %}
                     
-                    {% if seriesInfo.nextPost %}
-                        <a href="{{ seriesInfo.nextPost.url }}" class="nav-link" style="text-align: right;">
-                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
-                            <span class="nav-link-title">{{ seriesInfo.nextPost.title }}</span>
-                        </a>
-                    {% else %}
                         <div class="nav-placeholder"></div>
-                    {% endif %}
+                    
+                    
+                    
+                        <a href="/oracle/2 - PL SQL Variables.html" class="nav-link" style="text-align: right;">
+                            <span class="nav-link-label">Next <i class="fas fa-arrow-right"></i></span>
+                            <span class="nav-link-title">2   PL SQL Variables</span>
+                        </a>
+                    
                 </nav>
-                {% endif %}
+                
                 
                 <footer class="post-footer">
-                    {% if series %}
-                        <a href="/{{ series }}/" class="back-link"><i class="fas fa-book"></i> Back to {{ seriesInfo.title if seriesInfo else 'Series' }}</a>
-                    {% endif %}
+                    
+                        <a href="/oracle/" class="back-link"><i class="fas fa-book"></i> Back to oracle-pl-sql</a>
+                    
                     <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
                 </footer>
             </article>
@@ -160,7 +199,6 @@
     </main>
     
     <script>
-    // Theme toggle
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     const themeText = document.querySelector('.theme-toggle-btn span');
@@ -184,35 +222,6 @@
     
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') setTheme('dark');
-
-    // Copy button for code blocks
-    document.querySelectorAll('pre.hljs, .post-content pre').forEach(pre => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-block-wrapper';
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
-        
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn';
-        btn.textContent = 'Copy';
-        wrapper.appendChild(btn);
-        
-        btn.addEventListener('click', async () => {
-            const code = pre.querySelector('code') ? pre.querySelector('code').textContent : pre.textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                btn.textContent = 'Failed';
-                setTimeout(() => btn.textContent = 'Copy', 2000);
-            }
-        });
-    });
     </script>
 </body>
 </html>
