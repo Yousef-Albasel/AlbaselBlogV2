@@ -5,15 +5,25 @@ import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/pris
 import matter from "gray-matter";
 
 const CodeBlock = memo(({ language, value, isDarkMode }) => (
-  <SyntaxHighlighter
-    style={isDarkMode ? oneDark : oneLight}
-    language={language || "text"}
-    PreTag="div"
-    className="rounded-lg my-3 font-mono text-sm"
-    customStyle={{ margin: 0, padding: '1rem', overflowX: 'auto', maxWidth: '100%' }}
-  >
-    {value}
-  </SyntaxHighlighter>
+  <div className="relative w-full overflow-hidden my-3">
+    <SyntaxHighlighter
+      style={isDarkMode ? oneDark : oneLight}
+      language={language || "text"}
+      PreTag="div"
+      className="rounded-lg font-mono text-sm"
+      customStyle={{ 
+        margin: 0, 
+        padding: '1rem', 
+        overflowX: 'auto', 
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box'
+      }}
+      wrapLongLines={false}
+    >
+      {value}
+    </SyntaxHighlighter>
+  </div>
 ));
 
 const createComponents = (isDarkMode) => ({
@@ -72,9 +82,16 @@ export default memo(function PreviewPane({ markdown, isDarkMode }) {
     <div
       ref={containerRef}
       className={`h-full overflow-y-auto overflow-x-hidden p-4 prose max-w-none ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}
-      style={{ wordWrap: 'break-word', overflowWrap: 'break-word', boxSizing: 'border-box' }}
+      style={{ 
+        wordWrap: 'break-word', 
+        overflowWrap: 'break-word', 
+        boxSizing: 'border-box',
+        minWidth: 0  // Critical for flex children to allow shrinking
+      }}
     >
-      <ReactMarkdown components={components}>{content}</ReactMarkdown>
+      <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
+        <ReactMarkdown components={components}>{content}</ReactMarkdown>
+      </div>
     </div>
   );
 });

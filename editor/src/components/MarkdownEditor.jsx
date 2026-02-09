@@ -56,6 +56,35 @@ export default function MarkdownEditor({ value, onChange, onInsert, isDarkMode }
         newText = selectedText ? `[${selectedText}](url)` : '[text](url)';
         cursorOffset = newText.length;
         break;
+      case 'underline':
+        // Markdown doesn't have native underline, use HTML
+        newText = selectedText ? `<u>${selectedText}</u>` : '<u>text</u>';
+        cursorOffset = newText.length;
+        break;
+      case 'quote':
+        newText = selectedText ? `> ${selectedText}` : '> quote';
+        cursorOffset = newText.length;
+        break;
+      case 'h1':
+        newText = selectedText ? `# ${selectedText}` : '# Heading 1';
+        cursorOffset = newText.length;
+        break;
+      case 'h2':
+        newText = selectedText ? `## ${selectedText}` : '## Heading 2';
+        cursorOffset = newText.length;
+        break;
+      case 'h3':
+        newText = selectedText ? `### ${selectedText}` : '### Heading 3';
+        cursorOffset = newText.length;
+        break;
+      case 'list':
+        newText = selectedText ? `- ${selectedText}` : '- item';
+        cursorOffset = newText.length;
+        break;
+      case 'orderedlist':
+        newText = selectedText ? `1. ${selectedText}` : '1. item';
+        cursorOffset = newText.length;
+        break;
       default:
         return;
     }
