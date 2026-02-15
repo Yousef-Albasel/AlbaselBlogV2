@@ -7,6 +7,18 @@ description: "VLM Fine Tuning Notes by Abu-Bakr Soliman"
 
 # VLM Fine-tuning Summary by Abu-Bakr Soliman
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Problem Statement](#problem-statement)
+- [Initial Setup](#initial-setup)
+- [VLM Model Selection](#vlm-model-selection)
+- [Enhancing Output with VLM](#enhancing-output-with-vlm)
+- [Cloud Evaluation](#cloud-evaluation)
+- [Knowledge Distillation Approach](#knowledge-distillation-approach)
+- [Fine-tuning with LLaMA Factory](#fine-tuning-with-llama-factory)
+
+---
+
 ## Introduction
 
 To effectively extract text and data from Arabic documents, we face challenges that go beyond standard scanned text. These documents often include tables, figures, and noise, complicating the extraction process. 
@@ -17,14 +29,38 @@ The current State of the Art employs Vision Language Models (VLMs), which are mu
 - **Budget Constraints:** Maintaining a low-cost solution.
 - **Value Addition:** The model must provide more value than traditional Optical Character Recognition (OCR) methods.
 
-## Google Colab Setup
+---
+
+## Problem Statement
+
+### Document Complexity
+Arabic documents present unique challenges including:
+- Tables and structured data
+- Figures and diagrams
+- Document noise and quality issues
+- Mixed content types
+
+### Project Requirements
+- Local deployment capability
+- Cost-effective solution
+- Performance exceeding traditional OCR
+
+---
+
+## Initial Setup
+
+### Google Colab Setup
 
 For each PDF file, we extract all images, save them in a specified format, and apply preprocessing steps to each image. The preprocessing steps include:
 
 - **Resize**
 - **Contrast Enhancement**
 
-## VLM Choices
+---
+
+## VLM Model Selection
+
+### Overview
 
 We have identified three VLM options for our tasks:
 
@@ -36,13 +72,30 @@ We have identified three VLM options for our tasks:
 
 Abu-Bakr initially tested the Qwen3 VL with 2B parameters, which did not yield satisfactory results. Upon switching to the 8B version, he found that it consistently added and fixed details from the documents an unwanted feature in our case. Additionally, some Chinese characters appeared unexpectedly.
 
+**Issues Identified:**
+- Unwanted detail additions and corrections
+- Unexpected Chinese characters in output
+- Not suitable for our use case
+
 ### Lllava
 
 Next, Abu-Bakr experimented with Lllava, noting that while it was faster than Qwen3, it performed poorly with documents containing lengthy content.
 
-### Gemma3
+**Performance Notes:**
+- Faster than Qwen3
+- Poor performance on lengthy documents
+- Not recommended for our task
+
+### Gemma3 (Selected Model)
 
 Finally, Abu-Bakr tried Gemma3, which preserved all details without adding or altering them, outputting information only when the confidence level was high. Hence, we will use the 4B Instruct version for our task.
+
+**Why Gemma3:**
+- Preserves all details without additions
+- High confidence threshold for output
+- Optimal balance of speed and accuracy
+
+#### Implementation Code
 
 ```python
 from transformers import AutoProcessor, Gemma3ForConditionalGeneration
@@ -61,7 +114,11 @@ model = Gemma3ForConditionalGeneration.from_pretrained(
 processor = AutoProcessor.from_pretrained(model_id)
 ```
 
-## Expanding Beyond Text Extraction
+---
+
+## Enhancing Output with VLM
+
+### Beyond Basic Text Extraction
 
 If we are utilizing a VLM and incurring additional costs, we should leverage its capabilities to categorize and classify our documents, enriching the output with more information. 
 
@@ -72,7 +129,9 @@ This enhancement includes additional metadata in the output JSON, such as:
 - Date types
 - Page numbers
 
-### Prompt Example
+### Structured Output Example
+
+#### Prompt Example
 
 For example, for bank invoices, the JSON structure could look like this:
 
@@ -120,27 +179,58 @@ For example, for bank invoices, the JSON structure could look like this:
 
 The goal is to enrich the output JSON with as much useful information as possible. For a detailed prompt used by Abu-Bakr, refer to [this link](https://sharetext.io/r1zwpwpl).
 
+### Gemma3 Limitations
+
 Unfortunately, Gemma was unable to extract and provide all the required data successfully.
 
-## Evaluating GEMINI
+---
+
+## Cloud Evaluation
+
+### Evaluating GEMINI
 
 Next, we evaluated the cloud version, GEMINI, which performed significantly better. If we have training data free of sensitive information, we can utilize it alongside the valuable data obtained from the cloud API to train our local model.
 
-## Knowledge Distillation
+**Key Findings:**
+- GEMINI cloud API performs significantly better
+- Can be used as a teacher model for knowledge distillation
+- Requires non-sensitive data for training
+
+---
+
+## Knowledge Distillation Approach
+
+### What is Knowledge Distillation?
 
 Knowledge distillation is a machine learning compression technique that transfers knowledge from a large, complex "teacher" model to a smaller, more efficient "student" model.
+
+**In Our Context:**
+- Teacher Model: GEMINI (cloud-based, high-performance)
+- Student Model: Gemma3 4B (local, efficient)
+- Goal: Transfer knowledge to create a local model with near-cloud performance
 
 ### Data Privacy Concerns
 
 If we lack safe data to send to an external model, we might need to invest considerable manual effort in labeling all data.
 
-## Llama Factory
+**Considerations:**
+- Use non-sensitive data for cloud API calls
+- Manual labeling required for sensitive documents
+- Balance between automation and data privacy
+
+---
+
+## Fine-tuning with LLaMA Factory
+
+### Overview
 
 After completing the calls to the teacher model, we now possess the necessary data to format our local VLM's output JSON for training. LLaMA Factory is a well-known framework for fine-tuning, and we followed its template for data formatting.
 
 During training, we only need to use concise prompts rather than lengthy ones, as the model will learn to generate comprehensive responses.
 
-### Training Prompts
+### Training Task Definition
+
+#### Two-Task Approach
 
 We utilize two prompts for two distinct tasks:
 
@@ -162,7 +252,13 @@ Do not generate any introduction or conclusion.
 """.strip()
 ```
 
-### Data Shuffling Considerations
+**Task Separation:**
+- **Task 1:** Content extraction (text, structure, markdown)
+- **Task 2:** Metadata extraction (classification, properties, quality)
+
+### Data Preparation
+
+#### Data Shuffling Considerations
 
 It is crucial to shuffle our data during the train-test split. However, we should avoid image-level splitting to prevent data leakage, opting instead for PDF-level splitting:
 
@@ -173,7 +269,9 @@ val_ds = []
 image_paths_set = set()
 ```
 
-### Training Example Format
+**Important:** PDF-level splitting prevents data leakage by ensuring images from the same PDF don't appear in both training and validation sets.
+
+#### Training Example Format
 
 We define a training example for each task, capturing conversations between a human and the model (GPT), associated images, and the output that the LLM should reproduce:
 
@@ -207,6 +305,8 @@ task_2_sft_record = {
 }
 ```
 
+#### Saving Training Data
+
 Next, we save our formatted data as JSON files:
 
 ```python
@@ -219,9 +319,13 @@ with open(join(data_dir, "datasets", "llamafactory-ocr-finetune-data", "val-v1.j
 
 LLaMA Factory requires JSON files with structured training and validation data, so we serialize our data accordingly.
 
-### Fine-tuning Setup
+### Environment Setup
 
-Abu-Bakr uses `vast.ai` for fine-tuning, while I will utilize Google Colab due to budget constraints. We need to install specific versions of the required libraries:
+#### Fine-tuning Platform
+
+Abu-Bakr uses `vast.ai` for fine-tuning, while I will utilize Google colab cuz im poor. We need to install specific versions of the required libraries:
+
+#### Required Dependencies
 
 ```python
 !pip install transformers==4.57.6
@@ -237,7 +341,11 @@ Abu-Bakr uses `vast.ai` for fine-tuning, while I will utilize Google Colab due t
 !cd LlamaFactory && pip install -r requirements/metrics.txt
 ```
 
-### Template Configuration
+**Note:** Specific library versions are required for compatibility.
+
+### LLaMA Factory Configuration
+
+#### Template Configuration
 
 We need to add our specific template to Llama Factory's existing templates in `LlamaFactory/data/dataset_info.json`:
 
@@ -259,6 +367,8 @@ We need to add our specific template to Llama Factory's existing templates in `L
     }
 }
 ```
+
+#### Training Configuration (YAML)
 
 We also need to create a YAML file containing the fine-tuning instructions for `train_lora` in `workspace/LlamaFactory/examples/train_lora/ocr_finetune.yaml`:
 
@@ -310,8 +420,43 @@ report_to: wandb
 run_name: yt-ocr-finetune-llamafactory
 ```
 
+**Key Configuration Parameters:**
+- **LoRA Rank:** 96 (controls adapter size)
+- **Batch Size:** 1 per device with gradient accumulation of 8
+- **Learning Rate:** 1.0e-4 with cosine scheduler
+- **Epochs:** 20
+- **Checkpoint Frequency:** Every 50 steps
+
+### Training Execution
+
+#### Starting Training
+
 Finally, we log in using Weights and Biases (wandb) and initiate training with our YAML file:
 
 ```bash
 !cd LlamaFactory && export DISABLE_VERSION_CHECK=1 && llamafactory-cli train /workspace/LLaMA-Factory/examples/train_lora/ocr_finetune.yaml
 ```
+
+
+### Next Steps
+
+After successful fine-tuning:
+1. Evaluate the model on held-out test data
+2. Compare performance with baseline Gemma3
+3. Test on real-world Arabic documents
+4. Iterate on prompt engineering if needed
+5. Consider merging LoRA adapters for deployment
+
+---
+
+## Resources
+
+- **LLaMA Factory:** [https://github.com/hiyouga/LlamaFactory](https://github.com/hiyouga/LlamaFactory)
+- **Gemma Models:** [https://huggingface.co/google/gemma-3-4b-it](https://huggingface.co/google/gemma-3-4b-it)
+- **Detailed Prompt:** [https://sharetext.io/r1zwpwpl](https://sharetext.io/r1zwpwpl)
+- **Weights & Biases:** [https://wandb.ai](https://wandb.ai)
+
+---
+
+*Document created: 2026-02-02*  
+*Author: Abu-Bakr Soliman*
