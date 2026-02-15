@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLSL Shader Demos - Albasel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/css/shader.css">
+    
+</head>
+<body>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
+        </ul>
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+    </div>
+</nav>
+
+
+    <div class="main-content">
+        <article class="article">
+            <header class="article-header">
+                <h1>GLSL Shader Demos</h1>
+                <div class="article-meta">
+                    
+                    <span class="article-category">Computer Graphics</span>
+                    
+                    <time>2026-02-15</time>
+                </div>
+                
+                <img src="/images/opengl.jpg" alt="GLSL Shader Demos" class="article-image">
+                
+            </header>
+
+            <div class="post-content">
+                <h3>Live GLSL Shader Rendering</h3>
+<p>Vertex supports rendering GLSL fragment shaders directly in your blog posts. The shaders run live in the browser using WebGL — no plugins, no iframes, fully static.</p>
+<h3>Color Gradient</h3>
+<p>A simple animated color gradient using cosine-based palette generation:</p>
+<div class="shader-container"><div class="shader-editor-pane"><div class="shader-editor-header">GLSL Fragment Shader</div><textarea class="shader-editor" spellcheck="false">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution;
+    vec3 col = 0.5 + 0.5 * cos(u_time + uv.xyx + vec3(0, 2, 4));
+    gl_FragColor = vec4(col, 1.0);
+}
+</textarea></div><div class="shader-canvas-pane"><canvas class="shader-canvas" width="600" height="400"></canvas><button class="shader-pause-btn" title="Pause">&#9208;</button><div class="shader-status"><span class="shader-status-dot"></span><span class="shader-status-text">Running</span></div></div><script type="x-shader/x-fragment" class="shader-source">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution;
+    vec3 col = 0.5 + 0.5 * cos(u_time + uv.xyx + vec3(0, 2, 4));
+    gl_FragColor = vec4(col, 1.0);
+}
+</script></div>
+<h3>Animated Circle SDF</h3>
+<p>A signed distance field circle with a glowing edge, animated over time:</p>
+<div class="shader-container"><div class="shader-editor-pane"><div class="shader-editor-header">GLSL Fragment Shader</div><textarea class="shader-editor" spellcheck="false">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
+    
+    float radius = 0.3 + 0.05 * sin(u_time * 2.0);
+    float d = length(uv) - radius;
+    
+    vec3 col = vec3(0.05);
+    col += vec3(0.2, 0.5, 1.0) * (1.0 / (1.0 + abs(d) * 40.0));
+    col += vec3(0.4, 0.8, 1.0) * smoothstep(0.005, 0.0, abs(d));
+    
+    gl_FragColor = vec4(col, 1.0);
+}
+</textarea></div><div class="shader-canvas-pane"><canvas class="shader-canvas" width="600" height="400"></canvas><button class="shader-pause-btn" title="Pause">&#9208;</button><div class="shader-status"><span class="shader-status-dot"></span><span class="shader-status-text">Running</span></div></div><script type="x-shader/x-fragment" class="shader-source">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
+    
+    float radius = 0.3 + 0.05 * sin(u_time * 2.0);
+    float d = length(uv) - radius;
+    
+    vec3 col = vec3(0.05);
+    col += vec3(0.2, 0.5, 1.0) * (1.0 / (1.0 + abs(d) * 40.0));
+    col += vec3(0.4, 0.8, 1.0) * smoothstep(0.005, 0.0, abs(d));
+    
+    gl_FragColor = vec4(col, 1.0);
+}
+</script></div>
+<h3>Mandelbrot Set</h3>
+<p>A classic fractal rendered entirely in a fragment shader:</p>
+<div class="shader-container"><div class="shader-editor-pane"><div class="shader-editor-header">GLSL Fragment Shader</div><textarea class="shader-editor" spellcheck="false">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / u_resolution.y;
+    
+    vec2 c = uv * 2.5 - vec2(0.5, 0.0);
+    vec2 z = vec2(0.0);
+    
+    float iter = 0.0;
+    const float maxIter = 100.0;
+    
+    for (float i = 0.0; i &lt; 100.0; i++) {
+        z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+        if (dot(z, z) &gt; 4.0) break;
+        iter++;
+    }
+    
+    float t = iter / maxIter;
+    vec3 col = 0.5 + 0.5 * cos(3.0 + t * 6.28 * 2.0 + vec3(0.0, 0.6, 1.0));
+    if (iter &gt;= maxIter - 1.0) col = vec3(0.0);
+    
+    gl_FragColor = vec4(col, 1.0);
+}
+</textarea></div><div class="shader-canvas-pane"><canvas class="shader-canvas" width="600" height="400"></canvas><button class="shader-pause-btn" title="Pause">&#9208;</button><div class="shader-status"><span class="shader-status-dot"></span><span class="shader-status-text">Running</span></div></div><script type="x-shader/x-fragment" class="shader-source">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / u_resolution.y;
+    
+    vec2 c = uv * 2.5 - vec2(0.5, 0.0);
+    vec2 z = vec2(0.0);
+    
+    float iter = 0.0;
+    const float maxIter = 100.0;
+    
+    for (float i = 0.0; i < 100.0; i++) {
+        z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+        if (dot(z, z) > 4.0) break;
+        iter++;
+    }
+    
+    float t = iter / maxIter;
+    vec3 col = 0.5 + 0.5 * cos(3.0 + t * 6.28 * 2.0 + vec3(0.0, 0.6, 1.0));
+    if (iter >= maxIter - 1.0) col = vec3(0.0);
+    
+    gl_FragColor = vec4(col, 1.0);
+}
+</script></div>
+<h3>How It Works</h3>
+<p>To add a live shader to your post, use the <code>glsl-canvas</code> language tag on a code block:</p>
+<pre class="hljs"><code>```glsl-canvas
+// Your GLSL fragment shader code here
+```
+</code></pre>
+<p>Built-in uniforms available:</p>
+<ul>
+<li><strong><code>u_resolution</code></strong> — canvas dimensions in pixels</li>
+<li><strong><code>u_time</code></strong> — elapsed time in seconds</li>
+<li><strong><code>u_mouse</code></strong> — mouse position (normalized 0-1, bottom-left origin)</li>
+</ul>
+
+            </div>
+
+            <footer class="article-footer">
+                <a href="/posts.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+                <a href="/">Home</a>
+            </footer>
+        </article>
+    </div>
+
+    <script>
+    // Theme
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
+    }
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
+    });
+
+    // Copy buttons for code blocks
+    document.querySelectorAll('pre.hljs').forEach(pre => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        wrapper.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        });
+    });
+    </script>
+    
+    <script src="/js/shader-renderer.js"></script>
+    
+</body>
+</html>
