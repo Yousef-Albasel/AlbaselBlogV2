@@ -21,7 +21,7 @@ description: "VLM Fine Tuning Notes by Abu-Bakr Soliman"
 
 ## Introduction
 
-To effectively extract text and data from Arabic documents, we face challenges that go beyond standard scanned text. These documents often include tables, figures, and noise, complicating the extraction process. 
+Extracting text and data from Arabic documents presents challenges that extend beyond standard scanned text. These documents frequently contain tables, figures, and extraneous noise, which complicate the extraction process.
 
 The current State of the Art employs Vision Language Models (VLMs), which are multi-modal language models capable of understanding images. However, we encounter three primary challenges:
 

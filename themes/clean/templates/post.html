@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>agentic - Albasel</title>
+    <title>{{ title }} - {{ site.name }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -11,54 +11,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="topnav">
-    <div class="topnav-inner">
-        <a href="/" class="topnav-logo">Albasel</a>
-        
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <ul class="topnav-links" id="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/posts.html">Posts</a></li>
-            <li><a href="/categories.html">Categories</a></li>
-            <li><a href="/aboutme.html">About</a></li>
-        </ul>
-
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-            <i class="fa-solid fa-moon" id="theme-icon"></i>
-        </button>
-    </div>
-</nav>
-
+    {% include "_navbar.html" %}
 
     <div class="main-content">
-        <!-- Series info banner -->
-        
-
         <article class="article">
             <header class="article-header">
-                <h1>agentic</h1>
+                <h1>{{ title }}</h1>
                 <div class="article-meta">
-                    
-                    <time>2026-02-02</time>
+                    {% if category %}
+                    <span class="article-category">{{ category }}</span>
+                    {% endif %}
+                    <time>{{ date }}</time>
                 </div>
-                
+                {% if image %}
+                <img src="{{ image }}" alt="{{ title }}" class="article-image">
+                {% endif %}
             </header>
 
             <div class="post-content">
-                <h1>agentic</h1>
-<p>This is a series about agentic.</p>
-
+                {{ content | safe }}
             </div>
-        </article>
 
-        <!-- Series navigation -->
-        
+            <footer class="article-footer">
+                <a href="/posts.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+                <a href="/">Home</a>
+            </footer>
+        </article>
     </div>
 
     <script>
+    // Theme
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     function setTheme(m) {
@@ -73,16 +55,18 @@
         document.getElementById('nav-links').classList.toggle('open');
     });
 
-    // Copy buttons
+    // Copy buttons for code blocks
     document.querySelectorAll('pre.hljs').forEach(pre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'code-wrapper';
         pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(pre);
+
         const btn = document.createElement('button');
         btn.className = 'copy-btn';
         btn.textContent = 'Copy';
         wrapper.appendChild(btn);
+
         btn.addEventListener('click', () => {
             const code = pre.querySelector('code');
             navigator.clipboard.writeText(code ? code.textContent : pre.textContent);

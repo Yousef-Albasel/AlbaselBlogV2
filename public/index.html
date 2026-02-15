@@ -4,402 +4,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albasel</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <aside class="sidebar">
-    <div class="sidebar-profile">
-        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
-        <div class="sidebar-name">Albasel</div>
-        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
-    </div>
-    
-    <nav class="sidebar-nav">
-        <ul>
-            <li>
-                <a href="/">
-                    <i class="fa-solid fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts.html">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/categories.html">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="/aboutme.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>About Me</span>
-                </a>
-            </li>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
         </ul>
-    </nav>
-    
-    <div class="theme-toggle-sidebar">
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span>Dark Mode</span>
         </button>
     </div>
-</aside>
+</nav>
 
-    <main class="main-content">
-        <div class="container">
-            <!-- Hero Section -->
-            <section class="hero">
-                <img src="/images/avatar.jpeg" alt="Albasel" class="hero-image">
-                <h1>Albasel</h1>
-                <p>Iam a computer science student. I do computer graphics, AI and other random stuff.</p>
-                <div class="hero-socials">
-                    
-                        <a href="albaselofficial@gmail.com" target="_blank" rel="noopener" aria-label="social link">
-                            <i class="fa-solid fa-envelope"></i>
-                        </a>
-                    
-                        <a href="https://github.com/yousef-albasel" target="_blank" rel="noopener" aria-label="social link">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                    
-                        <a href="#" target="_blank" rel="noopener" aria-label="social link">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                    
-                </div>
-            </section>
 
-            <!-- Main Section with Quick Links and Latest Posts -->
-            <section class="main-section">
-                <aside class="quick-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        
-                        <li>
-                            <a href="/aboutme.html">
-                                <i class="fa-solid fa-user"></i>
-                                About Me
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a href="https://docs.google.com/document/d/1yiQhY42-XatCJrzF4TUqme9XgmEp08T45rANNqbRA3U/edit?tab=t.0">
-                                <i class="fa-solid fa-file-alt"></i>
-                                Resume
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories.html">
-                                <i class="fa-solid fa-list"></i>
-                                Categories
-                            </a>
-                        </li>
-                        
-                    </ul>
-                </aside>
+    <div class="main-content wide">
+        <!-- Hero -->
+        <section class="hero">
+            <img src="/images/avatar.jpeg" alt="Albasel" class="hero-avatar">
+            <h1>Albasel</h1>
+            <p>Iam a computer science student. I do computer graphics, AI and other random stuff.</p>
+            <div class="hero-socials">
+                
+                <a href="albaselofficial@gmail.com" target="_blank" rel="noopener" aria-label="social"><i class="fa-solid fa-envelope"></i></a>
+                
+                <a href="https://github.com/yousef-albasel" target="_blank" rel="noopener" aria-label="social"><i class="fa-brands fa-github"></i></a>
+                
+                <a href="#" target="_blank" rel="noopener" aria-label="social"><i class="fa-brands fa-twitter"></i></a>
+                
+            </div>
+        </section>
 
-                <section class="latest-posts">
-                    <h2>Latest Posts</h2>
-                    <div class="post-cards">
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category"></span>
-                                <h3>welcome</h3>
-                                <p></p>
-                                <a href="/welcome.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category">AgenticAI</span>
-                                <h3>VLM Fine-tunning</h3>
-                                <p>VLM Fine Tunning Notes Abu-Bakr Soliman</p>
-                                <a href="/agentic/VLMFineTunning.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category">real time rendering</span>
-                                <h3>The Graphics Pipeline</h3>
-                                <p></p>
-                                <a href="/rtr/Graphics Pipeline.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category">oracle</span>
-                                <h3>6   PL SQL Collections</h3>
-                                <p></p>
-                                <a href="/oracle/6 - PL SQL Collections.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category"></span>
-                                <h3>7 - PL SQL Cursor</h3>
-                                <p></p>
-                                <a href="/oracle/7 - PL SQL Cursor.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                        <article class="post-card">
-                            
-                            <div class="card-info">
-                                <span class="post-category">Oracle</span>
-                                <h3>1  PL SQL Introduction</h3>
-                                <p>Introduction to PL-SQL Language</p>
-                                <a href="/oracle/1- PL SQL Introduction.html">READ MORE</a>
-                            </div>
-                        </article>
-                        
-                    </div>
-                </section>
-            </section>
-
-            <!-- All Posts List -->
-            <section class="all-posts">
-                <h2>All Posts</h2>
-                <div class="posts-list">
-                    
-                    <article class="post-item">
-                        <h3><a href="/welcome.html">welcome</a></h3>
-                        <p></p>
-                        <time>2026-02-09</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/agentic/VLMFineTunning.html">VLM Fine-tunning</a></h3>
-                        <p>VLM Fine Tunning Notes Abu-Bakr Soliman</p>
-                        <time>2026-02-02</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/rtr/Graphics Pipeline.html">The Graphics Pipeline</a></h3>
-                        <p></p>
-                        <time>2025-10-07</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/6 - PL SQL Collections.html">6   PL SQL Collections</a></h3>
-                        <p></p>
-                        <time>2025-09-02</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/7 - PL SQL Cursor.html">7 - PL SQL Cursor</a></h3>
-                        <p></p>
-                        <time>2025-09-02</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/1- PL SQL Introduction.html">1  PL SQL Introduction</a></h3>
-                        <p>Introduction to PL-SQL Language</p>
-                        <time>2025-09-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/2 - PL SQL Variables.html">2   PL SQL Variables</a></h3>
-                        <p>Variables in PL SQL</p>
-                        <time>2025-09-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/3 - PL SQL Flow Control.html">3   PL SQL Flow Control</a></h3>
-                        <p>If conditions in PL-SQL</p>
-                        <time>2025-09-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/4 - PL SQL loops.html">4   PL SQL loops</a></h3>
-                        <p> Loops in PL SQL</p>
-                        <time>2025-09-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/oracle/5 - PL SQL Composite Data Types.html">5   PL SQL Composite Data Types</a></h3>
-                        <p></p>
-                        <time>2025-09-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/AVL Tree - Trees Data Structures.html">AVL Tree structure</a></h3>
-                        <p>A AVL Tree algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Binary Search Tree - Trees Data Structures.html">Binary Search Trees</a></h3>
-                        <p>BST algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Heaps and Heap Sort.html">Heap</a></h3>
-                        <p>A Heap algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Insertion Sort - Sorting Algorithms.html">Insertion Sort</a></h3>
-                        <p>An Insertion sort algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Linked Lists - Linear Data Structures.html">Linked Lists </a></h3>
-                        <p>A Linked List implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Merge Sort - Sorting Algorithms.html">Merge Sort</a></h3>
-                        <p>A Merge sort algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Queue - Linear Data Structures.html">Queue Data structure</a></h3>
-                        <p>A Queue algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Quick Sort - Sorting Algorithms.html">Quick Sort</a></h3>
-                        <p>A Quick sort algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Selection Sort - Sorting Algorithms.html">Selection Sort</a></h3>
-                        <p>A Selection Sort algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Shell Sort - Sorting Algorithms.html">Shell Sort</a></h3>
-                        <p>A Shell Sort algorithm implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/dsa/Stack - Linear Data Structures.html">Stack Data structure</a></h3>
-                        <p>A Stack implementation</p>
-                        <time>2024-02-20</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P1 - Getting Started.html">P1 Getting Started with OpenGL</a></h3>
-                        <p>Introduction to the graphics api</p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P1.1 - Extra Information.html">P1.1 Extra Information about OpenGL</a></h3>
-                        <p>Extra information for beginners</p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P2 - Vertex Buffers.html">P2 Vertex Buffers</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P3 - Vertex Layout.html">P3 Vertex Layout</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P4.1 - Shaders.html">P4.1 Shaders</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P4.2 - Shaders.html">P4.2 Shaders</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P4.3 - Shaders.html">P4.3 Shaders</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P5 - Index Buffers.html">P5 Index Buffers</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P6 - Errors and Uniforms.html">P6 Errors and Uniforms</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P7 - Textures in OpenGL.html">P7 Textures in OpenGL</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                    <article class="post-item">
-                        <h3><a href="/opengl/P8 - Transitions and Projection.html">P8 Transitions and Projection</a></h3>
-                        <p></p>
-                        <time>2024-01-01</time>
-                    </article>
-                    
-                </div>
-            </section>
+        <!-- Quick Links -->
+        <div class="quick-links">
+            
+            <a href="/aboutme.html" class="quick-link">
+                <i class="fa-solid fa-user"></i>
+                About Me
+            </a>
+            
+            <a href="https://docs.google.com/document/d/1yiQhY42-XatCJrzF4TUqme9XgmEp08T45rANNqbRA3U/edit?tab=t.0" class="quick-link">
+                <i class="fa-solid fa-file-alt"></i>
+                Resume
+            </a>
+            
+            <a href="/categories.html" class="quick-link">
+                <i class="fa-solid fa-list"></i>
+                Categories
+            </a>
+            
         </div>
-    </main>
-    
+
+        <!-- Latest Posts -->
+        <h2 class="section-heading">Latest Posts</h2>
+        <div class="posts-grid">
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <span class="post-card-category">AgenticAI</span>
+                    
+                    <h3 class="post-card-title"><a href="/agentic/VLMFineTunning.html">VLM Fine-tuning</a></h3>
+                    <p class="post-card-desc">VLM Fine Tuning Notes by Abu-Bakr Soliman</p>
+                    <span class="post-card-meta">2026-02-02</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <span class="post-card-category">real time rendering</span>
+                    
+                    <h3 class="post-card-title"><a href="/rtr/Graphics Pipeline.html">The Graphics Pipeline</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2025-10-07</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <span class="post-card-category">oracle</span>
+                    
+                    <h3 class="post-card-title"><a href="/oracle/6 - PL SQL Collections.html">6   PL SQL Collections</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2025-09-02</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <h3 class="post-card-title"><a href="/oracle/7 - PL SQL Cursor.html">7 - PL SQL Cursor</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2025-09-02</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <span class="post-card-category">Oracle</span>
+                    
+                    <h3 class="post-card-title"><a href="/oracle/1- PL SQL Introduction.html">1  PL SQL Introduction</a></h3>
+                    <p class="post-card-desc">Introduction to PL-SQL Language</p>
+                    <span class="post-card-meta">2025-09-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <div class="post-card-body">
+                    
+                    <span class="post-card-category">oracle</span>
+                    
+                    <h3 class="post-card-title"><a href="/oracle/2 - PL SQL Variables.html">2   PL SQL Variables</a></h3>
+                    <p class="post-card-desc">Variables in PL SQL</p>
+                    <span class="post-card-meta">2025-09-01</span>
+                </div>
+            </article>
+            
+        </div>
+
+        <!-- All Posts -->
+        <h2 class="section-heading" style="margin-top:2rem;">All Posts</h2>
+        <div class="post-list" id="all-posts-list">
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/agentic/VLMFineTunning.html">VLM Fine-tuning</a></span>
+                <span class="post-list-date">2026-02-02</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/rtr/Graphics Pipeline.html">The Graphics Pipeline</a></span>
+                <span class="post-list-date">2025-10-07</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/6 - PL SQL Collections.html">6   PL SQL Collections</a></span>
+                <span class="post-list-date">2025-09-02</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/7 - PL SQL Cursor.html">7 - PL SQL Cursor</a></span>
+                <span class="post-list-date">2025-09-02</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/1- PL SQL Introduction.html">1  PL SQL Introduction</a></span>
+                <span class="post-list-date">2025-09-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/2 - PL SQL Variables.html">2   PL SQL Variables</a></span>
+                <span class="post-list-date">2025-09-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/3 - PL SQL Flow Control.html">3   PL SQL Flow Control</a></span>
+                <span class="post-list-date">2025-09-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/4 - PL SQL loops.html">4   PL SQL loops</a></span>
+                <span class="post-list-date">2025-09-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/oracle/5 - PL SQL Composite Data Types.html">5   PL SQL Composite Data Types</a></span>
+                <span class="post-list-date">2025-09-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/AVL Tree - Trees Data Structures.html">AVL Tree structure</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Binary Search Tree - Trees Data Structures.html">Binary Search Trees</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Heaps and Heap Sort.html">Heap</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Insertion Sort - Sorting Algorithms.html">Insertion Sort</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Linked Lists - Linear Data Structures.html">Linked Lists </a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Merge Sort - Sorting Algorithms.html">Merge Sort</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Queue - Linear Data Structures.html">Queue Data structure</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Quick Sort - Sorting Algorithms.html">Quick Sort</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Selection Sort - Sorting Algorithms.html">Selection Sort</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Shell Sort - Sorting Algorithms.html">Shell Sort</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/dsa/Stack - Linear Data Structures.html">Stack Data structure</a></span>
+                <span class="post-list-date">2024-02-20</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P1 - Getting Started.html">P1 Getting Started with OpenGL</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P1.1 - Extra Information.html">P1.1 Extra Information about OpenGL</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P2 - Vertex Buffers.html">P2 Vertex Buffers</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P3 - Vertex Layout.html">P3 Vertex Layout</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P4.1 - Shaders.html">P4.1 Shaders</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P4.2 - Shaders.html">P4.2 Shaders</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P4.3 - Shaders.html">P4.3 Shaders</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P5 - Index Buffers.html">P5 Index Buffers</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P6 - Errors and Uniforms.html">P6 Errors and Uniforms</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P7 - Textures in OpenGL.html">P7 Textures in OpenGL</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+            <div class="post-list-item" data-page-item>
+                <span class="post-list-title"><a href="/opengl/P8 - Transitions and Projection.html">P8 Transitions and Projection</a></span>
+                <span class="post-list-date">2024-01-01</span>
+            </div>
+            
+        </div>
+        <nav class="pagination" id="pagination"></nav>
+    </div>
+
     <script>
+    // Theme
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.querySelector('.theme-toggle-btn span');
-    
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'dark') {
-            themeIcon.className = 'fa-solid fa-sun';
-            if (themeText) themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.className = 'fa-solid fa-moon';
-            if (themeText) themeText.textContent = 'Dark Mode';
-        }
-        localStorage.setItem('theme', mode);
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
     }
-    
-    toggleBtn.addEventListener('click', () => {
-        const isDark = !document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    // Mobile nav
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
     });
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
+
+    // Pagination
+    (function() {
+        const PER_PAGE = 6;
+        const items = document.querySelectorAll('[data-page-item]');
+        const total = items.length, pages = Math.ceil(total / PER_PAGE);
+        let cur = 1;
+        function show(p) {
+            cur = p;
+            const s = (p-1)*PER_PAGE, e = s+PER_PAGE;
+            items.forEach((el,i) => el.style.display = (i>=s && i<e) ? '' : 'none');
+            render();
+        }
+        function render() {
+            const nav = document.getElementById('pagination');
+            if (pages <= 1) { nav.style.display='none'; return; }
+            let h = '';
+            h += cur > 1
+                ? `<a href="#" class="pagination-btn" data-p="${cur-1}"><i class="fas fa-arrow-left"></i> Prev</a>`
+                : `<span class="pagination-btn disabled"><i class="fas fa-arrow-left"></i> Prev</span>`;
+            h += '<div class="pagination-pages">';
+            for (let i=1;i<=pages;i++) h += i===cur
+                ? `<span class="pagination-page active">${i}</span>`
+                : `<a href="#" class="pagination-page" data-p="${i}">${i}</a>`;
+            h += '</div>';
+            h += cur < pages
+                ? `<a href="#" class="pagination-btn" data-p="${cur+1}">Next <i class="fas fa-arrow-right"></i></a>`
+                : `<span class="pagination-btn disabled">Next <i class="fas fa-arrow-right"></i></span>`;
+            nav.innerHTML = h;
+            nav.querySelectorAll('[data-p]').forEach(el => el.addEventListener('click', e => {
+                e.preventDefault();
+                show(+el.dataset.p);
+                document.querySelector('.section-heading[style]').scrollIntoView({behavior:'smooth'});
+            }));
+        }
+        if (total > 0) show(1);
+    })();
     </script>
 </body>
 </html>

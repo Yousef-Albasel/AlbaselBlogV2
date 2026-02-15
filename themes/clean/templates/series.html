@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>agentic - Albasel</title>
+    <title>{{ title }} - {{ site.name }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -11,51 +11,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="topnav">
-    <div class="topnav-inner">
-        <a href="/" class="topnav-logo">Albasel</a>
-        
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <ul class="topnav-links" id="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/posts.html">Posts</a></li>
-            <li><a href="/categories.html">Categories</a></li>
-            <li><a href="/aboutme.html">About</a></li>
-        </ul>
-
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-            <i class="fa-solid fa-moon" id="theme-icon"></i>
-        </button>
-    </div>
-</nav>
-
+    {% include "_navbar.html" %}
 
     <div class="main-content">
         <!-- Series info banner -->
-        
+        {% if seriesInfo %}
+        <div class="series-banner">
+            <div>
+                <strong>{{ seriesInfo.title }}</strong>
+                — <a href="/{{ series }}/index.html">Series Overview</a>
+            </div>
+            {% if seriesInfo.posts %}
+            <span class="series-progress">Part {{ order }} of {{ seriesInfo.posts.length }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
 
         <article class="article">
             <header class="article-header">
-                <h1>agentic</h1>
+                <h1>{{ title }}</h1>
                 <div class="article-meta">
-                    
-                    <time>2026-02-02</time>
+                    {% if category %}
+                    <span class="article-category">{{ category }}</span>
+                    {% endif %}
+                    <time>{{ date }}</time>
                 </div>
-                
+                {% if image %}
+                <img src="{{ image }}" alt="{{ title }}" class="article-image">
+                {% endif %}
             </header>
 
             <div class="post-content">
-                <h1>agentic</h1>
-<p>This is a series about agentic.</p>
-
+                {{ content | safe }}
             </div>
         </article>
 
         <!-- Series navigation -->
-        
+        {% if seriesInfo and seriesInfo.posts %}
+        <nav class="series-nav">
+            {% if prevPost %}
+            <a href="{{ prevPost.url }}" class="series-nav-link">
+                <span class="series-nav-label">← Previous</span>
+                <span class="series-nav-title">{{ prevPost.title }}</span>
+            </a>
+            {% else %}
+            <div class="series-nav-placeholder"></div>
+            {% endif %}
+
+            {% if nextPost %}
+            <a href="{{ nextPost.url }}" class="series-nav-link" style="text-align:right;">
+                <span class="series-nav-label">Next →</span>
+                <span class="series-nav-title">{{ nextPost.title }}</span>
+            </a>
+            {% else %}
+            <div class="series-nav-placeholder"></div>
+            {% endif %}
+        </nav>
+        {% endif %}
     </div>
 
     <script>

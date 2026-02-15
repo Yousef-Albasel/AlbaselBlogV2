@@ -3,704 +3,469 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VLM Fine-tunning - Albasel</title>
+    <title>VLM Fine-tuning - Albasel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .series-info {
-            background: #333;
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: var(--shadow-md);
-        }
-        .series-info a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .series-info a:hover {
-            text-decoration: underline;
-        }
-        .series-progress {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        .series-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid rgba(0, 0, 0, 0.1);
-            gap: 1rem;
-        }
-        .nav-link {
-            display: flex;
-            flex-direction: column;
-            padding: 1.25rem;
-            background: rgba(126, 179, 214, 0.1);
-            border-radius: 8px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.2s;
-            max-width: 45%;
-            border: 2px solid transparent;
-        }
-        .nav-link:hover {
-            background: rgba(126, 179, 214, 0.2);
-            transform: translateY(-2px);
-            border-color: var(--accent-blue);
-        }
-        .nav-link-label {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-        .nav-link-title {
-            font-weight: bold;
-            line-height: 1.3;
-            color: var(--text-dark);
-        }
-        .nav-placeholder {
-            width: 45%;
-        }
-        body.dark-mode .series-navigation {
-            border-top: 2px solid #444;
-        }
-        body.dark-mode .nav-link {
-            background: rgba(255, 255, 255, 0.05);
-            color: #e0e0e0;
-        }
-        body.dark-mode .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-blue);
-        }
-        body.dark-mode .nav-link-label {
-            color: #aaa;
-        }
-        body.dark-mode .nav-link-title {
-            color: var(--text-light);
-        }
-    </style>
 </head>
 <body>
-    <aside class="sidebar">
-    <div class="sidebar-profile">
-        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
-        <div class="sidebar-name">Albasel</div>
-        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
-    </div>
-    
-    <nav class="sidebar-nav">
-        <ul>
-            <li>
-                <a href="/">
-                    <i class="fa-solid fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts.html">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/categories.html">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="/aboutme.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>About Me</span>
-                </a>
-            </li>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
         </ul>
-    </nav>
-    
-    <div class="theme-toggle-sidebar">
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span>Dark Mode</span>
         </button>
     </div>
-</aside>
+</nav>
 
-    <main class="main-content">
-        <div class="container">
-            
-            <div class="series-info">
-                <div>
-                    <i class="fas fa-book"></i>
-                    <strong>Part 1 of 1</strong> in
-                    <a href="/agentic/">agentic</a>
-                </div>
-                <div class="series-progress">
-                    1/1
-                </div>
-            </div>
-            
 
-            <article class="post">
-                <header class="post-header">
-                    <h1>VLM Fine-tunning</h1>
-                    <div class="post-meta">
-                        <time>2026-02-02</time>
-                        <span class="post-category">AgenticAI</span>
-                        <span class="series-tag"><i class="fas fa-book"></i> Series</span>
-                    </div>
+    <div class="main-content">
+        <article class="article">
+            <header class="article-header">
+                <h1>VLM Fine-tuning</h1>
+                <div class="article-meta">
                     
-                </header>
+                    <span class="article-category">AgenticAI</span>
+                    
+                    <time>2026-02-02</time>
+                </div>
                 
-                <div class="post-content">
-                    <h1>VLM Fine-tunning Summary Abu-Bakr Soliman</h1>
+            </header>
+
+            <div class="post-content">
+                <h1>VLM Fine-tuning Summary by Abu-Bakr Soliman</h1>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#problem-statement">Problem Statement</a></li>
+<li><a href="#initial-setup">Initial Setup</a></li>
+<li><a href="#vlm-model-selection">VLM Model Selection</a></li>
+<li><a href="#enhancing-output-with-vlm">Enhancing Output with VLM</a></li>
+<li><a href="#cloud-evaluation">Cloud Evaluation</a></li>
+<li><a href="#knowledge-distillation-approach">Knowledge Distillation Approach</a></li>
+<li><a href="#fine-tuning-with-llama-factory">Fine-tuning with LLaMA Factory</a></li>
+</ul>
+<hr>
 <h2>Introduction</h2>
-<p>We need a solution to extract text and data from Arabic documents that are not only limited to normal scanned text but also can include tables, figures and noise… this makes the extraction process challenging.</p>
-<p>The State of The Art method currently is using VLMs, those are Multi-Modal language models that can understand images. but we have 3 challenges</p>
-<p>they need to be</p>
+<p>Extracting text and data from Arabic documents presents challenges that extend beyond standard scanned text. These documents frequently contain tables, figures, and extraneous noise, which complicate the extraction process.</p>
+<p>The current State of the Art employs Vision Language Models (VLMs), which are multi-modal language models capable of understanding images. However, we encounter three primary challenges:</p>
 <ul>
-<li>
-<p>Local Models</p>
-</li>
-<li>
-<p>Low Budget</p>
-</li>
-<li>
-<p>Gives More Value Than OCR</p>
-</li>
+<li><strong>Local Models:</strong> The need for models that can run locally.</li>
+<li><strong>Budget Constraints:</strong> Maintaining a low-cost solution.</li>
+<li><strong>Value Addition:</strong> The model must provide more value than traditional Optical Character Recognition (OCR) methods.</li>
 </ul>
-<h2>Google Colab Setup</h2>
-<p>For each PDF File, we extract all the images in it, save it in a certain format and apply preprocessing steps to each image</p>
-<p>The preprocessing steps used are <strong>resize</strong> and <strong>contrast enhancement</strong></p>
-<h2>VLM Choices</h2>
-<p>We have 3 VLM options that we can use</p>
+<hr>
+<h2>Problem Statement</h2>
+<h3>Document Complexity</h3>
+<p>Arabic documents present unique challenges including:</p>
 <ul>
-<li>
-<p>Qwen3 VL</p>
-</li>
-<li>
-<p>Gemma</p>
-</li>
-<li>
-<p>Lllava</p>
-</li>
+<li>Tables and structured data</li>
+<li>Figures and diagrams</li>
+<li>Document noise and quality issues</li>
+<li>Mixed content types</li>
 </ul>
-<p>AbuBakr tried Qwen3 VL 2B parameter and it didn’t provide the best performance, so he tried 8B, but after fine-tunning he discovered that Qwen3 Always tends to (Add and Fix) details from the documents. which is not needed in our case. (and some chinese characters are present for some reason)</p>
-<p>Abubakr tried Llava Next, he says its faster than qwen but he says it performs poorly with documents that have long content.</p>
-<p>Finally, he tried Gemma3, He said it keeps all the details as it, it doesn’t Fix or add anything, it only outputs a detail if the confidence is high.</p>
-<p>So we are going to use 4b Instruct version for this task.</p>
-<pre class="hljs"><code>
-<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoProcessor, Gemma3ForConditionalGeneration
-
+<h3>Project Requirements</h3>
+<ul>
+<li>Local deployment capability</li>
+<li>Cost-effective solution</li>
+<li>Performance exceeding traditional OCR</li>
+</ul>
+<hr>
+<h2>Initial Setup</h2>
+<h3>Google Colab Setup</h3>
+<p>For each PDF file, we extract all images, save them in a specified format, and apply preprocessing steps to each image. The preprocessing steps include:</p>
+<ul>
+<li><strong>Resize</strong></li>
+<li><strong>Contrast Enhancement</strong></li>
+</ul>
+<hr>
+<h2>VLM Model Selection</h2>
+<h3>Overview</h3>
+<p>We have identified three VLM options for our tasks:</p>
+<ul>
+<li><strong>Qwen3 VL</strong></li>
+<li><strong>Gemma</strong></li>
+<li><strong>Lllava</strong></li>
+</ul>
+<h3>Qwen3 VL</h3>
+<p>Abu-Bakr initially tested the Qwen3 VL with 2B parameters, which did not yield satisfactory results. Upon switching to the 8B version, he found that it consistently added and fixed details from the documents an unwanted feature in our case. Additionally, some Chinese characters appeared unexpectedly.</p>
+<p><strong>Issues Identified:</strong></p>
+<ul>
+<li>Unwanted detail additions and corrections</li>
+<li>Unexpected Chinese characters in output</li>
+<li>Not suitable for our use case</li>
+</ul>
+<h3>Lllava</h3>
+<p>Next, Abu-Bakr experimented with Lllava, noting that while it was faster than Qwen3, it performed poorly with documents containing lengthy content.</p>
+<p><strong>Performance Notes:</strong></p>
+<ul>
+<li>Faster than Qwen3</li>
+<li>Poor performance on lengthy documents</li>
+<li>Not recommended for our task</li>
+</ul>
+<h3>Gemma3 (Selected Model)</h3>
+<p>Finally, Abu-Bakr tried Gemma3, which preserved all details without adding or altering them, outputting information only when the confidence level was high. Hence, we will use the 4B Instruct version for our task.</p>
+<p><strong>Why Gemma3:</strong></p>
+<ul>
+<li>Preserves all details without additions</li>
+<li>High confidence threshold for output</li>
+<li>Optimal balance of speed and accuracy</li>
+</ul>
+<h4>Implementation Code</h4>
+<pre class="hljs"><code><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoProcessor, Gemma3ForConditionalGeneration
 <span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
-
 <span class="hljs-keyword">import</span> requests
-
 <span class="hljs-keyword">import</span> torch
-
-<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Image <span class="hljs-keyword">as</span> diplay
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Image <span class="hljs-keyword">as</span> display
 
 data_dir = <span class="hljs-string">&quot;/content/pdf_images&quot;</span>
-
 model_id = <span class="hljs-string">&quot;google/gemma-3-4b-it&quot;</span>
 
-
-
 model = Gemma3ForConditionalGeneration.from_pretrained(
-
     model_id, dtype=<span class="hljs-string">&quot;auto&quot;</span>, device_map=<span class="hljs-string">&quot;auto&quot;</span>
-
 ).<span class="hljs-built_in">eval</span>()
 
-
-
 processor = AutoProcessor.from_pretrained(model_id)
-
-
-
 </code></pre>
-<h2>Why would we extract only text when we can do more</h2>
-<p>If we are going to use VLM and pay for the extra cost… why not use it to also categorize, and classify our documents, adding more rich information to the output.</p>
-<p>its all about adding more information to the output json, such as publishing dates, document type, date type page number etc…</p>
-<h3>Abubakr used a very detailed, long, and rich prompt that contained a lot of information (I’m too lazy to write it all out), but the main purpose was to enrich the output JSON with as much useful information as possible.</h3>
-<p>For bank invoices example, we could do something like (just an example)</p>
-<pre class="hljs"><code>
-{
-
-  &quot;invoice_id&quot;: &quot;INV-2026-0023&quot;,
-
-  &quot;date&quot;: &quot;2026-02-09&quot;,
-
-  &quot;due_date&quot;: &quot;2026-03-09&quot;,
-
-  &quot;sender&quot;: {
-
-    &quot;name&quot;: &quot;ABC Bank&quot;,
-
-    &quot;address&quot;: &quot;123 Finance Street, Cairo, Egypt&quot;,
-
-    &quot;tax_id&quot;: &quot;123456789&quot;
-
-  },
-
-  &quot;recipient&quot;: {
-
-    &quot;name&quot;: &quot;Youssef Albasel&quot;,
-
-    &quot;address&quot;: &quot;45 Nile Avenue, Cairo, Egypt&quot;,
-
-    &quot;customer_id&quot;: &quot;CUST-7890&quot;
-
-  },
-
-  &quot;items&quot;: [
-
-    {
-
-      &quot;description&quot;: &quot;Monthly account maintenance&quot;,
-
-      &quot;quantity&quot;: 1,
-
-      &quot;unit_price&quot;: 50,
-
-      &quot;currency&quot;: &quot;EGP&quot;,
-
-      &quot;total&quot;: 50
-
-    },
-
-    {
-
-      &quot;description&quot;: &quot;International transfer fee&quot;,
-
-      &quot;quantity&quot;: 2,
-
-      &quot;unit_price&quot;: 20,
-
-      &quot;currency&quot;: &quot;EGP&quot;,
-
-      &quot;total&quot;: 40
-
-    }
-
-  ],
-
-  &quot;subtotal&quot;: 90,
-
-  &quot;tax&quot;: {
-
-    &quot;rate&quot;: 14,
-
-    &quot;amount&quot;: 12.6
-
-  },
-
-  &quot;total&quot;: 102.6,
-
-  &quot;status&quot;: &quot;unpaid&quot;,
-
-  &quot;notes&quot;: &quot;Please pay by the due date to avoid late fees.&quot;
-
-}
-
-
-
+<hr>
+<h2>Enhancing Output with VLM</h2>
+<h3>Beyond Basic Text Extraction</h3>
+<p>If we are utilizing a VLM and incurring additional costs, we should leverage its capabilities to categorize and classify our documents, enriching the output with more information.</p>
+<p>This enhancement includes additional metadata in the output JSON, such as:</p>
+<ul>
+<li>Publishing dates</li>
+<li>Document types</li>
+<li>Date types</li>
+<li>Page numbers</li>
+</ul>
+<h3>Structured Output Example</h3>
+<h4>Prompt Example</h4>
+<p>For example, for bank invoices, the JSON structure could look like this:</p>
+<pre class="hljs"><code><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;invoice_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;INV-2026-0023&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-02-09&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;due_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-03-09&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;sender&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ABC Bank&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123 Finance Street, Cairo, Egypt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;tax_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123456789&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;recipient&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Youssef Albasel&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;45 Nile Avenue, Cairo, Egypt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;customer_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;CUST-7890&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;items&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Monthly account maintenance&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;quantity&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;unit_price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">50</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;currency&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;EGP&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;total&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;International transfer fee&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;quantity&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;unit_price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">20</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;currency&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;EGP&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;total&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">40</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;subtotal&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">90</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;tax&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;rate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">14</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;amount&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">12.6</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;total&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">102.6</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;unpaid&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;notes&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Please pay by the due date to avoid late fees.&quot;</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
-<p>and add whatever information we want</p>
-<p>and here is the full prompt abu-bakr used <a href="https://sharetext.io/r1zwpwpl">https://sharetext.io/r1zwpwpl</a></p>
-<p>However, Gemma couldn’t extract and provide all the data successfully.</p>
-<p>Next we are evaluating the cloud version, GEMINI</p>
-<p><img src="/images/paste-1770601488955-62b9098844fc31ca.png" alt="image.png"></p>
-<p>This time it performed a lot better, so if we have training data, and these data doesn’t have any sensitive information, we can use those, get the good data we get from the cloud API, then use these synthetic data to train the local model.</p>
-<h2>Knowledge Distillation</h2>
-<p>A machine learning compression technique that transfers knowledge from a large, complex “teacher” model to a smaller, more efficient “student” model</p>
-<p><img src="/images/paste-1770601914792-cc826276789d8175.png" alt="image.png"></p>
-<h3>But what if we don’t have this type of data that we can safely send to an external model ?</h3>
-<p>We might need to do so much manual work to label all the data.</p>
-<h2>Llama Factory</h2>
-<p>After completing all calls to the teacher model, we now have, for each image, the data showing how our local VLM should return the output JSON for training. LLaMA Factory is a well-known framework for fine-tuning, and we looked at its template for how fine-tuning data should be formatted. We then matched our data to this format.</p>
-<p>In Instruction, you don’t have to give the model that entire VERY LONG prompt, in training the model will learn how to output such responses by itself, so you can use less input tokens.</p>
-<p>so we only use 2 prompts in this case</p>
-<pre class="hljs"><code>
-llm_finetunning_data = []
-
-
+<p>The goal is to enrich the output JSON with as much useful information as possible. For a detailed prompt used by Abu-Bakr, refer to <a href="https://sharetext.io/r1zwpwpl">this link</a>.</p>
+<h3>Gemma3 Limitations</h3>
+<p>Unfortunately, Gemma was unable to extract and provide all the required data successfully.</p>
+<hr>
+<h2>Cloud Evaluation</h2>
+<h3>Evaluating GEMINI</h3>
+<p>Next, we evaluated the cloud version, GEMINI, which performed significantly better. If we have training data free of sensitive information, we can utilize it alongside the valuable data obtained from the cloud API to train our local model.</p>
+<p><strong>Key Findings:</strong></p>
+<ul>
+<li>GEMINI cloud API performs significantly better</li>
+<li>Can be used as a teacher model for knowledge distillation</li>
+<li>Requires non-sensitive data for training</li>
+</ul>
+<hr>
+<h2>Knowledge Distillation Approach</h2>
+<h3>What is Knowledge Distillation?</h3>
+<p>Knowledge distillation is a machine learning compression technique that transfers knowledge from a large, complex “teacher” model to a smaller, more efficient “student” model.</p>
+<p><strong>In Our Context:</strong></p>
+<ul>
+<li>Teacher Model: GEMINI (cloud-based, high-performance)</li>
+<li>Student Model: Gemma3 4B (local, efficient)</li>
+<li>Goal: Transfer knowledge to create a local model with near-cloud performance</li>
+</ul>
+<h3>Data Privacy Concerns</h3>
+<p>If we lack safe data to send to an external model, we might need to invest considerable manual effort in labeling all data.</p>
+<p><strong>Considerations:</strong></p>
+<ul>
+<li>Use non-sensitive data for cloud API calls</li>
+<li>Manual labeling required for sensitive documents</li>
+<li>Balance between automation and data privacy</li>
+</ul>
+<hr>
+<h2>Fine-tuning with LLaMA Factory</h2>
+<h3>Overview</h3>
+<p>After completing the calls to the teacher model, we now possess the necessary data to format our local VLM’s output JSON for training. LLaMA Factory is a well-known framework for fine-tuning, and we followed its template for data formatting.</p>
+<p>During training, we only need to use concise prompts rather than lengthy ones, as the model will learn to generate comprehensive responses.</p>
+<h3>Training Task Definition</h3>
+<h4>Two-Task Approach</h4>
+<p>We utilize two prompts for two distinct tasks:</p>
+<pre class="hljs"><code>llm_finetunning_data = []
 
 task_1_message = <span class="hljs-string">&quot;&quot;&quot;
-
 You are a professional OCR Details Extractor.
-
-Your rule to extract: the page markdown content in addition to the structural_elements of the document.
-
-Extract the final output into a json format.
-
+Your rule to extract: the page markdown content in addition to the structural elements of the document.
+Extract the final output into a JSON format.
 Do not generate any introduction or conclusion.
-
 &quot;&quot;&quot;</span>.strip()
-
-
 
 task_2_message = <span class="hljs-string">&quot;&quot;&quot;
-
 You are a professional OCR Details Extractor.
-
-Your rule to extract the: document_classification, source, physical_properties, official_marks, signatures_authorization, routing_distribution, attachments_references, condition_notes and confidence_quality of the document.
-
-Extract the final output into a json format.
-
+Your rule to extract the: document classification, source, physical properties, official marks, signatures authorization, routing distribution, attachments references, condition notes, and confidence quality of the document.
+Extract the final output into a JSON format.
 Do not generate any introduction or conclusion.
-
 &quot;&quot;&quot;</span>.strip()
-
-
-
 </code></pre>
-<p>We use 2 prompts for 2 separate tasks, one for the content and one for the extra details.</p>
-<p><strong>Important Note:</strong> We usually shuffle our data when we doing our train-test split. Though we shouldn’t do image-level split here because if we did split on image-level some data leakage will occur (Training images will appear in validation stage).</p>
-<p>So we are going to split on a pdf-level</p>
-<pre class="hljs"><code>
-
-
-val_pdf_files = [<span class="hljs-string">&#x27;0012.pdf&#x27;</span>, <span class="hljs-string">&#x27;0005.pdf&#x27;</span>, <span class="hljs-string">&#x27;0011.pdf&#x27;</span>]
-
-
-
+<p><strong>Task Separation:</strong></p>
+<ul>
+<li><strong>Task 1:</strong> Content extraction (text, structure, markdown)</li>
+<li><strong>Task 2:</strong> Metadata extraction (classification, properties, quality)</li>
+</ul>
+<h3>Data Preparation</h3>
+<h4>Data Shuffling Considerations</h4>
+<p>It is crucial to shuffle our data during the train-test split. However, we should avoid image-level splitting to prevent data leakage, opting instead for PDF-level splitting:</p>
+<pre class="hljs"><code>val_pdf_files = [<span class="hljs-string">&#x27;0012.pdf&#x27;</span>, <span class="hljs-string">&#x27;0005.pdf&#x27;</span>, <span class="hljs-string">&#x27;0011.pdf&#x27;</span>]
 train_ds = []
-
 val_ds = []
-
-
-
 image_paths_set = <span class="hljs-built_in">set</span>()
-
-
-
 </code></pre>
-<p>we Also define a training example for each task, Each dictionary captures:</p>
-<p>Conversations between a human and the model (gpt).</p>
-<p>Associated images related to the conversation.</p>
-<p>and the output that the LLM should reproduce</p>
-<pre class="hljs"><code>
-    task_1_sft_recored = <span class="hljs-punctuation">{</span>
+<p><strong>Important:</strong> PDF-level splitting prevents data leakage by ensuring images from the same PDF don’t appear in both training and validation sets.</p>
+<h4>Training Example Format</h4>
+<p>We define a training example for each task, capturing conversations between a human and the model (GPT), associated images, and the output that the LLM should reproduce:</p>
+<pre class="hljs"><code>task_1_sft_record = <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span> + task_1_message<span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(task_1_output<span class="hljs-punctuation">,</span> ensure_ascii=False<span class="hljs-punctuation">,</span> default=str)<span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
 
-        <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-
-                <span class="hljs-punctuation">{</span>
-
-                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>+task_1_message<span class="hljs-punctuation">,</span> # what the human says<span class="hljs-punctuation">,</span> prefixed with <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>
-
-                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
-
-                <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-
-                <span class="hljs-punctuation">{</span>
-
-                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(
-
-                        task_1_output<span class="hljs-punctuation">,</span>
-
-                        ensure_ascii=False<span class="hljs-punctuation">,</span> default=str
-
-                    )<span class="hljs-punctuation">,</span> # model output as JSON string
-
-                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
-
-                <span class="hljs-punctuation">}</span>
-
-            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-
-        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-
-            rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span>
-
-        <span class="hljs-punctuation">]</span>
-
-    <span class="hljs-punctuation">}</span>
-
-
-
-    task_2_sft_recored = <span class="hljs-punctuation">{</span>
-
-        <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-
-                <span class="hljs-punctuation">{</span>
-
-                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span>+task_2_message<span class="hljs-punctuation">,</span>
-
-                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
-
-                <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-
-                <span class="hljs-punctuation">{</span>
-
-                    <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(
-
-                        task_2_output<span class="hljs-punctuation">,</span>
-
-                        ensure_ascii=False<span class="hljs-punctuation">,</span> default=str
-
-                    )<span class="hljs-punctuation">,</span>
-
-                    <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
-                <span class="hljs-punctuation">}</span>
-            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span>
-        <span class="hljs-punctuation">]</span>
-    <span class="hljs-punctuation">}</span>
-
-
+task_2_sft_record = <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;conversations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;image&gt;&quot;</span> + task_2_message<span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;human&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> json.dumps(task_2_output<span class="hljs-punctuation">,</span> ensure_ascii=False<span class="hljs-punctuation">,</span> default=str)<span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;from&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gpt&quot;</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>rec<span class="hljs-punctuation">[</span>&#x27;image_path&#x27;<span class="hljs-punctuation">]</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
-<p>Next we save our formatted data as json files</p>
-<pre class="hljs"><code>
-<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;train-v1.json&quot;</span>) , <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
-
+<h4>Saving Training Data</h4>
+<p>Next, we save our formatted data as JSON files:</p>
+<pre class="hljs"><code><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;train-v1.json&quot;</span>), <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
     json.dump(train_ds, dest, ensure_ascii=<span class="hljs-literal">False</span>, default=<span class="hljs-built_in">str</span>)
 
-
-
-<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;val-v1.json&quot;</span>) , <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
-
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(join(data_dir, <span class="hljs-string">&quot;datasets&quot;</span>, <span class="hljs-string">&quot;llamafactory-ocr-finetune-data&quot;</span>, <span class="hljs-string">&quot;val-v1.json&quot;</span>), <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> dest:
     json.dump(val_ds, dest, ensure_ascii=<span class="hljs-literal">False</span>, default=<span class="hljs-built_in">str</span>)
-
 </code></pre>
-<p>LLaMA Factory expect JSON files with structured training and validation data. so we are just serliazing our data to be used in llama factory</p>
-<h3>Abu bakr uses <a href="http://vast.ai">vast.ai</a> for fine-tunning, iam poor i will just stick with google colab</h3>
-<p>We need to install some specific versions of the requirements</p>
-<pre class="hljs"><code>
-!pip install transformers==<span class="hljs-number">4.57</span><span class="hljs-number">.6</span>
-
+<p>LLaMA Factory requires JSON files with structured training and validation data, so we serialize our data accordingly.</p>
+<h3>Environment Setup</h3>
+<h4>Fine-tuning Platform</h4>
+<p>Abu-Bakr uses <code>vast.ai</code> for fine-tuning, while I will utilize Google colab cuz im poor. We need to install specific versions of the required libraries:</p>
+<h4>Required Dependencies</h4>
+<pre class="hljs"><code>!pip install transformers==<span class="hljs-number">4.57</span><span class="hljs-number">.6</span>
 !pip install optimum==<span class="hljs-number">1.26</span><span class="hljs-number">.0</span>
-
 !pip install datasets==<span class="hljs-number">4.4</span><span class="hljs-number">.0</span>
-
-
-
 !pip install torch==<span class="hljs-number">2.8</span><span class="hljs-number">.0</span>
-
 !pip install torchvision==<span class="hljs-number">0.23</span>
-
 !pip install torchaudio==<span class="hljs-number">2.8</span><span class="hljs-number">.0</span>
 
-
-
 !git clone --depth <span class="hljs-number">1</span> https://github.com/hiyouga/LlamaFactory.git
-
 !cd LlamaFactory &amp;&amp; git checkout 762b480131908d37736ad9aa3f12e87f8f7e6313
-
-
-
 !cd LlamaFactory &amp;&amp; pip install -e .
-
 !cd LlamaFactory &amp;&amp; pip install -r requirements/metrics.txt
-
 </code></pre>
-<p>We also need to add our specific template to Llama Factory’s existing templates in <code>LlamaFactory/data/dataset_info.json</code></p>
-<pre class="hljs"><code>
-<span class="hljs-attr">&quot;ocr_finetune_train&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-
-            <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/train-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> # use ur own path here
-
-            <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
-
-            <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-
-                <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
-
-                <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
-
-            <span class="hljs-punctuation">}</span>
-
-    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-
-    <span class="hljs-attr">&quot;ocr_finetune_val&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-
-        <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/val-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> # use ur own path here
-
-        <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
-
-        <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-
-            <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
-
-            <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
-
-        <span class="hljs-punctuation">}</span>
-
+<p><strong>Note:</strong> Specific library versions are required for compatibility.</p>
+<h3>LLaMA Factory Configuration</h3>
+<h4>Template Configuration</h4>
+<p>We need to add our specific template to Llama Factory’s existing templates in <code>LlamaFactory/data/dataset_info.json</code>:</p>
+<pre class="hljs"><code><span class="hljs-attr">&quot;ocr_finetune_train&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/train-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> 
+    <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
     <span class="hljs-punctuation">}</span>
-
+<span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+<span class="hljs-attr">&quot;ocr_finetune_val&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/workspace/val-v1-edited.json&quot;</span><span class="hljs-punctuation">,</span> 
+    <span class="hljs-attr">&quot;formatting&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sharegpt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;conversations&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;images&quot;</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
-<p>We also need to add a YAML file that has the fine-tunning instructions for train_lora in <code>workspace/LlamaFactory/examples/train_lora/ocr_finetune.yaml</code></p>
-<pre class="hljs"><code>### model
+<h4>Training Configuration (YAML)</h4>
+<p>We also need to create a YAML file containing the fine-tuning instructions for <code>train_lora</code> in <code>workspace/LlamaFactory/examples/train_lora/ocr_finetune.yaml</code>:</p>
+<pre class="hljs"><code><span class="hljs-attr">model:</span>
+  <span class="hljs-attr">model_name_or_path:</span> <span class="hljs-string">google/gemma-3-4b-it</span>
+  <span class="hljs-attr">use_fast_tokenizer:</span> <span class="hljs-literal">false</span>
+  <span class="hljs-attr">cache_dir:</span> <span class="hljs-string">/workspace/cache</span>
+  <span class="hljs-attr">trust_remote_code:</span> <span class="hljs-literal">true</span>
 
-model_name_or_path<span class="hljs-punctuation">:</span> google/gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it
+<span class="hljs-attr">method:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">sft</span>
+  <span class="hljs-attr">do_train:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">finetuning_type:</span> <span class="hljs-string">lora</span>
+  <span class="hljs-attr">lora_rank:</span> <span class="hljs-number">96</span>
+  <span class="hljs-attr">lora_target:</span> <span class="hljs-string">all</span>
 
-use_fast_tokenizer<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span>
+<span class="hljs-attr">dataset:</span>
+  <span class="hljs-attr">dataset:</span> <span class="hljs-string">ocr_finetune_train</span>
+  <span class="hljs-attr">eval_dataset:</span> <span class="hljs-string">ocr_finetune_val</span>
+  <span class="hljs-attr">template:</span> <span class="hljs-string">gemma3</span>
+  <span class="hljs-attr">cutoff_len:</span> <span class="hljs-number">12000</span>
+  <span class="hljs-attr">overwrite_cache:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">preprocessing_num_workers:</span> <span class="hljs-number">16</span>
 
-cache_dir<span class="hljs-punctuation">:</span> /workspace/cache
+<span class="hljs-attr">output:</span>
+  <span class="hljs-attr">resume_from_checkpoint:</span> <span class="hljs-string">/workspace/ocr-models-gemma-3-4b-it/checkpoint-100</span>
+  <span class="hljs-attr">output_dir:</span> <span class="hljs-string">/workspace/ocr-models-gemma-3-4b-it/</span>
+  <span class="hljs-attr">logging_steps:</span> <span class="hljs-number">25</span>
+  <span class="hljs-attr">save_steps:</span> <span class="hljs-number">50</span>
+  <span class="hljs-attr">plot_loss:</span> <span class="hljs-literal">true</span>
 
-trust_remote_code<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+<span class="hljs-attr">train:</span>
+  <span class="hljs-attr">per_device_train_batch_size:</span> <span class="hljs-number">1</span>
+  <span class="hljs-attr">gradient_accumulation_steps:</span> <span class="hljs-number">8</span>
+  <span class="hljs-attr">learning_rate:</span> <span class="hljs-number">1.0e-4</span>
+  <span class="hljs-attr">num_train_epochs:</span> <span class="hljs-number">20.0</span>
+  <span class="hljs-attr">lr_scheduler_type:</span> <span class="hljs-string">cosine</span>
+  <span class="hljs-attr">warmup_ratio:</span> <span class="hljs-number">0.1</span>
+  <span class="hljs-attr">bf16:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">ddp_timeout:</span> <span class="hljs-number">180000000</span>
 
+<span class="hljs-attr">eval:</span>
+  <span class="hljs-attr">per_device_eval_batch_size:</span> <span class="hljs-number">1</span>
+  <span class="hljs-attr">eval_strategy:</span> <span class="hljs-string">steps</span>
+  <span class="hljs-attr">eval_steps:</span> <span class="hljs-number">50</span>
 
-
-### method
-
-stage<span class="hljs-punctuation">:</span> sft
-
-do_train<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-finetuning_type<span class="hljs-punctuation">:</span> lora
-
-lora_rank<span class="hljs-punctuation">:</span> <span class="hljs-number">96</span>
-
-lora_target<span class="hljs-punctuation">:</span> all
-
-
-
-### dataset
-
-dataset<span class="hljs-punctuation">:</span> ocr_finetune_train
-
-eval_dataset<span class="hljs-punctuation">:</span> ocr_finetune_val
-
-template<span class="hljs-punctuation">:</span> gemma3
-
-cutoff_len<span class="hljs-punctuation">:</span> <span class="hljs-number">12000</span>
-
-# max_samples<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
-
-overwrite_cache<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-preprocessing_num_workers<span class="hljs-punctuation">:</span> <span class="hljs-number">16</span>
-
-
-
-### output
-
-resume_from_checkpoint<span class="hljs-punctuation">:</span> /workspace/ocr-models-gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it/checkpoint<span class="hljs-number">-100</span>
-
-output_dir<span class="hljs-punctuation">:</span> /workspace/ocr-models-gemma<span class="hljs-number">-3</span><span class="hljs-number">-4</span>b-it/
-
-logging_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">25</span>
-
-save_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
-
-plot_loss<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-# overwrite_output_dir<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-
-
-### train
-
-per_device_train_batch_size<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
-
-gradient_accumulation_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
-
-learning_rate<span class="hljs-punctuation">:</span> <span class="hljs-number">1.0e-4</span>
-
-num_train_epochs<span class="hljs-punctuation">:</span> <span class="hljs-number">20.0</span>
-
-lr_scheduler_type<span class="hljs-punctuation">:</span> cosine
-
-warmup_ratio<span class="hljs-punctuation">:</span> <span class="hljs-number">0.1</span>
-
-bf16<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-ddp_timeout<span class="hljs-punctuation">:</span> <span class="hljs-number">180000000</span>
-
-
-
-### eval
-
-# val_size<span class="hljs-punctuation">:</span> <span class="hljs-number">0.1</span>
-
-per_device_eval_batch_size<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
-
-eval_strategy<span class="hljs-punctuation">:</span> steps
-
-eval_steps<span class="hljs-punctuation">:</span> <span class="hljs-number">50</span>
-
-
-
-report_to<span class="hljs-punctuation">:</span> wandb
-
-run_name<span class="hljs-punctuation">:</span> yt-ocr-finetune-llamafactory
-
-
-
-# push_to_hub<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-# export_hub_model_id<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;bakrianoo/arabic-legal-documents-ocr-parser-1.0&quot;</span>
-
-# hub_private_repo<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-
-# hub_strategy<span class="hljs-punctuation">:</span> checkpoint
-
+<span class="hljs-attr">report_to:</span> <span class="hljs-string">wandb</span>
+<span class="hljs-attr">run_name:</span> <span class="hljs-string">yt-ocr-finetune-llamafactory</span>
 </code></pre>
-<p>Finally, we login using wandb and start trainning using our yaml file</p>
-<p><code>!cd LlamaFactory &amp;&amp; export DISABLE_VERSION_CHECK=1 &amp;&amp; llamafactory-cli train /workspace/LLaMA-Factory/examples/train_lora/ocr_finetune.yaml</code></p>
-<p>`</p>
+<p><strong>Key Configuration Parameters:</strong></p>
+<ul>
+<li><strong>LoRA Rank:</strong> 96 (controls adapter size)</li>
+<li><strong>Batch Size:</strong> 1 per device with gradient accumulation of 8</li>
+<li><strong>Learning Rate:</strong> 1.0e-4 with cosine scheduler</li>
+<li><strong>Epochs:</strong> 20</li>
+<li><strong>Checkpoint Frequency:</strong> Every 50 steps</li>
+</ul>
+<h3>Training Execution</h3>
+<h4>Starting Training</h4>
+<p>Finally, we log in using Weights and Biases (wandb) and initiate training with our YAML file:</p>
+<pre class="hljs"><code>!<span class="hljs-built_in">cd</span> LlamaFactory &amp;&amp; <span class="hljs-built_in">export</span> DISABLE_VERSION_CHECK=1 &amp;&amp; llamafactory-cli train /workspace/LLaMA-Factory/examples/train_lora/ocr_finetune.yaml
+</code></pre>
+<h3>Next Steps</h3>
+<p>After successful fine-tuning:</p>
+<ol>
+<li>Evaluate the model on held-out test data</li>
+<li>Compare performance with baseline Gemma3</li>
+<li>Test on real-world Arabic documents</li>
+<li>Iterate on prompt engineering if needed</li>
+<li>Consider merging LoRA adapters for deployment</li>
+</ol>
+<hr>
+<h2>Resources</h2>
+<ul>
+<li><strong>LLaMA Factory:</strong> <a href="https://github.com/hiyouga/LlamaFactory">https://github.com/hiyouga/LlamaFactory</a></li>
+<li><strong>Gemma Models:</strong> <a href="https://huggingface.co/google/gemma-3-4b-it">https://huggingface.co/google/gemma-3-4b-it</a></li>
+<li><strong>Detailed Prompt:</strong> <a href="https://sharetext.io/r1zwpwpl">https://sharetext.io/r1zwpwpl</a></li>
+<li><strong>Weights &amp; Biases:</strong> <a href="https://wandb.ai">https://wandb.ai</a></li>
+</ul>
+<hr>
+<p><em>Document created: 2026-02-02</em><br>
+<em>Author: Abu-Bakr Soliman</em></p>
 
-                </div>
-                
-                
-                <nav class="series-navigation">
-                    
-                        <div class="nav-placeholder"></div>
-                    
-                    
-                    
-                        <div class="nav-placeholder"></div>
-                    
-                </nav>
-                
-                
-                <footer class="post-footer">
-                    
-                        <a href="/agentic/" class="back-link"><i class="fas fa-book"></i> Back to agentic</a>
-                    
-                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
-                </footer>
-            </article>
-        </div>
-    </main>
-    
+            </div>
+
+            <footer class="article-footer">
+                <a href="/posts.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+                <a href="/">Home</a>
+            </footer>
+        </article>
+    </div>
+
     <script>
+    // Theme
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.querySelector('.theme-toggle-btn span');
-    
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'dark') {
-            themeIcon.className = 'fa-solid fa-sun';
-            if (themeText) themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.className = 'fa-solid fa-moon';
-            if (themeText) themeText.textContent = 'Dark Mode';
-        }
-        localStorage.setItem('theme', mode);
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
     }
-    
-    toggleBtn.addEventListener('click', () => {
-        const isDark = !document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
     });
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
+
+    // Copy buttons for code blocks
+    document.querySelectorAll('pre.hljs').forEach(pre => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        wrapper.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        });
+    });
     </script>
 </body>
 </html>

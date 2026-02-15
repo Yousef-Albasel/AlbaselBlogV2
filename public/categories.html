@@ -4,127 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories - Albasel</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <aside class="sidebar">
-    <div class="sidebar-profile">
-        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
-        <div class="sidebar-name">Albasel</div>
-        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
-    </div>
-    
-    <nav class="sidebar-nav">
-        <ul>
-            <li>
-                <a href="/">
-                    <i class="fa-solid fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts.html">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/categories.html">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="/aboutme.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>About Me</span>
-                </a>
-            </li>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
         </ul>
-    </nav>
-    
-    <div class="theme-toggle-sidebar">
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span>Dark Mode</span>
         </button>
     </div>
-</aside>
+</nav>
 
-    <main class="main-content">
-        <div class="container">
-            <header class="page-header">
-                <h1>Categories</h1>
-                <p>Explore posts by topic</p>
-            </header>
+
+    <div class="main-content wide">
+        <header class="page-header">
+            <h1>Categories</h1>
+            <p>Explore posts by topic</p>
+        </header>
+
+        <div class="categories-grid">
             
-            <div class="categories-grid">
-                
-                <a href="/categories/agenticai.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>AgenticAI</h3>
-                    <div class="post-count">1 posts</div>
-                </a>
-                
-                <a href="/categories/real-time-rendering.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>real time rendering</h3>
-                    <div class="post-count">1 posts</div>
-                </a>
-                
-                <a href="/categories/oracle.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>oracle</h3>
-                    <div class="post-count">4 posts</div>
-                </a>
-                
-                <a href="/categories/oracle.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>Oracle</h3>
-                    <div class="post-count">2 posts</div>
-                </a>
-                
-                <a href="/categories/algorithms.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>Algorithms</h3>
-                    <div class="post-count">11 posts</div>
-                </a>
-                
-                <a href="/categories/opengl.html" class="category-card">
-                    <i class="fa-solid fa-folder"></i>
-                    <h3>OpenGL</h3>
-                    <div class="post-count">11 posts</div>
-                </a>
-                
-            </div>
+            <a href="/categories/agenticai.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>AgenticAI</h3>
+                <div class="post-count">1 posts</div>
+            </a>
+            
+            <a href="/categories/real-time-rendering.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>real time rendering</h3>
+                <div class="post-count">1 posts</div>
+            </a>
+            
+            <a href="/categories/oracle.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>oracle</h3>
+                <div class="post-count">4 posts</div>
+            </a>
+            
+            <a href="/categories/oracle.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>Oracle</h3>
+                <div class="post-count">2 posts</div>
+            </a>
+            
+            <a href="/categories/algorithms.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>Algorithms</h3>
+                <div class="post-count">11 posts</div>
+            </a>
+            
+            <a href="/categories/opengl.html" class="category-card">
+                <i class="fa-solid fa-folder"></i>
+                <h3>OpenGL</h3>
+                <div class="post-count">11 posts</div>
+            </a>
+            
         </div>
-    </main>
-    
+    </div>
+
     <script>
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.querySelector('.theme-toggle-btn span');
-    
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'dark') {
-            themeIcon.className = 'fa-solid fa-sun';
-            if (themeText) themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.className = 'fa-solid fa-moon';
-            if (themeText) themeText.textContent = 'Dark Mode';
-        }
-        localStorage.setItem('theme', mode);
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
     }
-    
-    toggleBtn.addEventListener('click', () => {
-        const isDark = !document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
     });
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
     </script>
 </body>
 </html>

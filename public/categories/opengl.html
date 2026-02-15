@@ -4,237 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Posts in OpenGL - Albasel</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <aside class="sidebar">
-    <div class="sidebar-profile">
-        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
-        <div class="sidebar-name">Albasel</div>
-        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
-    </div>
-    
-    <nav class="sidebar-nav">
-        <ul>
-            <li>
-                <a href="/">
-                    <i class="fa-solid fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts.html">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/categories.html">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="/aboutme.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>About Me</span>
-                </a>
-            </li>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
         </ul>
-    </nav>
-    
-    <div class="theme-toggle-sidebar">
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span>Dark Mode</span>
         </button>
     </div>
-</aside>
+</nav>
 
-    <main class="main-content">
-        <div class="container">
-            <header class="page-header">
-                <h1>OpenGL</h1>
-                <p>11 posts in this category</p>
-                <nav class="breadcrumb">
-                    <a href="/categories.html">Categories</a> / OpenGL
-                </nav>
-            </header>
+
+    <div class="main-content wide">
+        <header class="page-header">
+            <h1>OpenGL</h1>
+            <p>11 posts in this category</p>
+            <nav class="breadcrumb">
+                <a href="/categories.html">Categories</a> / OpenGL
+            </nav>
+        </header>
+
+        <div class="posts-grid">
             
-            <div class="posts-grid">
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P1 Getting Started with OpenGL" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P1 - Getting Started.html">P1 Getting Started with OpenGL</a></h2>
-                        <p class="post-description">Introduction to the graphics api</p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P1 Getting Started with OpenGL" class="post-card-image">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P1.1 Extra Information about OpenGL" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P1.1 - Extra Information.html">P1.1 Extra Information about OpenGL</a></h2>
-                        <p class="post-description">Extra information for beginners</p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P1 - Getting Started.html">P1 Getting Started with OpenGL</a></h3>
+                    <p class="post-card-desc">Introduction to the graphics api</p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P2 Vertex Buffers" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P2 - Vertex Buffers.html">P2 Vertex Buffers</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P1.1 Extra Information about OpenGL" class="post-card-image">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P3 Vertex Layout" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P3 - Vertex Layout.html">P3 Vertex Layout</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P1.1 - Extra Information.html">P1.1 Extra Information about OpenGL</a></h3>
+                    <p class="post-card-desc">Extra information for beginners</p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P4.1 Shaders" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P4.1 - Shaders.html">P4.1 Shaders</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P2 Vertex Buffers" class="post-card-image">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P4.2 Shaders" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P4.2 - Shaders.html">P4.2 Shaders</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P2 - Vertex Buffers.html">P2 Vertex Buffers</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P4.3 Shaders" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P4.3 - Shaders.html">P4.3 Shaders</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P3 Vertex Layout" class="post-card-image">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P5 Index Buffers" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P5 - Index Buffers.html">P5 Index Buffers</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P3 - Vertex Layout.html">P3 Vertex Layout</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P6 Errors and Uniforms" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P6 - Errors and Uniforms.html">P6 Errors and Uniforms</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P4.1 Shaders" class="post-card-image">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P7 Textures in OpenGL" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P7 - Textures in OpenGL.html">P7 Textures in OpenGL</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P4.1 - Shaders.html">P4.1 Shaders</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
                 
-                <article class="post-card">
-                    
-                    <img src="/images/opengl.jpg" alt="P8 Transitions and Projection" class="post-card-image">
-                    
-                    <div class="post-card-content">
-                        <h2><a href="/opengl/P8 - Transitions and Projection.html">P8 Transitions and Projection</a></h2>
-                        <p class="post-description"></p>
-                        <div class="post-meta">
-                            <time>2024-01-01</time>
-                        </div>
-                    </div>
-                </article>
+                <img src="/images/opengl.jpg" alt="P4.2 Shaders" class="post-card-image">
                 
-            </div>
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P4.2 - Shaders.html">P4.2 Shaders</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <img src="/images/opengl.jpg" alt="P4.3 Shaders" class="post-card-image">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P4.3 - Shaders.html">P4.3 Shaders</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <img src="/images/opengl.jpg" alt="P5 Index Buffers" class="post-card-image">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P5 - Index Buffers.html">P5 Index Buffers</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <img src="/images/opengl.jpg" alt="P6 Errors and Uniforms" class="post-card-image">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P6 - Errors and Uniforms.html">P6 Errors and Uniforms</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <img src="/images/opengl.jpg" alt="P7 Textures in OpenGL" class="post-card-image">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P7 - Textures in OpenGL.html">P7 Textures in OpenGL</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
+            <article class="post-card">
+                
+                <img src="/images/opengl.jpg" alt="P8 Transitions and Projection" class="post-card-image">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/opengl/P8 - Transitions and Projection.html">P8 Transitions and Projection</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2024-01-01</span>
+                </div>
+            </article>
+            
         </div>
-    </main>
-    
+    </div>
+
     <script>
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.querySelector('.theme-toggle-btn span');
-    
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'dark') {
-            themeIcon.className = 'fa-solid fa-sun';
-            if (themeText) themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.className = 'fa-solid fa-moon';
-            if (themeText) themeText.textContent = 'Dark Mode';
-        }
-        localStorage.setItem('theme', mode);
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
     }
-    
-    toggleBtn.addEventListener('click', () => {
-        const isDark = !document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
     });
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
     </script>
 </body>
 </html>

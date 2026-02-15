@@ -968,6 +968,74 @@ pre.hljs code {
     color: var(--text-dark);
 }
 
+/* Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.pagination-btn:hover:not(.disabled) {
+    border-color: var(--accent);
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0 0.5rem;
+}
+
+.pagination-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.pagination-page:hover:not(.active) {
+    border-color: var(--border-color);
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.pagination-page.active {
+    background-color: var(--accent);
+    color: var(--text-light);
+    border-color: var(--accent);
+}
+
 /* Dark Mode */
 body.dark-mode {
     background-color: var(--bg-dark);
@@ -1077,6 +1145,29 @@ body.dark-mode .nav-link:hover {
 body.dark-mode .post-card-image,
 body.dark-mode .post-image {
     border-color: var(--border-dark);
+}
+
+body.dark-mode .pagination {
+    border-top-color: var(--border-dark);
+}
+
+body.dark-mode .pagination-btn {
+    border-color: var(--border-dark);
+    color: var(--text-light);
+}
+
+body.dark-mode .pagination-btn:hover:not(.disabled) {
+    border-color: var(--accent);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .pagination-page {
+    color: var(--text-light);
+}
+
+body.dark-mode .pagination-page:hover:not(.active) {
+    border-color: var(--border-dark);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Responsive Design */

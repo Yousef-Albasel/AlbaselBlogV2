@@ -4,235 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rtr - Albasel</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/github-dark.css">
-    <link rel="stylesheet" href="../css/highlight.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .series-header {
-            background: #333;
-            color: white;
-            padding: 2.5rem 2rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-        }
-        .series-header h1 {
-            color: white;
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-        }
-        .series-meta {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-        .series-meta span {
-            background: rgba(255,255,255,0.2);
-            padding: 0.4rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        .series-posts {
-            display: grid;
-            gap: 1.5rem;
-        }
-        .series-post-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            border-left: 4px solid #2a2a2a;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .series-post-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-        .post-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #667eea;
-            color: white;
-            width: 2.2rem;
-            height: 2.2rem;
-            border-radius: 50%;
-            font-weight: bold;
-            margin-right: 1rem;
-            font-size: 0.95rem;
-            flex-shrink: 0;
-        }
-        .post-title {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.15rem;
-        }
-        .post-title:hover {
-            color: #666;
-        }
-        .post-description {
-            color: #666;
-            margin-top: 0.5rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-        .post-date {
-            color: #999;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        .series-description {
-            background: var(--card-light);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            line-height: 1.7;
-            color: var(--text-dark);
-            box-shadow: var(--shadow-sm);
-        }
-        body.dark-mode .series-post-card {
-            background: #2a2a2a;
-            color: #e0e0e0;
-        }
-        body.dark-mode .post-title {
-            color: #e0e0e0;
-        }
-        body.dark-mode .post-title:hover {
-            color: #666;
-        }
-        body.dark-mode .series-description {
-            background: rgba(255, 255, 255, 0.05);
-            color: #e0e0e0;
-        }
-        body.dark-mode .post-description {
-            color: #aaa;
-        }
-    </style>
 </head>
 <body>
-    <aside class="sidebar">
-    <div class="sidebar-profile">
-        <img src="/images/avatar.jpeg" alt="Albasel" class="sidebar-avatar">
-        <div class="sidebar-name">Albasel</div>
-        <div class="sidebar-bio">Iam a computer science student. I do computer graphics, AI and other random stuff.</div>
-    </div>
-    
-    <nav class="sidebar-nav">
-        <ul>
-            <li>
-                <a href="/">
-                    <i class="fa-solid fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/posts.html">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="/categories.html">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="/aboutme.html">
-                    <i class="fa-solid fa-user"></i>
-                    <span>About Me</span>
-                </a>
-            </li>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
         </ul>
-    </nav>
-    
-    <div class="theme-toggle-sidebar">
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span>Dark Mode</span>
         </button>
     </div>
-</aside>
+</nav>
 
-    <main class="main-content">
-        <div class="container">
-            <div class="series-header">
+
+    <div class="main-content">
+        <!-- Series info banner -->
+        
+
+        <article class="article">
+            <header class="article-header">
                 <h1>rtr</h1>
-                
-                <div class="series-meta">
-                    <span><i class="fas fa-book"></i> 1 Posts</span>
+                <div class="article-meta">
                     
-                    <span><i class="fas fa-calendar"></i> 2025-10-07</span>
+                    <time>2025-10-07</time>
                 </div>
-            </div>
+                
+            </header>
 
-            
-            <div class="series-description">
+            <div class="post-content">
                 <h1>rtr</h1>
 <p>This is a series about rtr.</p>
 
             </div>
-            
+        </article>
 
-            <div class="series-posts">
-                
-                <div class="series-post-card">
-                    <div style="display: flex; align-items: flex-start;">
-                        <div class="post-number">1</div>
-                        <div style="flex: 1;">
-                            <a href="/rtr/Graphics Pipeline.html" class="post-title">The Graphics Pipeline</a>
-                            
-                            <div class="post-date">
-                                <i class="far fa-calendar"></i>
-                                2025-10-07
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-            <div style="margin-top: 2.5rem; text-align: center;">
-                <a href="/posts.html" class="back-link" style="font-size: 1rem;">
-                    <i class="fas fa-arrow-left"></i> View All Posts
-                </a>
-            </div>
-        </div>
-    </main>
+        <!-- Series navigation -->
+        
+    </div>
 
     <script>
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.querySelector('.theme-toggle-btn span');
-    
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'dark') {
-            themeIcon.className = 'fa-solid fa-sun';
-            if (themeText) themeText.textContent = 'Light Mode';
-        } else {
-            themeIcon.className = 'fa-solid fa-moon';
-            if (themeText) themeText.textContent = 'Dark Mode';
-        }
-        localStorage.setItem('theme', mode);
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
     }
-    
-    toggleBtn.addEventListener('click', () => {
-        const isDark = !document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
     });
-    
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
+
+    // Copy buttons
+    document.querySelectorAll('pre.hljs').forEach(pre => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        });
+    });
     </script>
 </body>
 </html>

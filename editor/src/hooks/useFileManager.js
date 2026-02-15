@@ -43,21 +43,8 @@ export const useFileManager = () => {
       console.log('loadFiles: Received files:', fileList);
       
       if (fileList.length === 0) {
-        console.log('loadFiles: No files found, creating welcome file...');
-        // Create a default welcome file
-        const welcomeFile = {
-          name: 'welcome.md',
-          path: 'content/welcome.md',
-          directory: 'content',
-          folder: '',
-          content: createWelcomeContent(),
-          modified: true,
-          lastModified: new Date().toISOString()
-        };
-        
-        setFiles([welcomeFile]);
-        setSelectedFile(welcomeFile);
-        console.log('loadFiles: Set welcome file');
+        console.log('loadFiles: No files found');
+        setFiles([]);
       } else {
         console.log('loadFiles: Setting files to state:', fileList);
         setFiles(fileList);
