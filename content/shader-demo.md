@@ -101,6 +101,8 @@ To add a live shader to your post, use the `glsl-canvas` language tag on a code 
 ```
 ````
 
+
+
 Built-in uniforms available:
 - **`u_resolution`** — canvas dimensions in pixels
 - **`u_time`** — elapsed time in seconds

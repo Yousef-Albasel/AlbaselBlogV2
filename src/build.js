@@ -107,7 +107,7 @@ async function build(projectDir = '.',opetions={}){
         console.log('Theme assets copied successfully');
         
         // Process both flat posts and series
-        const { posts, series } = await processMarkdownFiles(projectDir);
+        const { posts, series } = await processMarkdownFiles(projectDir, config);
         console.log(`Processed ${posts.length} posts and ${series.length} series successfully`);
         
         // Process standalone pages (about, etc.)
@@ -199,7 +199,7 @@ async function copyThemeAssets(themeDir, outputDir) {
     }
 }
 
-async function processMarkdownFiles(projectDir) {
+async function processMarkdownFiles(projectDir, config = {}) {
     const contentDir = path.join(projectDir, 'content');
     const posts = [];
     const series = [];
@@ -218,7 +218,7 @@ async function processMarkdownFiles(projectDir) {
 
     for (const file of markdownFiles) {
         const filePath = path.join(contentDir, file);
-        const post = await processMarkdownFile(filePath, file);
+        const post = await processMarkdownFile(filePath, file, null, config);
         posts.push(post);
     }
 
@@ -231,7 +231,7 @@ async function processMarkdownFiles(projectDir) {
         
         // Check if directory has _index.md
         if (await fs.pathExists(indexPath)) {
-            const seriesData = await processSeriesDirectory(dirPath, dir.name);
+            const seriesData = await processSeriesDirectory(dirPath, dir.name, config);
             if (seriesData) {
                 series.push(seriesData);
                 // Add series posts to main posts array
@@ -248,7 +248,7 @@ async function processMarkdownFiles(projectDir) {
     return { posts, series };
 }
 
-async function processMarkdownFile(filePath, filename, seriesSlug = null) {
+async function processMarkdownFile(filePath, filename, seriesSlug = null, config = {}) {
     const fileContent = await fs.readFile(filePath, "utf8");
     const { data: frontMatter, content } = matter(fileContent);
     
@@ -257,13 +257,23 @@ async function processMarkdownFile(filePath, filename, seriesSlug = null) {
     const htmlContent = md.render(content);
     
     const slug = path.basename(filename, '.md');
+    let image = frontMatter.image || '';
+    
+    // Assign a deterministic abstract image if none provided and feature is enabled
+    const isAbstractImage = !image && config.abstractImages;
+    if (isAbstractImage) {
+        const seed = seriesSlug ? `${seriesSlug}-${slug}` : slug;
+        image = `https://picsum.photos/seed/${seed}/800/400`;
+    }
+    
     const post = {
         slug: seriesSlug ? `${seriesSlug}/${slug}` : slug,
         title: frontMatter.title || slug,
         description: frontMatter.description || '',
         date: frontMatter.date || new Date().toISOString().split('T')[0],
         category: frontMatter.category || '',
-        image: frontMatter.image || '',
+        image: image,
+        isAbstractImage: isAbstractImage,
         layout: frontMatter.layout || 'post',
         content: htmlContent,
         url: seriesSlug ? `/${seriesSlug}/${slug}.html` : `/${slug}.html`,
@@ -277,7 +287,7 @@ async function processMarkdownFile(filePath, filename, seriesSlug = null) {
     return post;
 }
 
-async function processSeriesDirectory(dirPath, dirName) {
+async function processSeriesDirectory(dirPath, dirName, config = {}) {
     const indexPath = path.join(dirPath, '_index.md');
     
     // Read series metadata from _index.md
@@ -294,7 +304,7 @@ async function processSeriesDirectory(dirPath, dirName) {
     
     for (const file of markdownFiles) {
         const filePath = path.join(dirPath, file);
-        const post = await processMarkdownFile(filePath, file, seriesSlug);
+        const post = await processMarkdownFile(filePath, file, seriesSlug, config);
         seriesPosts.push(post);
     }
     
@@ -318,12 +328,20 @@ async function processSeriesDirectory(dirPath, dirName) {
         };
     });
     
+    // Assign abstract image for series if none provided
+    let seriesImage = seriesMetadata.image || '';
+    const isAbstractImage = !seriesImage && config.abstractImages;
+    if (isAbstractImage) {
+        seriesImage = `https://picsum.photos/seed/${seriesSlug}/800/400`;
+    }
+    
     return {
         slug: seriesSlug,
         title: seriesMetadata.title || dirName,
         description: seriesMetadata.description || '',
         category: seriesMetadata.category || '',
-        image: seriesMetadata.image || '',
+        image: seriesImage,
+        isAbstractImage: isAbstractImage,
         date: seriesMetadata.date || new Date().toISOString().split('T')[0],
         layout: seriesMetadata.layout || 'series',
         content: md.render(seriesDescription),

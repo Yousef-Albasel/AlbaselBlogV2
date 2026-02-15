@@ -122,7 +122,11 @@
                         {% if series %}<span class="series-tag"><i class="fas fa-book"></i> Series</span>{% endif %}
                     </div>
                     {% if image %}
-                    <img src="../images/{{image}}" alt="{{ title }}" class="post-image">
+                    {% if isAbstractImage %}
+                    <img src="{{ image }}" alt="{{ title }}" class="post-image" onerror="this.style.display='none'">
+                    {% else %}
+                    <img src="../images/{{image}}" alt="{{ title }}" class="post-image" onerror="this.style.display='none'">
+                    {% endif %}
                     {% endif %}
                 </header>
                 

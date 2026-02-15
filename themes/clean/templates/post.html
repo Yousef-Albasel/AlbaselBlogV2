@@ -27,7 +27,7 @@
                     <time>{{ date }}</time>
                 </div>
                 {% if image %}
-                <img src="{{ image }}" alt="{{ title }}" class="article-image">
+                <img src="{{ image }}" alt="{{ title }}" class="article-image" onerror="this.style.display='none'">
                 {% endif %}
             </header>
 
