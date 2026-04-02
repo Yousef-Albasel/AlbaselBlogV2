@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts in istqb - Albasel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
+        </ul>
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+    </div>
+</nav>
+
+
+    <div class="main-content wide">
+        <header class="page-header">
+            <h1>istqb</h1>
+            <p>1 posts in this category</p>
+            <nav class="breadcrumb">
+                <a href="/categories.html">Categories</a> / istqb
+            </nav>
+        </header>
+
+        <div class="posts-grid">
+            
+            <article class="post-card">
+                
+                <img src="https://picsum.photos/seed/software-testing-Chapter Four/800/400" alt="Chapter Four" class="post-card-image" onerror="this.style.display='none'">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/software-testing/Chapter Four.html">Chapter Four</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2026-03-09</span>
+                </div>
+            </article>
+            
+        </div>
+    </div>
+
+    <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
+    }
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
+    });
+    </script>
+</body>
+</html>

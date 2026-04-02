@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Four - Albasel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-logo">Albasel</a>
+        
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="topnav-links" id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts.html">Posts</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/aboutme.html">About</a></li>
+        </ul>
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+    </div>
+</nav>
+
+
+    <div class="main-content">
+        <article class="article">
+            <header class="article-header">
+                <h1>Chapter Four</h1>
+                <div class="article-meta">
+                    
+                    <span class="article-category">istqb</span>
+                    
+                    <time>2026-03-09</time>
+                </div>
+                
+                <img src="https://picsum.photos/seed/software-testing-Chapter Four/800/400" alt="Chapter Four" class="article-image" onerror="this.style.display='none'">
+                
+            </header>
+
+            <div class="post-content">
+                <h1>Chapter Four</h1>
+<p>This chapter explores various methods for test case design, primarily categorized into <strong>Black Box Testing</strong> and <strong>White Box Testing</strong>.</p>
+<h2>Black Box Testing</h2>
+<h3>Equivalence Partitioning</h3>
+<p>Equivalence Partitioning (EP) is a technique that simplifies the number of test cases by identifying the minimum number of subsets needed to cover all test data.</p>
+<p><img src="/images/paste-1773045331333-610c0777a46a348b.png" alt="Equivalence Partitioning Diagram"></p>
+<h4>Defining Equivalence Classes</h4>
+<p>To define equivalence classes, consider the following guidelines:</p>
+<ul>
+<li><strong>Range</strong>: Typically, there are three classes—one valid and two invalid.</li>
+<li><strong>Set Membership or Boolean Values</strong>: Usually, there are two classes—one valid and one invalid.</li>
+</ul>
+<h3>Boundary Value Analysis</h3>
+<p>Boundary Value Analysis (BVA) enhances Equivalence Partitioning by testing six values instead of three, ensuring that the boundaries are thoroughly assessed.</p>
+<p><img src="/images/paste-1773045561428-dd1dd5e885f4968d.png" alt="Boundary Value Analysis Diagram"></p>
+<ul>
+<li><strong>Decision Table Testing</strong>: Useful for testing complex business logic that involves multiple conditions.</li>
+<li><strong>Error Guessing</strong>: Based on experience, testers make educated guesses about the potential areas where defects might exist.</li>
+</ul>
+<h2>White Box Testing</h2>
+<h3>Statement Coverage</h3>
+<p>Statement Coverage ensures that each line of code is executed at least once during testing. This technique is effective in identifying dead code and verifying that all statements function as intended.</p>
+<h3>Branch Coverage</h3>
+<p>Branch Coverage extends Statement Coverage by ensuring that each possible branch of control flow (such as if-else statements) is executed. This technique is crucial for identifying logical errors in the code.</p>
+<h3>Path Coverage</h3>
+<p>Path Coverage goes further by ensuring that all possible paths through a given piece of code are executed. While this is a comprehensive testing method, it can be complex and time-consuming to implement, especially for larger codebases.</p>
+<h2>Conclusion</h2>
+<p>In conclusion, both Black Box and White Box Testing methods play vital roles in the software testing lifecycle. By employing techniques such as Equivalence Partitioning, Boundary Value Analysis, Statement Coverage, Branch Coverage, and Path Coverage, testers can ensure robust and effective test case design, ultimately leading to higher software quality.</p>
+
+            </div>
+
+            <footer class="article-footer">
+                <a href="/posts.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+                <a href="/">Home</a>
+            </footer>
+        </article>
+    </div>
+
+    <script>
+    // Theme
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    function setTheme(m) {
+        document.body.classList.toggle('dark-mode', m === 'dark');
+        themeIcon.className = m === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        localStorage.setItem('theme', m);
+    }
+    toggleBtn.addEventListener('click', () => setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+
+    document.getElementById('nav-hamburger').addEventListener('click', () => {
+        document.getElementById('nav-links').classList.toggle('open');
+    });
+
+    // Copy buttons for code blocks
+    document.querySelectorAll('pre.hljs').forEach(pre => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        wrapper.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        });
+    });
+    </script>
+    
+</body>
+</html>

@@ -1,8 +1,9 @@
 ---
-title: "Chapter One"
+title: "ISTQB Chapter One"
 date: "2026-03-03"
 category: "Software Testing"
 description: ""
+image: "/images/unsplash-growtika-1773514466096-7caceb207d3d1e4e.jpg"
 ---
 
 # Fundamentals of testing

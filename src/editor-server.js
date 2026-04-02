@@ -266,6 +266,77 @@ app.get('/api/images', async (req, res) => {
   }
 });
 
+// Search Unsplash images
+app.get('/api/search-images', async (req, res) => {
+  try {
+    const query = req.query.query || 'nature';
+    const page = req.query.page || 1;
+    // Unsplash frontend API, no API key required
+    const response = await fetch(`https://unsplash.com/napi/search/photos?query=${encodeURIComponent(query)}&page=${page}&per_page=30`);
+    if (!response.ok) {
+      throw new Error(`Unsplash returned ${response.status}`);
+    }
+    const data = await response.json();
+    res.json({ success: true, results: data.results || [] });
+  } catch (error) {
+    console.error('Error searching images:', error);
+    res.status(500).json({ error: `Failed to search images: ${error.message}` });
+  }
+});
+
+// Download external image and save to local images directory
+app.post('/api/download-image', async (req, res) => {
+  try {
+    const { url, name } = req.body;
+    if (!url) {
+      return res.status(400).json({ error: 'Image URL is required' });
+    }
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image from URL: ${response.status}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const timestamp = Date.now();
+    const randomString = crypto.randomBytes(8).toString('hex');
+    
+    // Guess extension from content-type or URL
+    const contentType = response.headers.get('content-type') || '';
+    let ext = '.jpg';
+    if (contentType.includes('png')) ext = '.png';
+    else if (contentType.includes('gif')) ext = '.gif';
+    else if (contentType.includes('webp')) ext = '.webp';
+    else {
+      // Try to get from name
+      if (name && path.extname(name)) {
+        ext = path.extname(name);
+      }
+    }
+
+    const safeName = (name ? name.replace(/[^a-zA-Z0-9-]/g, '-').substring(0, 30) : 'downloaded') + `-${timestamp}-${randomString}${ext}`;
+    const filename = safeName;
+    const imagePath = path.join(IMAGES_DIR, filename);
+    await fs.writeFile(imagePath, buffer);
+    const markdownPath = `/images/${filename}`;
+
+    console.log(`Downloaded image: ${filename} (${(buffer.length / 1024).toFixed(2)} KB)`);
+
+    res.json({
+      success: true,
+      filename: filename,
+      path: markdownPath,
+      size: buffer.length,
+      fullPath: imagePath
+    });
+  } catch (error) {
+    console.error('Error downloading image:', error);
+    res.status(500).json({ error: `Failed to download image: ${error.message}` });
+  }
+});
+
 // ========== FILE LISTING ==========
 
 // Recursive function to get all markdown files from directories

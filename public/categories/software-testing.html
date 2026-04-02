@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Testing - Albasel</title>
+    <title>Posts in Software Testing - Albasel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -33,29 +33,29 @@
 </nav>
 
 
-    <div class="main-content">
-        <!-- Series info banner -->
-        
+    <div class="main-content wide">
+        <header class="page-header">
+            <h1>Software Testing</h1>
+            <p>1 posts in this category</p>
+            <nav class="breadcrumb">
+                <a href="/categories.html">Categories</a> / Software Testing
+            </nav>
+        </header>
 
-        <article class="article">
-            <header class="article-header">
-                <h1>Software Testing</h1>
-                <div class="article-meta">
-                    
-                    <time>Sun Jan 21 2024 03:15:34 GMT+0200 (Eastern European Standard Time)</time>
+        <div class="posts-grid">
+            
+            <article class="post-card">
+                
+                <img src="/images/unsplash-growtika-1773514466096-7caceb207d3d1e4e.jpg" alt="Chapter One" class="post-card-image" onerror="this.style.display='none'">
+                
+                <div class="post-card-body">
+                    <h3 class="post-card-title"><a href="/software-testing/Chapter One.html">Chapter One</a></h3>
+                    <p class="post-card-desc"></p>
+                    <span class="post-card-meta">2026-03-03</span>
                 </div>
-                
-                <img src="https://picsum.photos/seed/istqb/800/400" alt="Software Testing" class="article-image">
-                
-            </header>
-
-            <div class="post-content">
-                
-            </div>
-        </article>
-
-        <!-- Series navigation -->
-        
+            </article>
+            
+        </div>
     </div>
 
     <script>
@@ -71,24 +71,6 @@
 
     document.getElementById('nav-hamburger').addEventListener('click', () => {
         document.getElementById('nav-links').classList.toggle('open');
-    });
-
-    // Copy buttons
-    document.querySelectorAll('pre.hljs').forEach(pre => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-wrapper';
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn';
-        btn.textContent = 'Copy';
-        wrapper.appendChild(btn);
-        btn.addEventListener('click', () => {
-            const code = pre.querySelector('code');
-            navigator.clipboard.writeText(code ? code.textContent : pre.textContent);
-            btn.textContent = 'Copied!';
-            setTimeout(() => btn.textContent = 'Copy', 1500);
-        });
     });
     </script>
 </body>
