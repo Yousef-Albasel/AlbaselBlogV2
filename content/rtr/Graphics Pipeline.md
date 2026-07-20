@@ -6,129 +6,223 @@ description: ""
 ---
 # The Graphics Pipeline Explained
 
-Imagine you’re rendering a simple 3D cube. Sounds easy, right?
-Well, behind that spinning cube lies a beautifully complex process called the graphics pipeline — the system that turns math and models into the glowing pixels on your screen.
+So much time has passed since I rendered my first cube in OpenGL, and I'm not gonna lie, I still don't really understand the entire graphics pipeline that makes this happen. Well, I do know the basics, but I still lack the depth of understanding that I think is fundamental to graphics programming.
 
-Today, we’ll walk through that pipeline step by step, using our cube as the hero of the story.
+And since I'm finally done with the biggest distraction (my Computer Science degree), I can finally focus on actually learning and spending more time with this book, Real-Time Rendering—one of the best books to start with in the graphics field. I'll be going through it while making content, because I think that'll make reading it a lot more fun.
 
-## The Application Stage
+Starting with... the graphics pipeline.
 
-Our journey begins before the GPU even gets involved — inside the CPU.
-Here, the application stage acts as the brain of the operation.
-It’s where the developer defines what happens in the scene:
 
-Where the cube is placed
+![image.png](/images/paste-1784574063708-6d80df671ad8a97a.png)
 
-How the camera views it
+## Application Stage
 
-What the lights are doing
+A lot of things need to happen to render an object from a 3D world onto your 2D screen. You have to take into consideration the object's position, the camera, light sources, textures, and materials. To do all of that, the data has to go through a pipeline, where each stage is responsible for a specific part of the rendering process.
 
-And how the user interacts with it.
+The application stage, for example, is concerned with the actual implementation and user interaction of your application. This is where you load your models and textures, and where you usually write all the decision-related logic, like collision detection, animation, and physics. These algorithms typically happen on the CPU before any data is passed to the GPU.
 
-You can think of this stage as arranging your cube on a virtual set — setting up the camera, lights, and even physics.
-For example, if your cube collides with a wall, the collision detection logic happens here. The CPU figures out what the response should be — maybe the cube bounces or stops — and sends that information forward.
+The most important job of the application stage is to get everything ready for the geometry stage.
 
-Developers have full control over this stage. It’s pure software, and it runs on the CPU.
-However, parts of it can also run on the GPU using compute shaders — these treat the GPU as a parallel processor, running general-purpose tasks that aren’t strictly about graphics.
+## Geomtry Stage
 
-This stage doesn’t have fixed sub-stages like later ones, but it can still run in parallel — multiple CPU cores can process multiple cubes or physics tasks simultaneously.
-That’s what we call a superscalar construction — many processes running at once within the same stage.
+And this is where most things happen In the application stage, we prepare all the data the GPU needs, like our vertices, indices, textures, then send it to the GPU. The first stage that processes this geometry is the vertex shader. It runs once for every vertex, deciding where that vertex should end up and what information should be passed along to the next stage, such as texture coordinates, normals, colors, or any other custom data. "Traditionally it was used to apply light to vertex location and normal and storing the result at the vertex."
 
-This is also where acceleration algorithms like culling come in — for example, if the cube is behind the camera, there’s no need to send it down the pipeline at all.
+It means:
 
-Once everything is ready — positions, lights, input — the application sends draw calls to the GPU.
-And that’s where it all begins.
+Take a vertex.
+Look at its position.
+Look at its normal (which tells us which way the surface is facing).
+Calculate how much light reaches that vertex.
+Store the resulting color at the vertex.
 
-## Geometry Processing
+For example, imagine a triangle:
+```
+      A (bright)
+     / \
+    /   \
+   /     \
+  B-------C
 
-Now the cube has entered the GPU — the true engine of the graphics pipeline.
-This stage handles all the math and transformations needed to turn 3D geometry into something that can eventually be drawn on screen.
+(dark)    (medium)
+```
+Suppose the lighting calculations produce:
 
-Geometry processing is itself divided into multiple smaller stages:
+Vertex A = White
+Vertex B = Black
+Vertex C = Gray
 
-Vertex shading
+Those colors are stored as outputs of the vertex shader.
 
-Projection
+The rasterizer then interpolates these colors across the triangle:
+```
+White
+██████
+████▓▓
+██▓▓▒▒
+▓▓▒▒░░
+▒▒░░░░
+Black
+```
 
-Clipping
+So even though lighting was only computed three times (once per vertex), every pixel gets a smooth color by interpolation.
 
-Screen mapping
+Why don't we usually do this today?
 
-Let’s go step-by-step, following our cube through each transformation.
+Because it isn't very accurate.
 
-The vertex shader runs once for every corner — or vertex — of the cube.
-Its main job is to determine where each vertex should appear in 3D space, and to compute any additional data, like normals or texture coordinates.
+Imagine a huge triangle with a tiny bright specular highlight in the middle.
+```
+A-------------B
+ \           /
+  \    X    /
+   \       /
+    \     /
+      C
+```
+If lighting is only calculated at A, B, and C, the highlight in the center is completely missed. The GPU just interpolates between the three corner colors.
 
-Traditionally, vertex shading also included lighting calculations — applying lights to each vertex to compute its color, and then interpolating those colors across each face.
-But modern GPUs often defer lighting to later stages, so the vertex shader’s role is now more general: prepare all the data each vertex will need.
+Modern rendering instead passes the position and normal from the vertex shader to the fragment shader, where lighting is computed for every pixel instead of every vertex.
 
-Let’s follow our cube through the coordinate spaces it travels:
+We start by describing all the information that a vertex should hold, and on its way to the screen it gets transformed through multiple coordinate systems, or spaces. It originally starts in its own **model space**, which means it only exists relative to the object itself, and we can't really see it yet. Each object is associated with its own **Model Transformation**, its own matrix that controls how it is positioned, rotated, and scaled. Once that transformation is applied, the object is now in **world space**.
 
-Model Space – This is the cube’s local space, where it was originally modeled.
+![image.png](/images/paste-1784576116311-327433a3c698274e.png)
 
-World Space – After applying the model transform, the cube is placed in the shared 3D world with other objects.
+But what a mdoel space actually is, let's imagine these are the axis that define your game
+```
+World Space
 
-View Space (or Camera Space) – The view transform repositions everything so the camera is at the origin, looking down the negative z-axis. This simplifies projection later.
+          Y
+          ↑
+          |
+          |
+----------+----------→ X
+         /
+        /
+       Z
 
-Clip Space – After applying a projection transform, the cube is fitted into a unit cube from (-1, -1, -1) to (1, 1, 1). This is called the canonical view volume.
+```
+Now suppose you create a cube.
 
-Projection comes in two main types:
+When you model a cube, you don't say:
 
-Orthographic projection, where parallel lines remain parallel — perfect for CAD tools or 2D games.
+"Its first vertex is at (153, 42, -71)."
 
-Perspective projection, where distant faces of the cube appear smaller, mimicking real-world depth.
+Instead, you define it around its own origin.
+```
+Cube's Model Space
 
-Both are represented as 4×4 matrices, and the vertex shader applies these transformations to every vertex.
+      Y
+      ↑
+      |
+  +----+
+ /    /|
++----+ |
+|    | +
+|    |/
++----+
+      → X
+```
+Its vertices might be
 
-Once all transformations are applied, the cube’s vertices are expressed in homogeneous coordinates, ready for clipping.
+(-0.5, -0.5, -0.5)
+( 0.5, -0.5, -0.5)
+...
 
-## Optional Geometry Stages — “Adding Detail or Effects”
+These coordinates mean absolutely nothing with respect to the world, and if you try to multiple it with the idempotent matrix it will just be at the middle of your screen.
 
-The GPU also has several optional stages that can modify or enhance geometry before rasterization.
+So now, all of our models exist together in the same world. But to actually see these models on our screen, we need to look at them from a perspective which is where the camera comes in. A camera is really just a way of describing how we should perceive these objects: at what angle, with what field of view, and from what position. Instead of moving the camera itself, we transform the entire world using the **View Matrix**, putting everything into **view space**. And don't worry if all of this sounds a bit abstract right now we'll go into each of these spaces in much more detail later.
 
-Tessellation –
-Let’s say your cube is far away — you don’t need much detail. But as you zoom in, you want smoother edges.
-Tessellation dynamically subdivides surfaces, generating more triangles when needed, and fewer when not.
-It does this using three mini-stages:
 
-Hull shader
 
-Tessellator
+![image.png](/images/paste-1784575900342-cd7e0c81bcba4c1f.png)
+ 
+There is still one issue. Our world is 3D, but we can only display things on a 2D screen. So we somehow need to project this 3D view onto our screen.
 
-Domain shader
-Together, they control how finely each face of the cube is divided.
+At this point, the camera is at the origin, and we know where every object is located relative to it. We know which objects are close to the camera, which ones are farther away, and what should be visible or hidden. That's where projection comes in.
 
-Geometry Shader –
-This stage can take a primitive — like one triangle from the cube — and create new geometry from it.
-You could use it to generate particle effects, simulate sparks, or even duplicate the cube multiple times for a fireworks effect.
+There are two main types of projection: perspective projection and orthographic projection. Perspective projection mimics the way we naturally see the world, where distant objects appear smaller, and it is represented by a view frustum. Orthographic projection, on the other hand, preserves the size of objects regardless of their distance from the camera.
 
-Stream Output –
-Instead of continuing down the pipeline, the GPU can stop here and store processed vertices in memory.
-This is useful for effects that require feedback, like particle systems where each cube or spark’s position is updated every frame.
+After applying either type of projection, our vertices are transformed into clip coordinates, ready for the next stage of the graphics pipeline.
 
-Each of these optional stages adds flexibility — letting developers trade between performance and detail.
+![image.png](/images/paste-1784576781468-876ced00d98867e3.png)
 
-## Clipping
-Now our cube has been projected into clip space, but not all of it may fit inside the camera’s field of view.
-The clipping stage checks each triangle of the cube and removes or trims the parts that fall outside the visible region.
+### Clip Space
 
-Because we’re working with homogeneous coordinates after projection, clipping ensures that even perspective-correct interpolation (like textures) remains accurate after trimming.
+After multiplying by the projection matrix, every vertex becomes a 4D vector
 
-After clipping, the GPU performs perspective division — dividing by the W coordinate — which converts positions into normalized device coordinates, ready for the final mapping to the screen.
+Before projection
 
-## Screen Mapping
+Suppose a vertex in view space is
 
-At this point, only the visible parts of the cube remain.
-The screen mapping stage converts those 3D coordinates into 2D screen positions — pixel coordinates on your display.
+(2, 1, -5)
 
-Here’s how it works:
+This means:
 
-The X and Y coordinates are scaled and translated to fit the screen’s width and height.
+x = 2 → 2 units to the right of the camera.
+y = 1 → 1 unit above the camera.
+z = -5 → 5 units in front of the camera (OpenGL's camera looks down the negative Z-axis).
 
-The Z coordinate — used for depth — is mapped to a range like [0, 1] in DirectX or [-1, 1] in OpenGL.
+So z is simply the depth how far the point is from the camera along the viewing direction.
 
-So if your cube is rendered inside a 1920×1080 window, every vertex’s 3D position becomes a precise pixel location.
-This stage defines where the cube will actually appear in your frame.
+After projection
 
-The result of screen mapping — those transformed coordinates — is passed to the rasterizer, which turns them into pixels.
-But that’s a story for another chapter.
+The projection matrix produces a 4D vector:
+
+(x', y', z', w')
+
+Now, w appears.
+
+Unlike x, y, and z, w is not another spatial axis.
+
+It's a value that allows the GPU to perform perspective correctly.
+
+For a standard OpenGL perspective matrix, something interesting happens:
+
+w = -z_view
+
+That means if a point is:
+
+(2, 1, -5)
+
+then after projection,
+
+w = 5
+
+If another point is farther away:
+
+(2, 1, -20)
+
+then
+
+w = 20
+
+So the farther an object is from the camera, the larger its w becomes.
+Clip space is a temporary 4D coordinate system (x, y, z, w). The important thing is that w is proportional to how far the vertex is from the camera, and the GPU divides by w to produce perspective.
+
+anyways, to be able to continue with the rasterization, we need to pass only the primitives inside our view frustum to next stage
+so we do this simple check and reject any vertex outside the frustum 
+```
+-w ≤ x ≤ w
+-w ≤ y ≤ w
+-w ≤ z ≤ w
+```
+
+Once clipping is finished, the GPU performs what's called the perspective divide. Up until this point, our vertices are still in clip coordinates, represented as (x, y, z, w). The GPU now divides each coordinate by w, giving us (x / w, y / w, z / w). This transforms our vertices into Normalized Device Coordinates, or NDC.
+
+In this space, every visible point lies inside a cube that ranges from -1 to 1 on the x, y, and z axes. The really interesting part is that this division is what creates perspective. Since objects that are farther from the camera have a larger w, dividing by it shrinks their x and y coordinates, making distant objects appear smaller just like they do in the real world.
+
+Now that we have our coordinates in NDC, we can finally draw them on the screen using rasterization, which is essentially the process of determining which pixels are covered by each triangle. For every pixel that falls inside a triangle, the GPU generates a fragment, which is then passed to the next stage of the pipeline.
+
+
+## Merging
+
+At this point, every fragment has gone through the fragment shader and has an output color. But that doesn't necessarily mean it will end up on the screen.
+
+Imagine drawing two objects, one in front of the other. Both objects will generate fragments for some of the same pixels, so the GPU needs to decide which fragment should actually be displayed. This is where the **merging stage** comes in.
+
+The most common operation performed here is **depth testing**. Every fragment has a depth value, and the GPU compares it against the value already stored in the **depth buffer**. If the new fragment is closer to the camera, it replaces the old one. Otherwise, it gets discarded. This is what allows objects to correctly appear in front of or behind one another without us having to sort every triangle manually.
+
+This stage is also responsible for other operations, such as **stencil testing** and **blending**. Blending is commonly used for transparent objects, where instead of completely replacing the pixel already on the screen, the GPU combines the new fragment's color with the existing one to produce the final result.
+
+Once all of these operations are complete, the remaining fragments are written to the framebuffer, producing the final image that appears on your screen.
+
