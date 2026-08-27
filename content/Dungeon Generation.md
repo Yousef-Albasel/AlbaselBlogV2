@@ -3,6 +3,7 @@ title: "Dungeon Generation using Binary Space Partitioning"
 date: "2026-08-22"
 category: "Computer Graphics"
 description: "Generating a dungeon in OpenGL using Binary Space Paritioning"
+image: "/images/paste-1787841809870-f94a656ddc981251.png"
 ---
 
 # Binary Space Partitioning 
