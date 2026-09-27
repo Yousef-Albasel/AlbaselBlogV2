@@ -10,8 +10,6 @@ image: "/images/paste-1787841809870-f94a656ddc981251.png"
 
 Binary Space Partitioning is implemented for recursively subdividing a space into two convex sets by using hyperplanes as partitions. This process of subdividing gives rise to the representation of objects within the space in the form of tree data structure known as BSP Tree. Binary space partitioning arose in the context of 3D computer graphics in 1969, where the structure of a BSP tree allows for spatial information about the objects in a scene that is useful in rendering, such as objects being ordered from front-to-back with respect to a viewer at a given location, to be accessed rapidly.
 
-We will be using this technique for a game i started called "The reclaiming" It'sa game about dungeon crawling
-
 Let's start with some simple class to define the generator class
 
 ```cpp

@@ -93,5 +93,4 @@ since it's a floor, it's always gonna be facing upwards, so we can cheat this an
 
 ![image.png](/images/paste-1787848492056-59a0fb3bd5fdf7b6.png)
 
-ok this is insanely better.. i didn't expect it to be that good tbh.. i will replicate the same setup for the walls
 
