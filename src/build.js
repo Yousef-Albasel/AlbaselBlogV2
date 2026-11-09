@@ -1,65 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
-const matter = require('gray-matter');
-const MarkdownIt = require('markdown-it');
-const hljs = require('highlight.js');
+const { processMarkdownFiles, processPages } = require('./site-content');
 
 const nunjucks = require('nunjucks');
-const { config } = require('process');
-
-
-// Track whether the current file being rendered contains shaders
-let currentFileHasShaders = false;
-
-const md = MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return '<pre class="hljs"><code>' +
-               hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
-               '</code></pre>';
-      } catch (__) {}
-    }
-
-    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
-  }
-});
-
-// Override fence renderer to handle glsl-canvas blocks
-const defaultFenceRenderer = md.renderer.rules.fence.bind(md.renderer.rules);
-md.renderer.rules.fence = function(tokens, idx, options, env, self) {
-  const token = tokens[idx];
-  const info = token.info ? token.info.trim() : '';
-
-  if (info === 'glsl-canvas') {
-    currentFileHasShaders = true;
-    const code = token.content;
-    const highlighted = hljs.getLanguage('glsl')
-      ? hljs.highlight(code, { language: 'glsl', ignoreIllegals: true }).value
-      : md.utils.escapeHtml(code);
-    return '<div class="shader-container">'
-      + '<div class="shader-editor-pane">'
-      + '<div class="shader-editor-header">GLSL Fragment Shader</div>'
-      + '<textarea class="shader-editor" spellcheck="false">'
-      + md.utils.escapeHtml(code)
-      + '</textarea>'
-      + '</div>'
-      + '<div class="shader-canvas-pane">'
-      + '<canvas class="shader-canvas" width="600" height="400"></canvas>'
-      + '<button class="shader-pause-btn" title="Pause">&#9208;</button>'
-      + '<div class="shader-status"><span class="shader-status-dot"></span><span class="shader-status-text">Running</span></div>'
-      + '</div>'
-      + '<script type="x-shader/x-fragment" class="shader-source">'
-      + code
-      + '<\/script>'
-      + '</div>\n';
-  }
-
-  return defaultFenceRenderer(tokens, idx, options, env, self);
-};
 
 
 // Get the theme directory based on config
@@ -76,8 +19,9 @@ function getThemeDir(projectDir, themeName) {
     return themeDir;
 }
 
-async function build(projectDir = '.',opetions={}){
-    const {port = 3000} = opetions;
+async function build(projectDir = '.', options = {}) {
+    projectDir = path.resolve(projectDir);
+    const { port = 3000 } = options;
 
     console.log('Starting Build Process...');
     try{
@@ -107,7 +51,7 @@ async function build(projectDir = '.',opetions={}){
         console.log('Theme assets copied successfully');
         
         // Process both flat posts and series
-        const { posts, series } = await processMarkdownFiles(projectDir, config);
+        const { posts, series } = await processMarkdownFiles(projectDir);
         console.log(`Processed ${posts.length} posts and ${series.length} series successfully`);
         
         // Process standalone pages (about, etc.)
@@ -131,7 +75,7 @@ async function build(projectDir = '.',opetions={}){
         await generatePostsListingPage(posts, series, env, config, outputDir);
         console.log('Posts listing page generated successfully');
         
-        await generateAboutMePage(path.join(themeDir, 'templates'), config, outputDir);
+        await generateAboutMePage(env, config, outputDir);
         
         // Generate category pages
         await generateCategoryPages(posts, env, config, outputDir);
@@ -144,7 +88,7 @@ async function build(projectDir = '.',opetions={}){
         console.log('Build completed successfully!');
     }
     catch (error) {
-        console.log('An Error Occured while building:',error);
+        throw error;
     }
 };
 
@@ -159,8 +103,7 @@ async function loadConfig(projectDir) {
             description: 'Welcome to my site',
             email: 'hello@example.com',
             avatar: '/images/avatar.jpg',
-            baseURL: 'http://localhost:3001',
-            theme: 'default'
+            theme: 'minimal'
         };
 
         await fs.writeFile(configPath, JSON.stringify(default_config, null, 2));
@@ -199,195 +142,6 @@ async function copyThemeAssets(themeDir, outputDir) {
     }
 }
 
-async function processMarkdownFiles(projectDir, config = {}) {
-    const contentDir = path.join(projectDir, 'content');
-    const posts = [];
-    const series = [];
-    
-    if (!(await fs.pathExists(contentDir))) {
-        console.log('No content directory found, skipping..');
-        return { posts, series };
-    }
-
-    const items = await fs.readdir(contentDir, { withFileTypes: true });
-    
-    // Process flat markdown files (existing behavior)
-    const markdownFiles = items
-        .filter(item => item.isFile() && item.name.endsWith('.md'))
-        .map(item => item.name);
-
-    for (const file of markdownFiles) {
-        const filePath = path.join(contentDir, file);
-        const post = await processMarkdownFile(filePath, file, null, config);
-        posts.push(post);
-    }
-
-    // Process directories (series)
-    const directories = items.filter(item => item.isDirectory());
-    
-    for (const dir of directories) {
-        const dirPath = path.join(contentDir, dir.name);
-        const indexPath = path.join(dirPath, '_index.md');
-        
-        // Check if directory has _index.md
-        if (await fs.pathExists(indexPath)) {
-            const seriesData = await processSeriesDirectory(dirPath, dir.name, config);
-            if (seriesData) {
-                series.push(seriesData);
-                // Add series posts to main posts array
-                posts.push(...seriesData.posts);
-            }
-        } else {
-            console.warn(`Directory ${dir.name} found but no _index.md file. Skipping...`);
-        }
-    }
-    
-    // Sort all posts by date (newest first)
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    return { posts, series };
-}
-
-async function processMarkdownFile(filePath, filename, seriesSlug = null, config = {}) {
-    const fileContent = await fs.readFile(filePath, "utf8");
-    const { data: frontMatter, content } = matter(fileContent);
-    
-    // Reset shader detection flag before rendering
-    currentFileHasShaders = false;
-    const htmlContent = md.render(content);
-    
-    const slug = path.basename(filename, '.md');
-    let image = frontMatter.image || '';
-    
-    // Assign a deterministic abstract image if none provided and feature is enabled
-    const isAbstractImage = !image && config.abstractImages;
-    if (isAbstractImage) {
-        const seed = seriesSlug ? `${seriesSlug}-${slug}` : slug;
-        image = `https://picsum.photos/seed/${seed}/800/400`;
-    }
-    
-    const post = {
-        slug: seriesSlug ? `${seriesSlug}/${slug}` : slug,
-        title: frontMatter.title || slug,
-        description: frontMatter.description || '',
-        date: frontMatter.date || new Date().toISOString().split('T')[0],
-        category: frontMatter.category || '',
-        image: image,
-        isAbstractImage: isAbstractImage,
-        layout: frontMatter.layout || 'post',
-        content: htmlContent,
-        url: seriesSlug ? `/${seriesSlug}/${slug}.html` : `/${slug}.html`,
-        frontMatter,
-        series: seriesSlug,
-        order: frontMatter.order || 0,
-        hasShaders: currentFileHasShaders,
-        ...frontMatter
-    };
-    
-    return post;
-}
-
-async function processSeriesDirectory(dirPath, dirName, config = {}) {
-    const indexPath = path.join(dirPath, '_index.md');
-    
-    // Read series metadata from _index.md
-    const indexContent = await fs.readFile(indexPath, "utf8");
-    const { data: seriesMetadata, content: seriesDescription } = matter(indexContent);
-    
-    const seriesSlug = dirName.toLowerCase().replace(/\s+/g, '-');
-    
-    // Get all markdown files in the series directory (except _index.md)
-    const files = await fs.readdir(dirPath);
-    const markdownFiles = files.filter(f => f.endsWith('.md') && f !== '_index.md');
-    
-    const seriesPosts = [];
-    
-    for (const file of markdownFiles) {
-        const filePath = path.join(dirPath, file);
-        const post = await processMarkdownFile(filePath, file, seriesSlug, config);
-        seriesPosts.push(post);
-    }
-    
-    // Sort series posts by order (if specified) then by date
-    seriesPosts.sort((a, b) => {
-        if (a.order !== b.order) {
-            return a.order - b.order;
-        }
-        return new Date(a.date) - new Date(b.date);
-    });
-    
-    // Add navigation links to each post in the series
-    seriesPosts.forEach((post, index) => {
-        post.seriesInfo = {
-            title: seriesMetadata.title || dirName,
-            slug: seriesSlug,
-            currentIndex: index + 1,
-            totalPosts: seriesPosts.length,
-            previousPost: index > 0 ? seriesPosts[index - 1] : null,
-            nextPost: index < seriesPosts.length - 1 ? seriesPosts[index + 1] : null
-        };
-    });
-    
-    // Assign abstract image for series if none provided
-    let seriesImage = seriesMetadata.image || '';
-    const isAbstractImage = !seriesImage && config.abstractImages;
-    if (isAbstractImage) {
-        seriesImage = `https://picsum.photos/seed/${seriesSlug}/800/400`;
-    }
-    
-    return {
-        slug: seriesSlug,
-        title: seriesMetadata.title || dirName,
-        description: seriesMetadata.description || '',
-        category: seriesMetadata.category || '',
-        image: seriesImage,
-        isAbstractImage: isAbstractImage,
-        date: seriesMetadata.date || new Date().toISOString().split('T')[0],
-        layout: seriesMetadata.layout || 'series',
-        content: md.render(seriesDescription),
-        url: `/${seriesSlug}/index.html`,
-        posts: seriesPosts,
-        postCount: seriesPosts.length,
-        frontMatter: seriesMetadata,
-        ...seriesMetadata
-    };
-}
-
-async function processPages(projectDir) {
-    const pagesDir = path.join(projectDir, 'pages');
-    const pages = [];
-    
-    if (!(await fs.pathExists(pagesDir))) {
-        console.log('No pages directory found, skipping..');
-        return pages;
-    }
-    
-    const files = await fs.readdir(pagesDir);
-    const markdownFiles = files.filter(file => file.endsWith('.md'));
-
-    for (const file of markdownFiles) {
-        const filePath = path.join(pagesDir, file);
-        const fileContent = await fs.readFile(filePath, "utf8");
-        const { data: frontMatter, content } = matter(fileContent);
-        const htmlContent = md.render(content);
-        
-        const slug = path.basename(file, '.md');
-        const page = {
-            slug,
-            title: frontMatter.title || slug,
-            description: frontMatter.description || '',
-            layout: frontMatter.layout || 'page',
-            content: htmlContent,
-            url: `/${slug}.html`,
-            frontMatter,
-            ...frontMatter
-        };
-        pages.push(page);
-    }
-    
-    return pages;
-}
-
 async function generatePostPages(posts, env, config, outputDir) {
     const shaderCanvasEnabled = config.features?.shaderCanvas !== false;
     for (const post of posts) {
@@ -410,10 +164,11 @@ async function generatePostPages(posts, env, config, outputDir) {
                 ? path.join(outputDir, `${post.series}`, `${path.basename(post.slug)}.html`)
                 : path.join(outputDir, `${post.slug}.html`);
             
-            await fs.writeFile(outputPath, html);
+            await fs.outputFile(outputPath, html);
             
         } catch (error) {
             console.error(`Error generating page for ${post.slug}:`, error.message);
+            throw error;
         }
     }
 }
@@ -434,10 +189,11 @@ async function generateSeriesPages(series, env, config, outputDir) {
             });
             
             const outputPath = path.join(seriesDir, 'index.html');
-            await fs.writeFile(outputPath, html);
+            await fs.outputFile(outputPath, html);
             
         } catch (error) {
             console.error(`Error generating series page for ${seriesItem.slug}:`, error.message);
+            throw error;
         }
     }
 }
@@ -455,10 +211,11 @@ async function generatePageFiles(pages, env, config, outputDir) {
             });
             
             const outputPath = path.join(outputDir, `${page.slug}.html`);
-            await fs.writeFile(outputPath, html);
+            await fs.outputFile(outputPath, html);
             
         } catch (error) {
             console.error(`Error generating page for ${page.slug}:`, error.message);
+            throw error;
         }
     }
 }
@@ -507,15 +264,14 @@ async function generatePostsListingPage(posts, series, env, config, outputDir) {
     }
 }
 
-async function generateAboutMePage(themeDir, siteConfig, outputDir) {
-    const nunjucksEnv = setupTemplating(themeDir);
-    const html = nunjucksEnv.render('aboutme.html', { site: siteConfig });
+async function generateAboutMePage(env, siteConfig, outputDir) {
+    const html = env.render('aboutme.html', { site: siteConfig });
     await fs.outputFile(path.join(outputDir, 'aboutme.html'), html);
 }
 
 async function generateCategoryPages(posts, env, config, outputDir) {
     // Group posts by category
-    const postsByCategory = {};
+    const postsByCategory = Object.create(null);
     
     posts.forEach(post => {
         if (post.category) {
@@ -541,17 +297,18 @@ async function generateCategoryPages(posts, env, config, outputDir) {
             });
             
             const outputPath = path.join(categoryDir, `${category.toLowerCase().replace(/\s+/g, '-')}.html`);
-            await fs.writeFile(outputPath, html);
+            await fs.outputFile(outputPath, html);
             
         } catch (error) {
             console.error(`Error generating category page for ${category}:`, error.message);
+            throw error;
         }
     }
 }
 
 async function generateCategoriesIndexPage(posts, env, config, outputDir) {
     // Group posts by category and count them
-    const categories = {};
+    const categories = Object.create(null);
     
     posts.forEach(post => {
         if (post.category) {

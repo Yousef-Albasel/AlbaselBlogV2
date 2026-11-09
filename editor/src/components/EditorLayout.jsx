@@ -6,6 +6,12 @@ import StatusBar from './StatusBar';
 const EditorLayout = ({ 
   // File manager state
   files,
+  folders,
+  busy,
+  createRequest,
+  onMoveFile,
+  onUndo,
+  onRedo,
   selectedFile,
   error,
   hasModifiedFiles,
@@ -34,7 +40,6 @@ const EditorLayout = ({
   onToggleSidebar,
   
   // Editor specific props
-  onInsert,
   insertRef
 }) => {
   return (
@@ -43,6 +48,10 @@ const EditorLayout = ({
         {isSidebarVisible && (
           <Sidebar
             files={files}
+            folders={folders}
+            busy={busy}
+            createRequest={createRequest}
+            onMoveFile={onMoveFile}
             selectedFile={selectedFile}
             onFileSelect={onFileSelect}
             onCreateFile={onCreateFile}
@@ -56,12 +65,13 @@ const EditorLayout = ({
         
         <MainEditor
           selectedFile={selectedFile}
+          onUndo={onUndo}
+          onRedo={onRedo}
           isPreviewMode={isPreviewMode}
           isDarkMode={isDarkMode}
           isSidebarVisible={isSidebarVisible}
           hasModifiedFiles={hasModifiedFiles}
           onContentChange={onContentChange}
-          onInsert={onInsert}
           onSave={onSave}
           onSaveAll={onSaveAll}
           onTogglePreview={onTogglePreview}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Search, Upload, X, Check, Image as ImageIcon, Download } from 'lucide-react';
 
 export default function ThumbnailModal({ 
@@ -7,7 +7,7 @@ export default function ThumbnailModal({
   onSelectThumbnail, 
   isDarkMode 
 }) {
-  const [activeTab, setActiveTab] = useState('search'); // 'search' or 'upload'
+  const [activeTab, setActiveTab] = useState('upload'); // 'search' or 'upload'
   const [searchQuery, setSearchQuery] = useState('nature');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,12 +16,6 @@ export default function ThumbnailModal({
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen && activeTab === 'search' && searchResults.length === 0) {
-      handleSearch();
-    }
-  }, [isOpen]);
-
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -29,7 +23,7 @@ export default function ThumbnailModal({
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:3001/api/search-images?query=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`/api/search-images?query=${encodeURIComponent(searchQuery)}`);
       if (!response.ok) throw new Error('Search failed');
       const data = await response.json();
       setSearchResults(data.results || []);
@@ -41,11 +35,12 @@ export default function ThumbnailModal({
   };
 
   const handleDownloadAndSelect = async (image) => {
+    setSelectedImage(image);
     setIsProcessing(true);
     setError(null);
     try {
       const authorName = image.user?.username || 'unsplash';
-      const response = await fetch('http://localhost:3001/api/download-image', {
+      const response = await fetch('/api/download-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,7 +70,7 @@ export default function ThumbnailModal({
       const formData = new FormData();
       formData.append('image', file);
 
-      const response = await fetch('http://localhost:3001/api/upload-image', {
+      const response = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData
       });

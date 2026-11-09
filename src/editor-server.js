@@ -2,14 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const fs = require('fs-extra');
 const path = require('path');
-const matter = require('gray-matter');
 const cors = require('cors');
 const multer = require('multer');
 const crypto = require('crypto');
 const OpenAI = require('openai');
 
+function createEditorApp(projectDir = process.cwd()) {
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Initialize OpenAI client (will be null if no API key)
 const openai = process.env.OPENAI_API_KEY 
@@ -17,12 +16,6 @@ const openai = process.env.OPENAI_API_KEY
   : null;
 
 // ========== MIDDLEWARE (ORDER MATTERS!) ==========
-
-// 1. Request logging FIRST
-app.use((req, res, next) => {
-  console.log(`[REQUEST] ${req.method} ${req.url}`);
-  next();
-});
 
 // 2. CORS
 app.use(cors({
@@ -35,7 +28,7 @@ app.use(cors({
 app.use(express.json());
 
 // Get the project directory (where the server is running from)
-const PROJECT_DIR = process.cwd();
+const PROJECT_DIR = path.resolve(projectDir);
 const CONTENT_DIR = path.join(PROJECT_DIR, 'content');
 const IMAGES_DIR = path.join(PROJECT_DIR, 'static', 'images');
 
@@ -49,7 +42,11 @@ async function ensureDirectories() {
   await fs.ensureDir(IMAGES_DIR);
 }
 
-ensureDirectories();
+app.use(async (req, res, next) => {
+  try { await directoriesReady; next(); } catch (error) { next(error); }
+});
+
+const directoriesReady = ensureDirectories();
 
 // ========== MULTER SETUP ==========
 const storage = multer.memoryStorage();
@@ -266,315 +263,18 @@ app.get('/api/images', async (req, res) => {
   }
 });
 
-// Search Unsplash images
-app.get('/api/search-images', async (req, res) => {
-  try {
-    const query = req.query.query || 'nature';
-    const page = req.query.page || 1;
-    // Unsplash frontend API, no API key required
-    const response = await fetch(`https://unsplash.com/napi/search/photos?query=${encodeURIComponent(query)}&page=${page}&per_page=30`);
-    if (!response.ok) {
-      throw new Error(`Unsplash returned ${response.status}`);
-    }
-    const data = await response.json();
-    res.json({ success: true, results: data.results || [] });
-  } catch (error) {
-    console.error('Error searching images:', error);
-    res.status(500).json({ error: `Failed to search images: ${error.message}` });
-  }
-});
-
-// Download external image and save to local images directory
-app.post('/api/download-image', async (req, res) => {
-  try {
-    const { url, name } = req.body;
-    if (!url) {
-      return res.status(400).json({ error: 'Image URL is required' });
-    }
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch image from URL: ${response.status}`);
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    const timestamp = Date.now();
-    const randomString = crypto.randomBytes(8).toString('hex');
-    
-    // Guess extension from content-type or URL
-    const contentType = response.headers.get('content-type') || '';
-    let ext = '.jpg';
-    if (contentType.includes('png')) ext = '.png';
-    else if (contentType.includes('gif')) ext = '.gif';
-    else if (contentType.includes('webp')) ext = '.webp';
-    else {
-      // Try to get from name
-      if (name && path.extname(name)) {
-        ext = path.extname(name);
-      }
-    }
-
-    const safeName = (name ? name.replace(/[^a-zA-Z0-9-]/g, '-').substring(0, 30) : 'downloaded') + `-${timestamp}-${randomString}${ext}`;
-    const filename = safeName;
-    const imagePath = path.join(IMAGES_DIR, filename);
-    await fs.writeFile(imagePath, buffer);
-    const markdownPath = `/images/${filename}`;
-
-    console.log(`Downloaded image: ${filename} (${(buffer.length / 1024).toFixed(2)} KB)`);
-
-    res.json({
-      success: true,
-      filename: filename,
-      path: markdownPath,
-      size: buffer.length,
-      fullPath: imagePath
-    });
-  } catch (error) {
-    console.error('Error downloading image:', error);
-    res.status(500).json({ error: `Failed to download image: ${error.message}` });
-  }
-});
-
-// ========== FILE LISTING ==========
-
-// Recursive function to get all markdown files from directories
-async function getMarkdownFilesRecursively(dirPath, basePath = '') {
-  const files = [];
-  
-  if (!(await fs.pathExists(dirPath))) {
-    return files;
-  }
-  
-  const items = await fs.readdir(dirPath, { withFileTypes: true });
-  
-  for (const item of items) {
-    const itemPath = path.join(dirPath, item.name);
-    const relativePath = basePath ? `${basePath}/${item.name}` : item.name;
-    
-    if (item.isDirectory()) {
-      const subFiles = await getMarkdownFilesRecursively(itemPath, relativePath);
-      files.push(...subFiles);
-    } else if (item.name.endsWith('.md')) {
-      const stats = await fs.stat(itemPath);
-      files.push({
-        name: item.name,
-        path: relativePath,
-        directory: 'content',
-        folder: basePath || '',
-        lastModified: stats.mtime.toISOString(),
-        size: stats.size
-      });
-    }
-  }
-  
-  return files;
+app.use('/api', require('./content-router')(PROJECT_DIR));
+return app;
 }
 
-app.get('/api/files', async (req, res) => {
-  try {
-    const files = await getMarkdownFilesRecursively(CONTENT_DIR, 'content');
-    files.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
-    console.log(`Found ${files.length} files:`, files.map(f => f.path));
-    res.json(files);
-  } catch (error) {
-    console.error('Error listing files:', error);
-    res.status(500).json({ error: 'Failed to list files' });
-  }
-});
+if (require.main === module) {
+  const port = process.env.PORT || 3001;
+  const server = createEditorApp().listen(port, '127.0.0.1', () => {
+    console.log(`Vertex Editor API Server running at http://localhost:${port}`);
+  });
+  const shutdown = () => server.close();
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
+}
 
-// ========== FOLDER ENDPOINTS ==========
-
-// Create new folder
-app.post('/api/folders', async (req, res) => {
-  try {
-    const { folderPath, createIndex = false } = req.body;
-    
-    if (!folderPath) {
-      return res.status(400).json({ error: 'Folder path is required' });
-    }
-    
-    const fullPath = path.join(PROJECT_DIR, folderPath);
-    
-    if (!fullPath.startsWith(PROJECT_DIR)) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-    
-    await fs.ensureDir(fullPath);
-    
-    if (createIndex) {
-      const indexPath = path.join(fullPath, '_index.md');
-      const folderName = path.basename(folderPath);
-      const indexContent = `---
-title: "${folderName}"
-description: ""
-category: ""
-date: "${new Date().toISOString().split('T')[0]}"
-layout: "series"
----
-
-# ${folderName}
-
-This is a series about ${folderName}.
-`;
-      
-      await fs.writeFile(indexPath, indexContent);
-      console.log(`Created series folder: ${folderPath} with _index.md`);
-    } else {
-      console.log(`Created folder: ${folderPath}`);
-    }
-    
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error creating folder:', error);
-    res.status(500).json({ error: 'Failed to create folder' });
-  }
-});
-
-// Rename folder
-app.put('/api/folders', async (req, res) => {
-  try {
-    const { oldPath, newName } = req.body;
-    
-    if (!oldPath || !newName) {
-      return res.status(400).json({ error: 'Old path and new name are required' });
-    }
-    
-    const fullOldPath = path.join(PROJECT_DIR, oldPath);
-    const pathParts = oldPath.split('/');
-    pathParts[pathParts.length - 1] = newName;
-    const newPath = pathParts.join('/');
-    const fullNewPath = path.join(PROJECT_DIR, newPath);
-    
-    if (!fullOldPath.startsWith(PROJECT_DIR) || !fullNewPath.startsWith(PROJECT_DIR)) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-    
-    if (!await fs.pathExists(fullOldPath)) {
-      return res.status(404).json({ error: 'Folder not found' });
-    }
-    
-    if (await fs.pathExists(fullNewPath)) {
-      return res.status(409).json({ error: 'A folder with that name already exists' });
-    }
-    
-    await fs.move(fullOldPath, fullNewPath);
-    console.log(`Renamed folder: ${oldPath} -> ${newPath}`);
-    res.json({ success: true, newPath });
-  } catch (error) {
-    console.error('Error renaming folder:', error);
-    res.status(500).json({ error: 'Failed to rename folder' });
-  }
-});
-
-// ========== FILE OPERATIONS (CATCH-ALL - MUST BE LAST!) ==========
-
-app.use('/api/file', (req, res, next) => {
-  const urlPath = req.url;
-  const filePath = urlPath.startsWith('/') ? urlPath.substring(1) : urlPath;
-  req.filePath = decodeURIComponent(filePath);
-  console.log(`File operation: ${req.method} ${req.filePath}`);
-  next();
-});
-
-app.use('/api/file', async (req, res) => {
-  try {
-    const filePath = req.filePath;
-    const fullPath = path.join(PROJECT_DIR, filePath);
-    
-    if (!fullPath.startsWith(PROJECT_DIR)) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-    
-    if (req.method === 'GET') {
-      if (!await fs.pathExists(fullPath)) {
-        return res.status(404).json({ error: 'File not found' });
-      }
-      
-      const content = await fs.readFile(fullPath, 'utf-8');
-      const stats = await fs.stat(fullPath);
-      
-      let frontMatter = {};
-      let markdownContent = content;
-      try {
-        const parsed = matter(content);
-        frontMatter = parsed.data;
-        markdownContent = parsed.content;
-      } catch (e) {
-        
-      }
-      
-      res.json({
-        content,
-        frontMatter,
-        markdownContent,
-        lastModified: stats.mtime.toISOString(),
-        size: stats.size
-      });
-      
-    } else if (req.method === 'POST') {
-      const { content } = req.body;
-      await fs.ensureDir(path.dirname(fullPath));
-      await fs.writeFile(fullPath, content || '', 'utf-8');
-      const stats = await fs.stat(fullPath);
-      console.log(`Saved: ${filePath}`);
-      
-      res.json({ 
-        success: true, 
-        lastModified: stats.mtime.toISOString(),
-        size: stats.size
-      });
-      
-    } else if (req.method === 'DELETE') {
-      if (!await fs.pathExists(fullPath)) {
-        return res.status(404).json({ error: 'File not found' });
-      }
-      await fs.unlink(fullPath);
-      console.log(`Deleted: ${filePath}`);
-      res.json({ success: true });
-      
-    } else {
-      res.status(405).json({ error: 'Method not allowed' });
-    }
-    
-  } catch (error) {
-    console.error(`Error handling file operation for ${req.filePath}:`, error);
-    res.status(500).json({ error: `Failed to ${req.method.toLowerCase()} file` });
-  }
-});
-
-// ========== START SERVER ==========
-
-app.listen(PORT, () => {
-  console.log(`Vertex Editor API Server running at http://localhost:${PORT}`);
-  console.log(`Project directory: ${PROJECT_DIR}`);
-  console.log(`Content directory: ${CONTENT_DIR}`);
-  console.log(`Images directory: ${IMAGES_DIR}`);
-  console.log(`AI Enabled: ${!!openai}`);
-  if (!openai) {
-    console.log('⚠️  AI features disabled - add OPENAI_API_KEY to .env to enable');
-  }
-  console.log('');
-  console.log('Available endpoints:');
-  console.log('  GET    /api/health');
-  console.log('  POST   /api/ai/suggest');
-  console.log('  POST   /api/ai/rewrite');
-  console.log('  GET    /api/files');
-  console.log('  GET    /api/images');
-  console.log('  POST   /api/upload-image');
-  console.log('  POST   /api/folders');
-  console.log('  PUT    /api/folders');
-  console.log('  GET    /api/file/{filePath}');
-  console.log('  POST   /api/file/{filePath}');
-  console.log('  DELETE /api/file/{filePath}');
-  console.log('  GET    /images/{filename} (static)');
-});
-
-// Graceful shutdown
-process.on('SIGINT', () => {
-  console.log('\nShutting down Vertex Editor API Server...');
-  process.exit(0);
-});
-
-module.exports = app;
+module.exports = createEditorApp;

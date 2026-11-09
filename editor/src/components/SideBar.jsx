@@ -1,9 +1,15 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { FileText, Folder, FolderOpen, Trash2, Plus, FolderPlus, X, Check } from 'lucide-react';
-import React from 'react';
+import { buildFileTree, parentPath, replacePath } from '../utils/fileTree';
+
+const FILE_DRAG_TYPE = 'application/x-vertex-file';
 
 export default function Sidebar({ 
-  files, 
+  files,
+  folders,
+  busy,
+  createRequest,
+  onMoveFile, 
   selectedFile, 
   onFileSelect, 
   onCreateFile, 
@@ -13,7 +19,7 @@ export default function Sidebar({
   onRenameFolder,
   isDarkMode 
 }) {
-  const [expandedFolders, setExpandedFolders] = useState(new Set(['content']));
+  const [expandedFolders, setExpandedFolders] = useState(new Set(['content', 'pages']));
   const [renamingItem, setRenamingItem] = useState(null);
   const [renameValue, setRenameValue] = useState('');
   const [originalName, setOriginalName] = useState(''); // Track original for comparison
@@ -22,8 +28,17 @@ export default function Sidebar({
   const [creatingItem, setCreatingItem] = useState(null); // { type: 'file'|'folder', parentPath: string }
   const [createValue, setCreateValue] = useState('');
   
+  const [dropTarget, setDropTarget] = useState(null);
+  const draggedFile = useRef(null);
   const renameInputRef = useRef(null);
   const createInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!createRequest) return;
+    setExpandedFolders(previous => new Set([...previous, 'content']));
+    setCreatingItem({ type: 'file', parentPath: 'content' });
+    setCreateValue('');
+  }, [createRequest]);
 
   // Focus inputs when they appear
   useEffect(() => {
@@ -56,6 +71,7 @@ export default function Sidebar({
 
   // === RENAME LOGIC ===
   const startRename = (item, type) => {
+    if (type === 'folder' && !item.path.includes('/')) return;
     setRenamingItem({ ...item, type });
     if (type === 'file') {
       const nameWithoutExt = item.name.replace(/\.md$/, '');
@@ -84,9 +100,11 @@ export default function Sidebar({
         const newFileName = trimmedValue.endsWith('.md') 
           ? trimmedValue 
           : trimmedValue + '.md';
-        await onRenameFile(renamingItem, newFileName);
+        if (!await onRenameFile(renamingItem, newFileName)) return;
       } else {
-        await onRenameFolder(renamingItem, trimmedValue);
+        if (!await onRenameFolder(renamingItem, trimmedValue)) return;
+        const newPath = `${parentPath(renamingItem.path)}/${trimmedValue}`;
+        setExpandedFolders(previous => new Set([...previous].map(path => replacePath(path, renamingItem.path, newPath))));
       }
     } catch (error) {
       console.error('Rename failed:', error);
@@ -113,14 +131,8 @@ export default function Sidebar({
     }
   };
 
-  // On blur, cancel rename instead of submitting (avoids accidental renames)
-  const handleRenameBlur = () => {
-    // Small delay to allow click on confirm button if needed
-    setTimeout(() => {
-      if (renamingItem) {
-        handleRenameCancel();
-      }
-    }, 150);
+  const handleRenameBlur = (event) => {
+    if (!event.currentTarget.parentElement.contains(event.relatedTarget)) handleRenameCancel();
   };
 
   const handleDoubleClick = (item, type) => {
@@ -153,9 +165,9 @@ export default function Sidebar({
     try {
       if (creatingItem.type === 'file') {
         const fileName = trimmedValue.endsWith('.md') ? trimmedValue : trimmedValue + '.md';
-        await onCreateFile(creatingItem.parentPath, fileName);
+        if (!await onCreateFile(creatingItem.parentPath, fileName)) return;
       } else {
-        await onCreateFolder(creatingItem.parentPath, trimmedValue);
+        if (!await onCreateFolder(creatingItem.parentPath, trimmedValue)) return;
       }
     } catch (error) {
       console.error('Creation failed:', error);
@@ -180,65 +192,28 @@ export default function Sidebar({
     }
   };
 
-  const handleCreateBlur = () => {
-    setTimeout(() => {
-      if (creatingItem) {
-        handleCreateCancel();
-      }
-    }, 150);
+  const handleCreateBlur = (event) => {
+    if (!event.currentTarget.parentElement.contains(event.relatedTarget)) handleCreateCancel();
   };
 
-  // Build hierarchical file tree
-  const buildFileTree = (files) => {
-    if (!files || !Array.isArray(files)) {
-      return [];
+  const canDrop = folder => !busy && draggedFile.current && parentPath(draggedFile.current.path) !== folder;
+  const handleDragOver = (event, folder) => {
+    if (!canDrop(folder)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = 'move';
+    setDropTarget(folder);
+  };
+  const handleDrop = async (event, folder) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const file = draggedFile.current;
+    const valid = canDrop(folder) && event.dataTransfer.getData(FILE_DRAG_TYPE) === file.path;
+    draggedFile.current = null;
+    setDropTarget(null);
+    if (valid && await onMoveFile(file, folder)) {
+      setExpandedFolders(previous => new Set([...previous, folder]));
     }
-
-    const folderGroups = {};
-    const folders = new Set();
-
-    files.forEach(file => {
-      if (!file || !file.path) return;
-      
-      const parts = file.path.split('/');
-      if (parts.length < 2) return;
-      
-      for (let i = 1; i < parts.length - 1; i++) {
-        const folderPath = parts.slice(0, i + 1).join('/');
-        folders.add(folderPath);
-      }
-      
-      const folderPath = parts.slice(0, -1).join('/');
-      
-      if (!folderGroups[folderPath]) {
-        folderGroups[folderPath] = [];
-      }
-      folderGroups[folderPath].push(file);
-    });
-
-    const buildNode = (folderPath) => {
-      const parts = folderPath.split('/');
-      const folderName = parts[parts.length - 1];
-      const folderFiles = folderGroups[folderPath] || [];
-      
-      const childFolders = Array.from(folders)
-        .filter(path => {
-          const childParts = path.split('/');
-          return childParts.length === parts.length + 1 && 
-                 path.startsWith(folderPath + '/');
-        })
-        .map(childPath => buildNode(childPath));
-      
-      return {
-        name: folderName,
-        path: folderPath,
-        type: 'folder',
-        files: folderFiles,
-        children: childFolders
-      };
-    };
-
-    return [buildNode('content')];
   };
 
   // Inline creation input component
@@ -273,14 +248,14 @@ export default function Sidebar({
               : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
           }`}
         />
-        <button
+        <button disabled={busy}
           onClick={handleCreateSubmit}
           className="p-1 rounded hover:bg-green-500 hover:text-white text-green-500"
           title="Create"
         >
           <Check size={14} />
         </button>
-        <button
+        <button disabled={busy}
           onClick={handleCreateCancel}
           className="p-1 rounded hover:bg-red-500 hover:text-white text-red-500"
           title="Cancel"
@@ -304,7 +279,14 @@ export default function Sidebar({
         
         return (
           <div key={node.path} className="mb-1">
-            <div className="flex items-center gap-1 group">
+            <div
+              onDragOver={event => handleDragOver(event, node.path)}
+              onDrop={event => handleDrop(event, node.path)}
+              onDragLeave={event => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setDropTarget(null);
+              }}
+              className={`flex items-center gap-1 group rounded ${dropTarget === node.path ? 'ring-2 ring-blue-500 bg-blue-500/20' : ''}`}
+            >
               {isRenaming ? (
                 <div className="flex-1 flex items-center gap-1" style={{ paddingLeft: `${depth * 16 + 4}px` }}>
                   {isExpanded ? 
@@ -324,15 +306,15 @@ export default function Sidebar({
                         : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   />
-                  <button onClick={handleRenameSubmit} className="p-1 text-green-500 hover:bg-green-500 hover:text-white rounded">
+                  <button disabled={busy} onClick={handleRenameSubmit} className="p-1 text-green-500 hover:bg-green-500 hover:text-white rounded">
                     <Check size={12} />
                   </button>
-                  <button onClick={handleRenameCancel} className="p-1 text-red-500 hover:bg-red-500 hover:text-white rounded">
+                  <button disabled={busy} onClick={handleRenameCancel} className="p-1 text-red-500 hover:bg-red-500 hover:text-white rounded">
                     <X size={12} />
                   </button>
                 </div>
               ) : (
-                <button
+                <button disabled={busy}
                   onClick={() => toggleFolder(node.path)}
                   onDoubleClick={() => handleDoubleClick(node, 'folder')}
                   className={`flex items-center gap-1 flex-1 text-left p-1 rounded text-sm font-medium transition-colors ${
@@ -357,7 +339,7 @@ export default function Sidebar({
               
               {!isRenaming && (
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
+                  <button disabled={busy}
                     type='button'
                     onClick={() => startCreateFile(node.path)}
                     className={`p-1 rounded transition-colors ${
@@ -369,7 +351,7 @@ export default function Sidebar({
                   >
                     <Plus size={12} />
                   </button>
-                  <button
+                  <button disabled={busy}
                     type='button'
                     onClick={() => startCreateFolder(node.path)}
                     className={`p-1 rounded transition-colors ${
@@ -391,12 +373,20 @@ export default function Sidebar({
                 {isCreatingFileHere && renderCreateInput(node.path, depth, 'file')}
                 
                 {/* Render files in this folder */}
-                {hasFiles && node.files.map((file, index) => {
+                {hasFiles && node.files.map((file) => {
                   const isRenamingFile = renamingItem?.path === file.path && renamingItem?.type === 'file';
                   
                   return (
                     <div
-                      key={`${file.path}-${index}`}
+                      key={file.path}
+                      draggable={!isRenamingFile && !busy}
+                      onDragStart={event => {
+                        draggedFile.current = file;
+                        event.dataTransfer.effectAllowed = 'move';
+                        event.dataTransfer.setData(FILE_DRAG_TYPE, file.path);
+                        event.dataTransfer.setData('text/plain', file.path);
+                      }}
+                      onDragEnd={() => { draggedFile.current = null; setDropTarget(null); }}
                       className={`group cursor-pointer p-2 rounded text-sm transition-colors flex items-center justify-between ${
                         selectedFile?.path === file.path
                           ? isDarkMode
@@ -424,10 +414,10 @@ export default function Sidebar({
                                 : 'bg-white border-gray-300 text-gray-900'
                             }`}
                           />
-                          <button onClick={handleRenameSubmit} className="p-1 text-green-500 hover:bg-green-500 hover:text-white rounded">
+                          <button disabled={busy} onClick={handleRenameSubmit} className="p-1 text-green-500 hover:bg-green-500 hover:text-white rounded">
                             <Check size={12} />
                           </button>
-                          <button onClick={handleRenameCancel} className="p-1 text-red-500 hover:bg-red-500 hover:text-white rounded">
+                          <button disabled={busy} onClick={handleRenameCancel} className="p-1 text-red-500 hover:bg-red-500 hover:text-white rounded">
                             <X size={12} />
                           </button>
                         </div>
@@ -447,8 +437,8 @@ export default function Sidebar({
                         </div>
                       )}
                       
-                      {!isRenamingFile && files && files.length > 1 && (
-                        <button
+                      {!isRenamingFile && (
+                        <button disabled={busy}
                           onClick={(e) => handleDeleteClick(e, file)}
                           className={`opacity-0 group-hover:opacity-100 p-1 rounded transition-all flex-shrink-0 ${
                             isDarkMode
@@ -489,21 +479,21 @@ export default function Sidebar({
     });
   };
 
-  // Handle F2 key for rename
-  const handleKeyDown = (e) => {
-    if (e.key === 'F2' && selectedFile && !renamingItem) {
-      e.preventDefault();
-      startRename(selectedFile, 'file');
-    }
-  };
-
-  // Add keyboard event listener
-  React.useEffect(() => {
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.key === 'F2' && selectedFile && !renamingItem && !busy) {
+        event.preventDefault();
+        setRenamingItem({ ...selectedFile, type: 'file' });
+        const name = selectedFile.name.replace(/\.md$/, '');
+        setRenameValue(name);
+        setOriginalName(name);
+      }
+    };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [selectedFile, renamingItem]);
+  }, [selectedFile, renamingItem, busy]);
 
-  const fileTree = buildFileTree(files);
+  const fileTree = useMemo(() => buildFileTree(files, folders), [files, folders]);
 
   return (
     <div className={`w-64 flex flex-col border-r h-full ${
@@ -528,7 +518,7 @@ export default function Sidebar({
           Static Site Generator
         </p>
         <div className="flex gap-1 mt-2">
-          <button
+          <button disabled={busy}
             onClick={() => startCreateFile('content')}
             className={`text-sm px-2 py-1 rounded transition-colors flex items-center gap-1 flex-1 justify-center ${
               isDarkMode
@@ -539,7 +529,7 @@ export default function Sidebar({
             <Plus size={12} />
             File
           </button>
-          <button
+          <button disabled={busy}
             onClick={() => startCreateFolder('content')}
             className={`text-sm px-2 py-1 rounded transition-colors flex items-center gap-1 flex-1 justify-center ${
               isDarkMode
@@ -554,20 +544,12 @@ export default function Sidebar({
         <div className={`text-xs mt-2 opacity-60 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-500'
         }`}>
-          Double-click or F2 to rename
+          Drag files onto folders • F2 to rename
         </div>
       </div>
       
       <div className="flex-1 overflow-y-auto p-2 group">
-        {files && files.length > 0 ? (
-          renderTree(fileTree)
-        ) : (
-          <div className={`text-sm p-4 text-center italic ${
-            isDarkMode ? 'text-gray-500' : 'text-gray-500'
-          }`}>
-            {files === null || files === undefined ? 'Loading files...' : 'No files found'}
-          </div>
-        )}
+        {renderTree(fileTree)}
       </div>
       
       <div className={`p-3 border-t text-xs ${
@@ -575,6 +557,28 @@ export default function Sidebar({
           ? 'bg-gray-900 border-gray-700 text-gray-400' 
           : 'bg-gray-50 border-gray-200 text-gray-500'
       }`}>
+        {selectedFile && (
+          <label className="block mb-3">
+            Move selected file to
+            <select
+              aria-label="Move selected file to"
+              className={`w-full mt-1 p-1 rounded ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+              value=""
+              disabled={busy}
+              onChange={async event => {
+                const folder = event.target.value;
+                if (folder && await onMoveFile(selectedFile, folder)) {
+                  setExpandedFolders(previous => new Set([...previous, folder]));
+                }
+              }}
+            >
+              <option value="">Choose folder…</option>
+              {(folders || []).filter(folder => folder.path !== parentPath(selectedFile.path)).map(folder => (
+                <option key={folder.path} value={folder.path}>{folder.path}/</option>
+              ))}
+            </select>
+          </label>
+        )}
         <div className="text-center mb-2">
           <div className="font-medium text-blue-500">
             {(files && files.length) || 0}

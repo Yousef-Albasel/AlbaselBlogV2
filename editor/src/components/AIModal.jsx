@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { X, Loader2, Check, RotateCcw } from 'lucide-react';
 
 export default function AIModal({ 
   isOpen, 
   onClose, 
-  original, 
   suggestion, 
   isLoading, 
   error, 

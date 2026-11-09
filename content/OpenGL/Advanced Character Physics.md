@@ -1,7 +1,7 @@
 ---
 title: "Advanced Character Physics"
 date: "2026-11-08"
-category: ""
+category: "Computer Graphics"
 description: "Implementing Thomas Jakobsen's paper `Advanced Character Physics` for Hitman's first game ragdoll death animation"
 ---
 

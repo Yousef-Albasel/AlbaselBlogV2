@@ -24,14 +24,18 @@ import {
   ChevronDown,
   FileDown,
   Sparkles,
-  Monitor
+  Monitor,
+  Undo2,
+  Redo2
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Toolbar({ 
   onInsert, 
   onFormatText,
-  onSave, 
+  onSave,
+  onUndo,
+  onRedo, 
   onSaveAll, 
   isPreviewMode, 
   onTogglePreview, 
@@ -175,7 +179,7 @@ export default function Toolbar({
         const formData = new FormData();
         formData.append('image', file);
 
-        const response = await fetch('http://localhost:3001/api/upload-image', {
+        const response = await fetch('/api/upload-image', {
           method: 'POST',
           body: formData
         });
@@ -277,10 +281,6 @@ export default function Toolbar({
     },
   ];
 
-  const handleCodeBlock = () => {
-    onFormatText('codeblock');
-  };
-
   const handleInsertShader = () => {
     const template = '\n```glsl-canvas\n#ifdef GL_ES\nprecision mediump float;\n#endif\n\nuniform vec2 u_resolution;\nuniform float u_time;\n\nvoid main() {\n    vec2 uv = gl_FragCoord.xy / u_resolution;\n    vec3 col = 0.5 + 0.5 * cos(u_time + uv.xyx + vec3(0, 2, 4));\n    gl_FragColor = vec4(col, 1.0);\n}\n```\n';
     onInsert(template);
@@ -292,6 +292,12 @@ export default function Toolbar({
         ? 'bg-gray-900 border-gray-700' 
         : 'bg-gray-50 border-gray-200'
     }`}>
+      <button onClick={onUndo} disabled={!selectedFile?.history?.past.length} title="Undo (Ctrl+Z)" className="p-2 rounded disabled:opacity-30">
+        <Undo2 size={16} />
+      </button>
+      <button onClick={onRedo} disabled={!selectedFile?.history?.future.length} title="Redo (Ctrl+Shift+Z)" className="p-2 rounded disabled:opacity-30">
+        <Redo2 size={16} />
+      </button>
       {/* Sidebar toggle - leftmost */}
       <button
         onClick={onToggleSidebar}

@@ -61,7 +61,7 @@ const createComponents = (isDarkMode) => ({
   ol: ({ children }) => <ol className={`list-decimal pl-6 my-2 space-y-1 break-words ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>{children}</ol>,
   li: ({ children }) => <li className="leading-relaxed break-words">{children}</li>,
   img: ({ src, alt }) => {
-    const finalSrc = src?.startsWith('http') ? src : `http://localhost:3001${src}`;
+    const finalSrc = src?.startsWith('http') ? src : src;
     return (
       <img
         src={finalSrc}

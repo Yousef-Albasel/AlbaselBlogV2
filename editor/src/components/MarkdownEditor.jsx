@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect, memo } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import FindReplace from "./FindReplace.jsx";
 
 export default function MarkdownEditor({ value, onChange, onInsert, isDarkMode, onCursorPosition }) {
@@ -272,7 +272,7 @@ export default function MarkdownEditor({ value, onChange, onInsert, isDarkMode, 
       const formData = new FormData();
       formData.append('image', file);
 
-      const response = await fetch('http://localhost:3001/api/upload-image', {
+      const response = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData
       });

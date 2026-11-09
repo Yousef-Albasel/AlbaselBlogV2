@@ -13,7 +13,8 @@ const MainEditor = ({
   isSidebarVisible,
   hasModifiedFiles,
   onContentChange,
-  onInsert,
+  onUndo,
+  onRedo,
   onSave,
   onSaveAll,
   onTogglePreview,
@@ -171,6 +172,8 @@ const MainEditor = ({
       <Toolbar 
         onInsert={handleInsert}
         onFormatText={handleFormatText}
+        onUndo={onUndo}
+        onRedo={onRedo}
         onSave={onSave}
         onSaveAll={onSaveAll}
         isPreviewMode={isPreviewMode}
@@ -194,6 +197,7 @@ const MainEditor = ({
               style={{ width: `${leftPaneWidth}%`, flexShrink: 0 }}
             >
               <MarkdownEditor
+                key={selectedFile?.id}
                 value={selectedFile?.content}
                 onChange={onContentChange}
                 onInsert={insertRef}

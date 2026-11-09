@@ -1,418 +1,149 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { fileService } from '../services/fileService';
-import { 
-  createDefaultContent, 
-  createWelcomeContent, 
-  createOfflineContent,
-  validateFileName,
-  parseUrlParams 
-} from '../utils/fileUtils';
-
-const API_BASE = 'http://localhost:3001/api';
+import { createDefaultContent, validateFileName, parseUrlParams } from '../utils/fileUtils';
+import { fileManagerReducer, initialFileState } from '../utils/fileManagerState';
 
 export const useFileManager = () => {
-  const [files, setFiles] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [state, setState] = useState(initialFileState);
+  const current = useRef(state);
+  const selectionRequest = useRef(0);
+  const mutation = useRef(false);
+  const [busy, setBusy] = useState(false);
 
-  // Load files from server on mount
-  useEffect(() => {
-    console.log('useFileManager: Loading files...');
-    loadFiles();
-    
-    // Check URL parameters for specific file to open
-    const { file: fileParam, create } = parseUrlParams();
-    if (fileParam) {
-      console.log('URL param file:', fileParam, 'create:', create);
-      // Wait for files to load, then open the specific file
-      setTimeout(() => {
-        openSpecificFile(fileParam, create);
-      }, 1000);
-    }
+  const dispatch = useCallback(action => {
+    current.current = fileManagerReducer(current.current, action);
+    setState(current.current);
   }, []);
 
-  const loadFiles = async () => {
-    console.log('loadFiles: Starting...');
-    setLoading(true);
-    setError(null);
-    
-    try {
-      console.log('loadFiles: Calling fileService.loadFiles()...');
-      const fileList = await fileService.loadFiles();
-      console.log('loadFiles: Received files:', fileList);
-      
-      if (fileList.length === 0) {
-        console.log('loadFiles: No files found');
-        setFiles([]);
-      } else {
-        console.log('loadFiles: Setting files to state:', fileList);
-        setFiles(fileList);
-        
-        // Auto-select and load content for the first file if no file is currently selected
-        if (fileList.length > 0 && !selectedFile) {
-          console.log('loadFiles: Loading content for first file:', fileList[0]);
-          try {
-            const firstFile = fileList[0];
-            const fileData = await fileService.loadFileContent(firstFile.path);
-            console.log('loadFiles: Received content for first file:', fileData);
-            
-            const fullFile = { 
-              ...firstFile, 
-              content: fileData.content,
-              frontMatter: fileData.frontMatter,
-              lastModified: fileData.lastModified
-            };
-            
-            console.log('loadFiles: Setting first file as selected with content');
-            setSelectedFile(fullFile);
-            
-          } catch (err) {
-            console.error('loadFiles: Error loading first file content:', err);
-            // Just select the file without content - user can click to load it
-            setSelectedFile(fileList[0]);
-          }
-        }
-      }
-    } catch (err) {
-      console.error('loadFiles: Error loading files:', err);
-      setError(`Cannot connect to API server. Make sure the server is running on ${API_BASE}`);
-      
-      // Fallback: Create offline mode file
-      const offlineFile = {
-        name: 'offline.md',
-        path: 'content/offline.md',
-        directory: 'content',
-        folder: '',
-        content: createOfflineContent(API_BASE),
-        modified: false,
-        lastModified: new Date().toISOString()
-      };
-      
-      console.log('loadFiles: Setting offline file');
-      setFiles([offlineFile]);
-      setSelectedFile(offlineFile);
-    } finally {
-      setLoading(false);
-      console.log('loadFiles: Loading complete');
-    }
-  };
+  const refresh = useCallback(async () => {
+    const tree = await fileService.loadTree();
+    dispatch({ type: 'tree', ...tree });
+    return tree;
+  }, [dispatch]);
 
-  const openSpecificFile = async (filePath, createIfNotExists = false) => {
-    console.log('openSpecificFile:', filePath, 'create:', createIfNotExists);
-    const file = files.find(f => f.path === filePath || f.name === filePath.split('/').pop());
-    
-    if (file) {
-      await handleFileSelect(file);
-    } else if (createIfNotExists) {
-      // Create new file if it doesn't exist
-      const fileName = filePath.split('/').pop();
-      const pathParts = filePath.split('/');
-      const directory = pathParts[0] === 'content' ? 'content' : 'content';
-      const folder = pathParts.slice(1, -1).join('/');
-      
-      await handleCreateFile(folder, fileName);
-    }
-  };
-
-  const handleRenameFile = async (file, newName) => {
-    try {
-      console.log('Renaming file:', file.path, 'to:', newName);
-
-      await fileService.renameFile(file.path, newName);
-      console.log('File renamed successfully');
-
-      // Refresh files list after rename
-      await loadFiles();
-
-    } catch (err) {
-      console.error('Error renaming file:', err);
-      setError(`Error renaming file: ${err.message}`);
-    }
-  };
-
-  const handleFileSelect = async (file) => {
-    console.log('handleFileSelect:', file);
-    if (file.content !== undefined) {
-      // File content already loaded
-      console.log('handleFileSelect: Content already loaded');
-      setSelectedFile(file);
+  const select = useCallback(async file => {
+    const requestId = ++selectionRequest.current;
+    const latest = current.current.files.find(item => item.path === file?.path);
+    if (!latest) return;
+    if (latest.content !== undefined) {
+      dispatch({ type: 'select', path: latest.path });
       return;
     }
+    const data = await fileService.loadFileContent(latest.path);
+    if (requestId !== selectionRequest.current) return;
+    dispatch({ type: 'loaded', path: latest.path, data });
+    dispatch({ type: 'select', path: latest.path });
+  }, [dispatch]);
 
-    try {
-      console.log('handleFileSelect: Loading content for', file.path);
-      const fileData = await fileService.loadFileContent(file.path);
-      console.log('handleFileSelect: Received file data:', fileData);
-      
-      const fullFile = { 
-        ...file, 
-        content: fileData.content,
-        frontMatter: fileData.frontMatter,
-        lastModified: fileData.lastModified
-      };
-      
-      console.log('handleFileSelect: Setting selected file:', fullFile);
-      setSelectedFile(fullFile);
-      
-      // Update the file in the files array
-      setFiles(prev => prev.map(f => f.path === file.path ? fullFile : f));
-      
-    } catch (err) {
-      console.error('handleFileSelect: Error loading file:', err);
-      setError(`Error loading file "${file.name}": ${err.message}`);
-    }
-  };
-
-  const handleContentChange = (newContent) => {
-    console.log('handleContentChange: New content length:', newContent?.length);
-    if (!selectedFile) return;
-    
-    const updatedFiles = files.map(file => 
-      file.path === selectedFile.path 
-        ? { ...file, content: newContent, modified: true }
-        : file
-    );
-    
-    setFiles(updatedFiles);
-    setSelectedFile({ ...selectedFile, content: newContent, modified: true });
-  };
-
-
-    const handleRenameFolder = async (folder, newName) => {
-    try {
-      console.log('Renaming folder:', folder.path, 'to:', newName);
-      
-      await fileService.renameFolder(folder.path, newName);
-      console.log('Folder renamed successfully');
-      
-      // Refresh files list
-      await loadFiles();
-    } catch (err) {
-      console.error('Error renaming folder:', err);
-      setError(`Error renaming folder: ${err.message}`);
-    }
-  };
-
-  const handleCreateFile = async (folderPath = '', fileName = null) => {
-    console.log('handleCreateFile: folderPath:', folderPath, 'fileName:', fileName);
-
-    // fileName should now be provided by inline UI
-    if (!fileName) {
-      console.log('No filename provided');
-      return;
-    }
-
-    const validation = validateFileName(fileName);
-    if (!validation.valid) {
-      setError(validation.error);
-      return;
-    }
-
-    // Normalize folderPath so it's always relative to "content"
-    let cleanFolderPath = folderPath.replace(/^content\/?/, '');
-
-    const filePath = cleanFolderPath
-      ? `content/${cleanFolderPath}/${fileName}`
-      : `content/${fileName}`;
-
-    // Check if file already exists
-    if (files.some(file => file.path === filePath)) {
-      setError('A file with this name already exists!');
-      return;
-    }
-
-    try {
-      console.log('handleCreateFile: Creating file on server:', filePath);
-
-      const defaultContent = createDefaultContent(fileName, 'content');
-
-      await fileService.saveFile(filePath, defaultContent);
-
-      console.log('handleCreateFile: File created on server, refreshing file list...');
-      await loadFiles();
-
-      // Try to select the new file after refresh
-      setTimeout(async () => {
-        const fileList = await fileService.loadFiles();
-        const newFile = fileList.find(f => f.path === filePath);
-        if (newFile) {
-          await handleFileSelect(newFile);
-        }
-      }, 100);
-
-    } catch (err) {
-      console.error('handleCreateFile: Error creating file:', err);
-      setError(`Error creating file "${fileName}": ${err.message}`);
-    }
-  };
-
-  const handleCreateFolder = async (parentPath = 'content', folderName = null) => {
-    // folderName should now be provided by inline UI
-    if (!folderName) {
-      console.log('No folder name provided');
-      return;
-    }
-    
-    const cleanFolderName = folderName.toLowerCase().replace(/\s+/g, '-');
-    const folderPath = parentPath.startsWith('content') 
-      ? `${parentPath}/${cleanFolderName}`
-      : `content/${parentPath}/${cleanFolderName}`;
-    
-    try {
-      console.log('handleCreateFolder: Creating folder:', folderPath);
-      await fileService.createFolder(folderPath, false); // Don't prompt for series, create simple folder
-      console.log('handleCreateFolder: Folder created, refreshing files...');
-      await loadFiles();
-      console.log(`Successfully created folder: ${folderPath}`);
-    } catch (err) {
-      console.error('Error creating folder:', err);
-      setError(`Error creating folder "${folderName}": ${err.message}`);
-    }
-  };
-
-  const handleDeleteFile = async (fileToDelete) => {
-    if (files.length === 1) {
-      setError('Cannot delete the last file!');
-      return;
-    }
-
-    try {
-      await fileService.deleteFile(fileToDelete.path);
-
-      const updatedFiles = files.filter(file => file.path !== fileToDelete.path);
-      setFiles(updatedFiles);
-      
-      // If the deleted file was selected, select the first remaining file
-      if (selectedFile?.path === fileToDelete.path) {
-        if (updatedFiles.length > 0) {
-          await handleFileSelect(updatedFiles[0]);
-        } else {
-          setSelectedFile(null);
-        }
-      }
-      
-      console.log(`Successfully deleted file: ${fileToDelete.name}`);
-      
-    } catch (err) {
-      console.error('Error deleting file:', err);
-      setError(`Error deleting file "${fileToDelete.name}": ${err.message}`);
-    }
-  };
-
-  const handleSave = async () => {
-    if (!selectedFile) return;
-
-    try {
-      const result = await fileService.saveFile(selectedFile.path, selectedFile.content);
-      
-      // Update the file to mark it as saved
-      const updatedFiles = files.map(file => 
-        file.path === selectedFile.path 
-          ? { ...file, modified: false, lastModified: result.lastModified || new Date().toISOString() }
-          : file
-      );
-      
-      setFiles(updatedFiles);
-      setSelectedFile({ 
-        ...selectedFile, 
-        modified: false, 
-        lastModified: result.lastModified || new Date().toISOString() 
-      });
-      
-      console.log(`Successfully saved file: ${selectedFile.name}`);
-      
-      // Clear any previous errors since save worked
-      if (error) {
-        setError(null);
-      }
-      
-    } catch (err) {
-      console.error('Error saving file:', err);
-      setError(`Failed to save: ${err.message}`);
-    }
-  };
-
-  const handleSaveAll = async () => {
-    const modifiedFiles = files.filter(file => file.modified);
-    
-    if (modifiedFiles.length === 0) {
-      return;
-    }
-
-    try {
-      const savedFiles = await fileService.saveMultipleFiles(modifiedFiles);
-      
-      // Update all files to mark them as saved
-      const updatedFiles = files.map(file => {
-        const savedFile = savedFiles.find(sf => sf.path === file.path);
-        return savedFile || file;
-      });
-      
-      setFiles(updatedFiles);
-      
-      if (selectedFile && selectedFile.modified) {
-        const savedSelectedFile = savedFiles.find(sf => sf.path === selectedFile.path);
-        if (savedSelectedFile) {
-          setSelectedFile(savedSelectedFile);
-        }
-      }
-      
-      console.log(`Successfully saved ${modifiedFiles.length} file(s)`);
-      
-      // Clear any previous errors since save worked
-      if (error) {
-        setError(null);
-      }
-      
-    } catch (err) {
-      console.error('Error saving files:', err);
-      setError(`Failed to save files: ${err.message}`);
-    }
-  };
-
-  const handleRefreshFiles = async () => {
-    await loadFiles();
-  };
-
-  const clearError = () => {
-    setError(null);
-  };
-
-  // Debug: Log state changes
   useEffect(() => {
-    console.log('useFileManager state update:');
-    console.log('- files:', files);
-    console.log('- files length:', files.length);
-    console.log('- selectedFile:', selectedFile);
-    console.log('- selectedFile name:', selectedFile?.name);
-    console.log('- selectedFile path:', selectedFile?.path);
-    console.log('- selectedFile content length:', selectedFile?.content?.length);
-    console.log('- loading:', loading);
-    console.log('- error:', error);
-  }, [files, selectedFile, loading, error]);
+    let cancelled = false;
+    async function initialize() {
+      try {
+        let tree = await fileService.loadTree();
+        if (cancelled) return;
+        const { file: requested, create } = parseUrlParams();
+        if (requested && create && !tree.files.some(file => file.path === requested)) {
+          const name = requested.split('/').pop();
+          await fileService.saveFile(requested, createDefaultContent(name, requested.split('/')[0]), true);
+          tree = await fileService.loadTree();
+        }
+        if (cancelled) return;
+        dispatch({ type: 'tree', ...tree });
+        const first = tree.files.find(file => file.path === requested) || tree.files[0];
+        if (first) await select(first);
+      } catch (error) {
+        if (!cancelled) dispatch({ type: 'error', error: error.message });
+      } finally {
+        if (!cancelled) dispatch({ type: 'ready' });
+      }
+    }
+    initialize();
+    return () => { cancelled = true; selectionRequest.current++; };
+  }, [dispatch, select]);
 
+  // Exclude concurrent mutations so a save cannot recreate the old path during a move.
+  async function run(operation) {
+    if (mutation.current) return false;
+    mutation.current = true;
+    selectionRequest.current++;
+    setBusy(true);
+    dispatch({ type: 'error', error: null });
+    try {
+      await operation();
+      return true;
+    } catch (error) {
+      dispatch({ type: 'error', error: error.message });
+      return false;
+    } finally {
+      mutation.current = false;
+      setBusy(false);
+    }
+  }
+
+  const handleFileSelect = async file => {
+    if (mutation.current) return;
+    try { await select(file); }
+    catch (error) { dispatch({ type: 'error', error: error.message }); }
+  };
+
+  const handleCreateFile = (folderPath = 'content', fileName) => run(async () => {
+    const validation = validateFileName(fileName);
+    if (!validation.valid) throw new Error(validation.error);
+    const path = `${folderPath || 'content'}/${fileName}`;
+    await fileService.saveFile(path, createDefaultContent(fileName, path.split('/')[0]), true);
+    const tree = await refresh();
+    await select(tree.files.find(file => file.path === path));
+  });
+
+  const handleCreateFolder = (parent = 'content', name) => run(async () => {
+    if (!name?.trim()) throw new Error('Folder name is required');
+    await fileService.createFolder(`${parent}/${name.trim().toLowerCase().replace(/\s+/g, '-')}`);
+    await refresh();
+  });
+
+  const relocate = (item, operation) => run(async () => {
+    const result = await operation();
+    dispatch({ type: 'relocate', oldPath: item.path, newPath: result.newPath });
+  });
+
+  async function save(file) {
+    const data = await fileService.saveFile(file.path, file.content);
+    dispatch({ type: 'saved', path: file.path, content: file.content, data });
+  }
+
+  const selectedFile = state.files.find(file => file.path === state.selectedPath) || null;
   return {
-    // State
-    files,
-    selectedFile,
-    loading,
-    error,
-    
-    // Actions
+    ...state, selectedFile, busy,
     handleFileSelect,
-    handleContentChange,
+    handleContentChange: content => dispatch({ type: 'edit', content, now: Date.now() }),
+    handleUndo: () => dispatch({ type: 'undo' }),
+    handleRedo: () => dispatch({ type: 'redo' }),
     handleCreateFile,
     handleCreateFolder,
-    handleDeleteFile,
-    handleSave,
-    handleRenameFolder,
-    handleSaveAll,
-    handleRefreshFiles,
-    handleRenameFile,
-    clearError,
-    
-    // Computed values
-    hasModifiedFiles: files.some(file => file.modified)
+    handleRenameFile: (file, name) => relocate(file, () => fileService.renameFile(file.path, name)),
+    handleRenameFolder: (folder, name) => relocate(folder, () => fileService.renameFolder(folder.path, name)),
+    handleMoveFile: (file, folder) => relocate(file, () => fileService.moveFile(file.path, `${folder}/${file.name}`)),
+    handleDeleteFile: file => run(async () => {
+      await fileService.deleteFile(file.path);
+      dispatch({ type: 'delete', path: file.path });
+      if (!current.current.selectedPath && current.current.files.length) await select(current.current.files[0]);
+    }),
+    handleSave: () => run(async () => {
+      const file = current.current.files.find(file => file.path === current.current.selectedPath);
+      if (file?.content !== undefined) await save(file);
+    }),
+    handleSaveAll: () => run(async () => {
+      // Commit successful saves individually, even if another file fails.
+      const results = await Promise.allSettled(current.current.files.filter(file => file.modified).map(save));
+      const failed = results.filter(result => result.status === 'rejected');
+      if (failed.length) throw new Error(failed.map(result => result.reason.message).join('; '));
+    }),
+    handleRefreshFiles: () => run(async () => {
+      await refresh();
+      const file = current.current.files.find(file => file.path === current.current.selectedPath) || current.current.files[0];
+      if (file) await select(file);
+    }),
+    clearError: () => dispatch({ type: 'error', error: null }),
+    hasModifiedFiles: state.files.some(file => file.modified),
   };
 };

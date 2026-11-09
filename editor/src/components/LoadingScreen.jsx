@@ -8,7 +8,7 @@ const LoadingScreen = ({ isDarkMode }) => {
       <div className="text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
         <p>Loading files from Vertex project...</p>
-        <p className="text-sm opacity-60 mt-2">Connecting to http://localhost:3001/api</p>
+        <p className="text-sm opacity-60 mt-2">Connecting to /api</p>
       </div>
     </div>
   );

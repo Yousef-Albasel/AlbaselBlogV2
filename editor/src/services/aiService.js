@@ -1,5 +1,5 @@
 // AI Service for Markdown Editor
-const API_BASE = 'http://localhost:3001';
+const API_BASE = '';
 
 /**
  * Get AI suggestions for content
