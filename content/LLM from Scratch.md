@@ -2,7 +2,7 @@
 title: "LLM from Scratch"
 date: "2026-09-25"
 category: ""
-description: ""
+description: "LLM from scratch implementation by Sebastian Raschka | Notes and code"
 image: "/images/paste-1790510229659-609ac43580ceb19b.png"
 ---
 
